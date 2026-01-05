@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Go templates | tigdoc</title>
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-01-05 00:12:28+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<a name="topage"></a>
+<header>
+<h1 class="margin-bottom2">
+Go templates
+</h1>
+
+<div class="intro">
+
+</div>
+</header>
+
+<article>
+
+<nav class="pagetoc">
+    <ul>
+        <li>
+            <a href="#1-printf">printf</a>
+        </li>
+        <li>
+            <a href="#2-variables">Variables</a>
+        </li>
+        <li>
+            <a href="#3-arrays">Arrays</a>
+        </li>
+        <li>
+            <a href="#4-maps">Maps</a>
+        </li>
+        <li>
+            <a href="#5-pipelines">Pipelines</a>
+        </li>
+        <li>
+            <a href="#6-functions">Functions</a>
+        </li>
+        <li>
+            <a href="#7-equality-operators">Equality operators</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="margin">
+    <a href="https://golang.org/pkg/text/template/">https://golang.org/pkg/text/template/</a>
+</div>
+
+<pre>
+{{/* comment */}}
+
+</pre>
+<!-- ********************************************************************************* -->
+<h2 id="1-printf">printf</h2>
+
+<pre>
+# php print_r equivalent
+{{printf "%+v" .Raw}}
+
+{{$href := ""}}
+{{if .Tas.Actif}}
+    {{$href = printf "/stockage/liste#tas-%d" .Tas.Id}}
+{{else}}
+    {{$href = printf "/tas-vides#tas-%d" .Tas.Id}}
+{{end}}
+
+"{{- " : trim trailing whitespace of preceeding text
+" -}}" : trim heading whitespace of following text
+
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="2-variables">Variables</h2>
+<pre>
+$ = value of the variable passed to the template (even inside a loop)
+ex : $.Details
+
+$.Id = 12
+
+{{$idStockage := .Id}}
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="3-arrays">Arrays</h2>
+<pre>
+{{len .Chantier.Tas}}
+{{(index .Chantier.Tas 0).Id}}      # field Id of element index 0 of .Chantier.Tas
+"index x 1 2 3"                     # x[1][2][3]
+
+Simple range, without index (. = current element)
+{{range .Frais}}
+    <tr>
+        <td>{{.TypeFrais | labelStockFrais}}</td>
+    </tr>
+{{end}}
+
+Range with index :
+range $index, $element := pipeline
+{{range $i, $ug := .UGs}}
+    console.log({{$i}});
+    console.log({{$ug}});
+{{end}}
+
+# .Periods = regular array ; each elt is a regular array containing 2 dates
+{{range $val := .Periods}}
+    # .Periods[i][0] - .Periods[i][1]
+    <div>{{(index $val 0) | dateFr}} - {{(index $val 1) | dateFr}}</div>
+{{end}}
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="4-maps">Maps</h2>
+<pre>
+Range on a k, v map :
+{{range $key, $value := .}}
+   {{$key}}: {{$value}}
+{{end}}
+
+{{index .Amap "key1"}}              # = Amap["key1"]
+
+# test if a key exists in a map
+# The index function returns the zero value for the map value type when the key is not in the map.
+{{if eq (index .MyMap "KeyThatDoesntExist") "mystring"}}
+  {{.}}
+{{end}}
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="5-pipelines">Pipelines</h2>
+<pre>
+{{pipeline}}
+
+{{if pipeline}} T1 {{end}}
+
+{{if pipeline}} T1 {{else}} T0 {{end}}
+
+{{if pipeline}} T1 {{else if pipeline}} T0 {{end}}
+the same as writing
+{{if pipeline}} T1 {{else}}{{if pipeline}} T0 {{end}}{{end}}
+
+{{range pipeline}} T1 {{end}}
+
+{{range pipeline}} T1 {{else}} T0 {{end}}
+
+{{template "name"}}
+
+{{template "name" pipeline}}
+
+{{block "name" pipeline}} T1 {{end}}
+	A block is shorthand for defining a template
+		{{define "name"}} T1 {{end}}
+	and then executing it in place
+		{{template "name" .}}
+
+{{with pipeline}} T1 {{end}}
+
+{{with pipeline}} T1 {{else}} T0 {{end}}
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="6-functions">Functions</h2>
+<pre>
+if(var1 == "" && var2 == "")            {{if (and (eq var1 "") (eq var2 ""))}}
+if(!(.Fournisseur || .Proprietaire)     {{if(not (or .Fournisseur .Proprietaire))}}
+if(.TypeCout == "C")                    {{if eq .TypeCout "C"}}
+x[1][2][3]                              index x 1 2 3
+if(!.IsSctl)                            {{if not .IsSctl}}
+{{if not .DatePaiement.IsZero}}         Fields and methods of variables can be used
+
+{{printf "%.2f" .Price}}
+
+and
+	Returns the boolean AND of its arguments by returning the
+	first empty argument or the last argument, that is,
+	"and x y" behaves as "if x then y else x". All the
+	arguments are evaluated.
+call
+	Returns the result of calling the first argument, which
+	must be a function, with the remaining arguments as parameters.
+	Thus "call .X.Y 1 2" is, in Go notation, dot.X.Y(1, 2) where
+	Y is a func-valued field, map entry, or the like.
+	The first argument must be the result of an evaluation
+	that yields a value of function type (as distinct from
+	a predefined function such as print). The function must
+	return either one or two result values, the second of which
+	is of type error. If the arguments don't match the function
+	or the returned error value is non-nil, execution stops.
+html
+	Returns the escaped HTML equivalent of the textual
+	representation of its arguments. This function is unavailable
+	in html/template, with a few exceptions.
+index
+	Returns the result of indexing its first argument by the
+	following arguments. Thus "index x 1 2 3" is, in Go syntax,
+	x[1][2][3]. Each indexed item must be a map, slice, or array.
+slice
+	slice returns the result of slicing its first argument by the
+	remaining arguments. Thus "slice x 1 2" is, in Go syntax, x[1:2],
+	while "slice x" is x[:], "slice x 1" is x[1:], and "slice x 1 2 3"
+	is x[1:2:3]. The first argument must be a string, slice, or array.
+js
+	Returns the escaped JavaScript equivalent of the textual
+	representation of its arguments.
+len
+	Returns the integer length of its argument.
+not
+	Returns the boolean negation of its single argument.
+or
+	Returns the boolean OR of its arguments by returning the
+	first non-empty argument or the last argument, that is,
+	"or x y" behaves as "if x then x else y". All the
+	arguments are evaluated.
+print
+	An alias for fmt.Sprint
+printf
+	An alias for fmt.Sprintf
+println
+	An alias for fmt.Sprintln
+urlquery
+	Returns the escaped value of the textual representation of
+	its arguments in a form suitable for embedding in a URL query.
+	This function is unavailable in html/template, with a few
+	exceptions.
+</pre>	
+
+<!-- ********************************************************************************* -->
+<h2 id="7-equality-operators">Equality operators</h2>
+<pre>
+eq
+	Returns the boolean truth of arg1 == arg2
+ne
+	Returns the boolean truth of arg1 != arg2
+lt
+	Returns the boolean truth of arg1 < arg2
+le
+	Returns the boolean truth of arg1 <= arg2
+gt
+	Returns the boolean truth of arg1 > arg2
+ge
+	Returns the boolean truth of arg1 >= arg2
+	
+eq (only) accepts two or more arguments and compares the second and subsequent to the first, returning in effect
+arg1==arg2 || arg1==arg3 || arg1==arg4 ...
+
+# test several conditions
+{{if or .Cp .Ville}} ... {{end}}
+</pre>
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        Linux
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/systemd.html">Systemd</a></li>
+            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            <li><a href="../linux/deploy.html">Deployment</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Database
+        <ul>
+            <li><a href="../db/postgres.html">Postgresql</a></li>
+            <li><a href="../db/postgres.html">Sqlite</a></li>
+            <li><a href="../db/postgres.html">Mysql</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Programing
+        <ul>
+            <li><a href="../prog/regex.html">Regex</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="../go/index.html">Go</a>
+        <ul>
+            <li></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

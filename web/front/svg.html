@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SVG | tigdoc</title>
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2020">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<a name="topage"></a>
+<header>
+<h1 class="margin-bottom2">
+SVG
+</h1>
+
+<div class="intro">
+
+</div>
+</header>
+
+<article>
+
+<ul class="naked">
+    <li><a href="https://jenkov.com/tutorials/svg/index.html">https://jenkov.com/tutorials/svg/index.html</a></li>
+    <li><a href="http://www.math.wsu.edu/math/kcooper/M300/svgcheat.php">http://www.math.wsu.edu/math/kcooper/M300/svgcheat.php</a></li>
+</ul>
+
+<pre>
+circle      &lt;circle cx="20" cy="20" r="15" stroke="black" stroke-width="1" fill="blue"/> 	
+ellipse     &lt;ellipse cx="30" cy="20" rx="25" ry="17" stroke="blue" stroke-width="2" fill="red"/> 	
+line        &lt;line x1="5" y1="5" x2="55" y2="37" stroke="green" /> 	
+path        &lt;path d="M5 5 C5 5 10 35 55 30 L30 5" style="stroke: black;fill:white" /> 	
+polygon     &lt;polygon points="5,5 15,35 55,35 45,5" style="stroke:black; fill:rgb(200,200,200)" /> 	
+polyline    &lt;polyline points="30,5 25,8 20,12 15,20 20,28 25,32 30,35" style="fill:blue;stroke:black; opacity:.5" /> 	
+rect        &lt;rect x="5" y="5" width="50" height="30" stroke="red" stroke-width="1" /> 	
+text        &lt;text x="5" y="15" style="font-family:Times,serif;fill:red;font-size:12px">Text&lt;/text>
+            &lt;text x="15" y="30" style="fill:blue;font-size:15px;opacity:.2">Here&lt;/text> 	
+
+
+Gradients and a few other graphical elements can be defined between &lt;def> tags near the top of the SVG file.
+--- linearGradient ---
+    &lt;linearGradient id="purple_red" x1="0%" y1="0%" x2="100%" y2="0%">
+    &lt;stop offset="0%" style="stop-color:rgb(255,0,255); stop-opacity:1"/>
+    &lt;stop offset="100%" style="stop-color:rgb(255,0,0); stop-opacity:1"/>
+&lt;/linearGradient>
+&lt;linearGradient id="purple_yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+    &lt;stop offset="0%" style="stop-color:rgb(255,0,255); stop-opacity:1"/>
+    &lt;stop offset="50%" style="stop-color:rgb(255,255,0); stop-opacity:1"/>
+&lt;/linearGradient/> 	
+--- radialGradient ---
+&lt;radialGradient id="green_blue" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+    &lt;stop offset="0%" style="stop-color:rgb(0,255,0); stop-opacity:.2"/>
+    &lt;stop offset="100%" style="stop-color:rgb(0,0,255); stop-opacity:1"/>
+&lt;/radialGradient> 	
+
+
+Path
+Start by uppercase : absolute coord ; start by lowercase : relative coord
+https://developer.mozilla.org/fr/docs/Web/SVG/Tutorial/Paths
+---------------------------------------------------------------------------------------------------
+Move
+    M x y
+    m dx dy
+    &lt;path d="M10 10"/>
+Line
+    L x y
+    l dx dy
+Horizontal line
+    H x
+    h dx
+Vertical line
+    V y
+    v dy
+&lt;path d="M10 10 H 90 V 90 H 10 L 10 10"/>
+&lt;path d="M100 250 h120 v-150 l-60 -60 l-60 60 v150"/>
+
+Cubic Bézier
+    C x1 y1, x2 y2, x y
+    c dx1 dy1, dx2 dy2, dx dy
+&lt;path d="M10 10 C 20 20, 40 20, 50 10" stroke="black" fill="transparent"/>
+
+
+---------------------------------------------------------------------------------------------------
+Attributes for SVG objects may be assigned values in two ways. They can always be assigned in the form attribute="value", or they can frequently be assigned in a CSS style specification: style="attribute:value".
+cx, cy 	circle, ellipse
+    The x and y coordinates of the center of a circle or ellipse.
+ 	&lt;circle cx="20" cy="30" r="15" stroke="black" stroke-width="1" fill="blue"/>
+fill
+    Almost all
+ 	This describes the color or gradient used to fill the interior of the graphics object.
+ 	&lt;rect x="5" y="5" width="50" height="30" stroke="red" fill="green" />
+opacity
+    Almost all
+ 	This describes the translucence of the fill color. 0 indicates tranparency, while 1 indicates complete opacity.
+ 	&lt;rect x="5" y="5" width="50" height="30" opacity=".5" fill="green" />
+stroke
+    All
+ 	This describes the color of the boundary of the graphics object.
+ 	&lt;rect x="5" y="5" width="50" height="30" stroke="red" fill="green" />
+width, height
+    rect
+ 	Specifies the width and height of a rectangle
+ 	&lt;rect x="5" y="5" width="50" height="30" stroke="red" fill="green" />
+x,y
+    rect, text
+ 	This gives the location of a vertex of the graphics object.
+ 	&lt;rect x="5" y="5" width="50" height="30" stroke="red" fill="green" />
+
+---------------------------------------------------------------------------------------------------
+SVG as background
+Directly in CSS
+---------------------------------------------------------------------------------------------------
+.diag {
+    background: url("data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'>&lt;path d='M1 0 L0 1 L99 100 L100 99' fill='black' />&lt;path d='M0 99 L99 0 L100 1 L1 100' fill='black' />&lt;/svg>");
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size: 100% 100%, auto;
+}
+&lt;div class="diag" style="width: 300px; height: 100px;">&lt;/div>
+
+---------------------------------------------------------------------------------------------------
+Style
+---------------------------------------------------------------------------------------------------
+You can safely remove the xmlns attribute if you’re supporting only HTML5-compliant browsers. Within the context of an HTML document, xmlns is implied for SVG elements.
+
+1 - Normal css id / class
+---------------------------------------------------------------------------------------------------
+- works with svg inside html
+&lt;style>
+    #invader { ... }
+    #invader path { ... }
+&lt;/style>
+&lt;svg id="invader" xmlns="https://www.w3.org/2000/svg" viewBox="35.4 35.4 195.8 141.8"> ... &lt;/svg>
+
+2a - Inside svg
+---------------------------------------------------------------------------------------------------
+- works with svg outside html
+&lt;svg>
+    &lt;defs>
+        &lt;style type="text/css">&lt;![CDATA[
+        .socIcon g {
+        fill:red;
+        }              
+        ]]>&lt;/style>
+    &lt;/defs>
+&lt;/svg>
+
+2b - Inside svg
+---------------------------------------------------------------------------------------------------
+- works with svg outside html
+&lt;svg>
+    &lt;style>
+    .bl {
+        stroke:slategray;
+        stroke-width:2;
+    }
+    &lt;/style>
+&lt;/svg>
+
+
+3 - @import - check inline / outline
+---------------------------------------------------------------------------------------------------
+- does not work with svg outside html
+
+&lt;svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 56.69 56.69">
+  &lt;style>
+	@import url(main.css);
+  &lt;/style>
+  &lt;g>
+    &lt;path d="M28.44......./>
+  &lt;/g>
+&lt;/svg>
+
+</pre>
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        Linux
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/systemd.html">Systemd</a></li>
+            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            <li><a href="../linux/deploy.html">Deployment</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Database
+        <ul>
+            <li><a href="../db/postgres.html">Postgresql</a></li>
+            <li><a href="../db/postgres.html">Sqlite</a></li>
+            <li><a href="../db/postgres.html">Mysql</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Programing
+        <ul>
+            <li><a href="../prog/regex.html">Regex</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="../go/index.html">Go</a>
+        <ul>
+            <li></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>
