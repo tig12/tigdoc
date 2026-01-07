@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>PHP | tigdoc</title>
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-01-05 01:18:38+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<a name="topage"></a>
+<header>
+<h1 class="margin-bottom2">
+PHP
+</h1>
+
+<div class="intro">
+Mainly contains new language features introduced since php 7.
+</div>
+</header>
+
+<nav class="pagetoc">
+    <ul>
+        <li>
+            <a href="#1-quick-reminder">Quick reminder</a>
+        </li>
+        <li>
+            <a href="#2-install-manage">Install, manage</a>
+            <ul>
+                <li>
+                    <a href="#2-1-multiple-versions">Multiple versions</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#3-run">Run</a>
+        </li>
+        <li>
+            <a href="#4-types">Types</a>
+            <ul>
+                <li>
+                    <a href="#4-1-type-casts">Type casts</a>
+                </li>
+                <li>
+                    <a href="#4-2-disjunctive-normal-form-dnf-types-8-2">Disjunctive Normal Form (DNF) Types - 8.2</a>
+                </li>
+                <li>
+                    <a href="#4-3-nullable-7-1">nullable - 7.1</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#5-functions">Functions</a>
+            <ul>
+                <li>
+                    <a href="#5-1-typed-arguments-and-typed-return">Typed arguments and typed return</a>
+                </li>
+                <li>
+                    <a href="#5-2-named-arguments-8-0-0">named arguments - 8.0.0</a>
+                </li>
+                <li>
+                    <a href="#5-3-argument-promotion-8-0-0">Argument promotion - 8.0.0</a>
+                </li>
+                <li>
+                    <a href="#5-4-return">return</a>
+                </li>
+                <li>
+                    <a href="#5-5-arrow-functions-7-4">arrow functions - 7.4</a>
+                </li>
+                <li>
+                    <a href="#5-6-closure-call-7">Closure::call() - 7</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#6-short-ternary-operator-5-3">short ternary operator - 5.3</a>
+        </li>
+        <li>
+            <a href="#7-null-coalescing-7-0-7-4">null coalescing - 7.0, 7.4</a>
+        </li>
+        <li>
+            <a href="#8-spaceship-operator-7-0">spaceship operator - 7.0</a>
+        </li>
+        <li>
+            <a href="#9-match-8-0">match - 8.0</a>
+        </li>
+        <li>
+            <a href="#10-arrays">Arrays</a>
+            <ul>
+                <li>
+                    <a href="#10-1-array-unpacking-merge-7-4-8-1">array unpacking, +, merge - 7.4, 8.1</a>
+                </li>
+                <li>
+                    <a href="#10-2-array-is-list-8-1">array_is_list() - 8.1</a>
+                </li>
+                <li>
+                    <a href="#10-3-array-destructuring">array destructuring</a>
+                </li>
+                <li>
+                    <a href="#10-4-constant-arrays-using-define">Constant arrays using define()</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#11-group-use-declarations">Group use declarations</a>
+        </li>
+        <li>
+            <a href="#12-unicode-codepoint-escape-syntax">Unicode codepoint escape syntax</a>
+        </li>
+        <li>
+            <a href="#13-expectations">Expectations</a>
+        </li>
+        <li>
+            <a href="#14-attributes-8">Attributes - 8</a>
+        </li>
+        <li>
+            <a href="#15-exceptions">Exceptions</a>
+            <ul>
+                <li>
+                    <a href="#15-1-non-capturing-exceptions-8-0">Non-capturing exceptions - 8.0</a>
+                </li>
+                <li>
+                    <a href="#15-2-predefined-exceptions">Predefined exceptions</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#16-oop">OOP</a>
+            <ul>
+                <li>
+                    <a href="#16-1-magic-methods">Magic methods</a>
+                </li>
+                <li>
+                    <a href="#16-2-nullsafe-operator-8-0">nullsafe operator ?->       - 8.0</a>
+                </li>
+                <li>
+                    <a href="#16-3-types-class-variables-7-4">types - class variables - 7.4</a>
+                </li>
+                <li>
+                    <a href="#16-4-constructor-property-promotion-8-0">Constructor property promotion - 8.0</a>
+                </li>
+                <li>
+                    <a href="#16-5-readonly-properties-8-1">Readonly properties - 8.1</a>
+                </li>
+                <li>
+                    <a href="#16-6-readonly-classes-8-2">Readonly classes - 8.2</a>
+                </li>
+                <li>
+                    <a href="#16-7-enum-8-1">enum - 8.1</a>
+                </li>
+                <li>
+                    <a href="#16-8-anonymous-classes">Anonymous classes</a>
+                </li>
+                <li>
+                    <a href="#16-9-late-static-binding">Late static binding</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#17-session">Session</a>
+        </li>
+        <li>
+            <a href="#18-dom-parser">DOM parser</a>
+        </li>
+        <li>
+            <a href="#19-composer">Composer</a>
+        </li>
+        <li>
+            <a href="#20-php-docker-images">PHP Docker images</a>
+        </li>
+        <li>
+            <a href="#21-php-cs-fixer">php-cs-fixer</a>
+        </li>
+    </ul>
+</nav>
+
+<article>
+
+<ul class="naked">
+    <li><a href="https://www.php.net/manual/en/appendices.php">https://www.php.net/manual/en/appendices.php</a> : new features for new php versions</li>
+    <li><a href="https://www.php.net/supported-versions.php">https://www.php.net/supported-versions.php</a></li>
+    <li><a href="https://php.watch/versions">https://php.watch/versions</a></li>
+</ul>
+
+<!-- ********************************************************************************* -->
+<h2 id="1-quick-reminder">Quick reminder</h2>
+<pre>
+&lt;?= 'hello here' ?>
+
+in_array(mixed $findme, array $array, bool $strict = false): bool
+strpos(string $string, string $findme, int $offset = 0): int|false
+substr(string $string, int $offset, ?int $length = null): string
+
+str_contains()
+str_starts_with()
+str_ends_with() 
+
+tmp
+--------------------------------------------------------------------------------------------------
+https://www.adimeo.com/blog/forum-php-2019-clean-architecture
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="2-install-manage">Install, manage</h2>
+<pre>
+sudo apt update
+sudo apt install lsb-release ca-certificates apt-transport-https software-properties-common -y
+sudo add-apt-repository ppa:ondrej/php
+
+sudo apt install php8.1 php8.1-{fpm,mysql,xml,mbstring,curl,gmp,zip,intl,soap,bcmath,apcu,calendar,gd,xdebug}
+
+sudo apt install php8.5 php8.5-{pgsql,zip,mbstring,yaml}
+sudo apt install php8.5-{fpm,mysql,xml,mbstring,curl,gmp,zip,intl,bcmath,apcu,calendar,gd,xdebug}
+
+--------------------------------------------------------------------------------------------------
+Creating config file /etc/php/8.4/mods-available/pgsql.ini with new version
+Creating config file /etc/php/8.4/mods-available/pdo_pgsql.ini with new version
+Processing triggers for php8.4-fpm (8.4.1-3+ubuntu22.04.1+deb.sury.org+1) ...
+NOTICE: Not enabling PHP 8.4 FPM by default.
+NOTICE: To enable PHP 8.4 FPM in Apache2 do:
+NOTICE: a2enmod proxy_fcgi setenvif
+NOTICE: a2enconf php8.4-fpm
+NOTICE: You are seeing this message because you have apache2 package installed.
+Processing triggers for php8.4-cli (8.4.1-3+ubuntu22.04.1+deb.sury.org+1) ...
+</pre>
+
+<!-- ************************************* -->
+<h3 id="2-1-multiple-versions">Multiple versions</h3>
+<a href="https://www.linuxbabe.com/ubuntu/php-multiple-versions-ubuntu">https://www.linuxbabe.com/ubuntu/php-multiple-versions-ubuntu</a>
+<pre>
+sudo update-alternatives --config php
+# check
+php -v
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="3-run">Run</h2>
+<pre>
+php -r  --run           code            # Run PHP code without using script tags '&lt;?..?>'
+                                        # php -r "echo 'toto';"
+php -S  --server        addr:port       # Start built-in web server on the given local address and port
+        [-t docroot]
+        [-c /path/to/php.ini]
+        [-c "short_open_tag=On"]
+php -a  --interactive                   # since 8.1 ; like like jshell, ipython
+php -l  --syntax-check                  # Syntax check only (lint)
+php -T  --timing        count           # Measure execution time of script repeated count times (CGI only)
+
+php -m  --modules                       # Show compiled in modules
+php -i  --info                          # PHP information and configuration
+php --ini                               # Show configuration file names
+php -c  --php-ini       path|file       # Look for php.ini file in the directory path or use the specified file
+php -n  --no-php-ini                    # No php.ini file will be used
+php -d  --define        foo[=bar]       # Define INI entry foo with value bar
+
+sudo phpenmod -s cli xdebug
+sudo phpdismod -s fpm -v 8.2 xdebug
+    # -s cli|fpm|apache2
+    # -v not specified => all installed versions
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="4-types">Types</h2>
+<a href="https://www.php.net/manual/en/language.types.php">https://www.php.net/manual/en/language.types.php</a>
+
+<pre>
+declare(strict_types=1);    # per-file declaration - applies to scalars, function parameters and return.
+
+PHP built-in types:
+    null
+Scalar types:
+    bool        php 8.2
+    int
+    float       (floating-point number, aka double)
+    string
+Compound types:
+    array
+    object      php 7.2
+    iterable    PHP 7.1     # pseudo-type
+Relative class types
+    self                    # return object of the current class
+    static                  # return object of the current class - but late static binding
+    parent                  # return object of parent of the current class
+Value types:
+    true        php 8.2
+    false       php 8.2
+Special types:
+    resource
+    void        php 7.1
+    never       php 8.1     # must exit, throw exception or enter in infinite loop
+    mixed       php 8.0     # accepts every value ; equivalent to the union type object|resource|array|string|float|int|bool|null
+Callable type:
+    callable
+     
+Nullable type   php 7.1
+function testReturn(): ?string  # nullable - equivalent to string|null
+
+|   union
+&amp;   intersection
+</pre>
+
+<!-- ************************************* -->
+<h3 id="4-1-type-casts">Type casts</h3>
+<pre>
+(int), (integer) - cast to int
+(bool), (boolean) - cast to bool
+(float), (double), (real) - cast to float
+(string) - cast to string
+(array) - cast to array
+(object) - cast to object 
+</pre>
+
+<!-- ************************************* -->
+<h3 id="4-2-disjunctive-normal-form-dnf-types-8-2">Disjunctive Normal Form (DNF) Types - 8.2</h3>
+<pre>
+BEFORE
+class Foo {
+    public function bar(mixed $entity) {
+        if ((($entity instanceof A) &amp;&amp; ($entity instanceof B)) || ($entity === null)) {
+            return $entity;
+        }
+        throw new Exception('Invalid entity');
+    }
+}
+SINCE 8.2
+class Foo {
+    public function bar((A&amp;B)|null $entity) {
+        return $entity;
+    }
+}
+</pre>
+
+<!-- ************************************* -->
+<h3 id="4-3-nullable-7-1">nullable - 7.1</h3>
+<pre>
+// types can be marked as nullable by prefixing the type name with a question mark (?).
+// This signifies that the function returns either the specified type or NULL. 
+function get_item(): ?string {
+    if (isset($_GET['item'])) {
+        return $_GET['item'];
+    } else {
+        return null;
+    }
+}
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="5-functions">Functions</h2>
+
+<!-- ************************************* -->
+<h3 id="5-1-typed-arguments-and-typed-return">Typed arguments and typed return</h3>
+<pre>
+class C {}
+function sum(array &amp;$params, C $c, DateInterval ...$intervals): float {
+    $p = $params[0];
+}
+</pre>
+
+<!-- ************************************* -->
+<h3 id="5-2-named-arguments-8-0-0">named arguments - 8.0.0</h3>
+<pre>
+$tmp = myFunction(paramName: $paramName);
+</pre>
+
+<!-- ************************************* -->
+<h3 id="5-3-argument-promotion-8-0-0">Argument promotion - 8.0.0</h3>
+
+When a constructor argument includes a modifier, PHP will interpret it as both an object property and a constructor argument, and assign the argument value to the property. 
+<br>Any additional statements will be executed after the argument values have been assigned to the corresponding properties. 
+<pre>
+// since 8.0
+class Point {
+    public function __construct(protected int $x, protected int $y = 0) {
+    }
+}
+// before 8.0
+class Point {
+    protected int $x;
+    protected int $y;
+    public function __construct(int $x, int $y = 0) {
+        $this->x = $x;
+        $this->y = $y;
+    }
+}
+</pre>
+
+<!-- ************************************* -->
+<h3 id="5-4-return">return</h3>
+If the return is omitted the value NULL will be returned.
+
+<br><br>Returning a reference from a function
+<pre>
+function &amp;returns_reference(){
+    return $someref;
+}
+$newref =&amp; returns_reference();
+</pre>
+
+<!-- ************************************* -->
+<h3 id="5-5-arrow-functions-7-4">arrow functions - 7.4</h3>
+<pre>
+fn(argument_list) => expr.
+Arrow functions support the same features as anonymous functions,
+except that using variables from the parent scope is always automatic. 
+
+$y = 1;
+$fn1 = fn($x) => $x + $y;
+
+// equivalent to using $y by value:
+$fn2 = function ($x) use ($y) {
+    return $x + $y;
+};
+var_export($fn1(3)); // 4
+</pre>
+
+<!-- ************************************* -->
+<h3 id="5-6-closure-call-7">Closure::call() - 7</h3>
+A more performant, shorthand way of temporarily binding an object scope to a closure and invoking it. 
+
+<pre>
+class A {private $x = 1;}
+
+// Pre PHP 7 code
+$getX = function() {return $this->x;};
+$getXCB = $getX->bindTo(new A, 'A'); // intermediate closure
+echo $getXCB();
+
+// PHP 7+ code
+$getX = function() {return $this->x;};
+echo $getX->call(new A);
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="6-short-ternary-operator-5-3">short ternary operator - 5.3</h2>
+<pre>
+$result = $initial ? $initial : 'default';
+// equivalent to
+$result = $initial ?: 'default';
+
+// since 7.4 parentheses mandatory for nested ternary - because ternary expressions are left-associative (counter-intuitive)
+$res = $firstCondition ? 'truth' : ($elseCondition ? 'elseTrue' : 'elseFalse');
+
+// but chained short ternary are allowed (because intuitive)
+$res = 0 ?: 1 ?: 2 ?: 3; // $res = 1
+$res = 0 ?: 0 ?: 2 ?: 3; // $res = 2
+$res = 0 ?: 0 ?: 0 ?: 3; // $res = 3
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="7-null-coalescing-7-0-7-4">null coalescing - 7.0, 7.4</h2>
+<pre>
+// same as ternary but boolean test replaced by isset
+$username = isset($_GET['user']) ? $_GET['user'] : 'nobody';
+// equivalent to:
+$username = $_GET['user'] ?? 'nobody';
+
+// Coalescing can be chained: this will return the first defined value out of $_GET['user'], $_POST['user'], and 'nobody'.
+$username = $_GET['user'] ?? $_POST['user'] ?? 'nobody';
+
+// null coalescing assignment operator - 7.4
+$params['property'] = $params['property'] ?? 'default';
+// equivalent to
+$params['property'] ??= 'default'; // if(!isset($params['property'])) $params['property'] = 'default';
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="8-spaceship-operator-7-0">spaceship operator - 7.0</h2>
+<pre>
+// used for comparing two expressions.
+// It returns -1, 0 or 1 when $a is respectively less than, equal to, or greater than $b
+// works with integer, float, string
+echo 1 &lt;=> 1; // 0
+echo 1.5 &lt;=> 2.5; // -1
+echo "b" &lt;=> "a"; // 1
+[[1, 2], [2, 2]] &lt;=> [[1, 2], [1, 2]]; // 1
+
+usort($array, function ($a, $b) { return $a &lt;=> $b; });
+usort($array, function ($a, $b) { return -($a &lt;=> $b); }); // descending sort
+
+// Built-in PHP classes can define their own comparison
+$dateA = DateTime::createFromFormat('Y-m-d', '2000-02-01');
+$dateB = DateTime::createFromFormat('Y-m-d', '2000-01-01');
+$dateA &lt;=> $dateB; // Returns 1
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="9-match-8-0">match - 8.0</h2>
+<pre>
+switch ($statusCode) {
+    case 200:
+    case 300:
+        $message = null;
+        break;
+    case 400:
+        $message = 'not found';
+        break;
+    case 500:
+        $message = 'server error';
+        break;
+    default:
+        $message = 'unknown status code';
+        break;
+}
+// now equivalent to
+$message = match ($statusCode) {
+    200, 300 => null,                       // grouping several conditions
+    400 => 'not found',
+    500 => throw new ServerError(),         // 
+    default => 'unknown status code',       // default keyword
+};
+
+// - match doesn't require a break statement
+// - match can combine different arms into one using a comma
+// - match returns a value, so you only have to assign value once
+// - match will do strict type checks instead of loose ones (like using === instead of ==).
+// - if no default specified, a value not matching will throw a UnhandledMatchError exception
+// - only single line expression for the moment.
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="10-arrays">Arrays</h2>
+
+<!-- ************************************* -->
+<h3 id="10-1-array-unpacking-merge-7-4-8-1">array unpacking, +, merge - 7.4, 8.1</h3>
+<pre>
+array spread operator ...
+[...$array_1, ...$array_2, ...['quux']] = array_merge($array_1, $array_2, ['quux'])
+Since 8.1, ... also supports associative arrays
+
+Array unpacking overwrites duplicate string keys, while the + operator ignores duplicate string keys.
+var_dump( ['a' => 'foo'] + ['a' => 'bar'] );        // ['a' => 'foo'];
+var_dump([ ...['a' => 'foo'], ...['a' => 'bar'] ]); // ['a' => 'bar'];
+
+// Warning + is a union by keys - use array_merge() for a union by values
+$a = ['one', 'two'];
+$b = ['three', 'four', 'five'];
+$a + $b             = [ 0 => one, 1 => two, 2 => five ]
+array_merge($a, $b) = [ 0 => one, 1 => two, 2 => 'three', 3 => 'four', 4 => five ]
+</pre>
+
+
+<!-- ************************************* -->
+<h3 id="10-2-array-is-list-8-1">array_is_list() - 8.1</h3>
+array_is_list($a) returns true if $a is empty or $a is a regular array with index starting at 0
+
+
+<!-- ************************************* -->
+<h3 id="10-3-array-destructuring">array destructuring</h3>
+<pre>
+$array = [1, 2, 3]; 
+[$a, $b, $c] = $array;          // shorthand for : list($a, $b, $c) = $array;
+                                // $a = 1; $b = 2; $c = 3;
+[, , $c] = $array;              // $c = 3;
+WARNING: list() starts at index 0
+$array = [1 => 'a', 2 => 'b', 3 => 'c'];
+list($a, $b, $c) = $array;      // will give: $a = null; $b = 1; $c = 2;
+
+Since 7.1 $array can have non numerical keys
+$array = ['a' => 1, 'b' => 2, 'c' => 3];
+['c' => $c, 'a' => $a] = $array;
+// ex of convenient usage:
+['basename' => $file, 'dirname' => $dir] = pathinfo('/path/to/file');
+
+// usage in loops
+$array = [ ['name' => 'a', 'id' => 1], ['name' => 'b', 'id' => 2 ] ];
+foreach ($array as ['id' => $id, 'name' => $name]) { ... }
+</pre>
+
+<!-- ************************************* -->
+<h3 id="10-4-constant-arrays-using-define">Constant arrays using define()</h3>
+Array constants can now be defined with define(). In PHP 5.6, they could only be defined with const
+
+
+<!-- ********************************************************************************* -->
+<h2 id="11-group-use-declarations">Group use declarations</h2>
+<pre>
+use some\namespace\{ClassA, ClassB, ClassC as C};
+use function some\namespace\{fn_a, fn_b, fn_c};
+use const some\namespace\{ConstA, ConstB, ConstC};
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="12-unicode-codepoint-escape-syntax">Unicode codepoint escape syntax</h2>
+TODO
+
+<!-- ********************************************************************************* -->
+<h2 id="13-expectations">Expectations</h2>
+TODO A backwards compatible enhancement to the older assert() function. They allow for zero-cost assertions in production code, and provide the ability to throw custom exceptions when the assertion fails. 
+
+
+<!-- ********************************************************************************* -->
+<h2 id="14-attributes-8">Attributes - 8</h2>
+Attributes offer the ability to add structured, machine-readable metadata information on declarations in code: Classes, methods, functions, parameters, properties and class constants can be the target of an attribute.
+
+<pre>
+// a.php
+namespace MyExample;
+use Attribute;
+#[Attribute]
+class MyAttribute {
+    const VALUE = 'value';
+    private $value;
+    public function __construct($value = null) {
+        $this->value = $value;
+    }
+}
+
+// b.php
+namespace Another;
+use MyExample\MyAttribute;
+#[MyAttribute]
+#[\MyExample\MyAttribute]
+#[MyAttribute(1234)]
+#[MyAttribute(value: 1234)]
+#[MyAttribute(MyAttribute::VALUE)]
+#[MyAttribute(array("key" => "value"))]
+#[MyAttribute(100 + 200)]
+class Thing {
+}
+
+#[MyAttribute(1234), MyAttribute(5678)]
+class AnotherThing {
+}
+
+// Built-in attributes
+class Foo implements ArrayAccess {
+    #[\ReturnTypeWillChange]
+    public function offsetGet(mixed $offset) {}
+    // ...
+}
+
+// Symfony example of the definition of an attribute
+#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
+class AsEventListener
+{
+    public function __construct(
+        public ?string $event = null,
+        public ?string $method = null,
+        public int $priority = 0,
+        public ?string $dispatcher = null,
+    ) {
+    }
+}
+
+    #[\Deprecated(
+        message: "use PhpVersion::getVersion() instead",
+        since: "8.4",
+    )]
+    
+Possible targets:
+Attribute::TARGET_CLASS
+Attribute::TARGET_FUNCTION
+Attribute::TARGET_METHOD
+Attribute::TARGET_PROPERTY
+Attribute::TARGET_CLASS_CONSTANT
+Attribute::TARGET_PARAMETER
+Attribute::TARGET_ALL
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="15-exceptions">Exceptions</h2>
+
+<!-- ************************************* -->
+<h3 id="15-1-non-capturing-exceptions-8-0">Non-capturing exceptions - 8.0</h3>
+<pre>
+try {
+    changeImportantData();
+} catch (PermissionException) { // The intention is clear: exception details are irrelevant
+    echo "You don't have permission to do this";
+}
+</pre>
+
+<!-- ************************************* -->
+<h3 id="15-2-predefined-exceptions">Predefined exceptions</h3>
+<ul class="naked">
+    <li><a href="https://www.php.net/manual/en/spl.exceptions.php">https://www.php.net/manual/en/spl.exceptions.php</a></li>
+    <li><a href="https://www.php.net/manual/en/reserved.exceptions.php">https://www.php.net/manual/en/reserved.exceptions.php</a></li>
+</ul>
+
+<!-- ********************************************************************************* -->
+<h2 id="16-oop">OOP</h2>
+
+<!-- ************************************* -->
+<h3 id="16-1-magic-methods">Magic methods</h3>
+<pre>
+__construct()
+__destruct()
+__call()
+__callStatic()
+__get()
+__set()
+__isset()
+__unset()
+__sleep()
+__wakeup()
+__serialize()
+__unserialize()
+__toString()
+__invoke()          # called when a script tries to call an object as a function
+__set_state()
+__clone()
+__debugInfo()
+</pre>
+
+
+<!-- ************************************* -->
+<h3 id="16-2-nullsafe-operator-8-0">nullsafe operator ?->       - 8.0</h3>
+Returns null instead of throwing an exception
+<pre>
+$result = $repository?->getUser(5)?->name;
+ // Is equivalent to the following code block:
+if (is_null($repository)) {
+    $result = null;
+} else {
+    $user = $repository->getUser(5);
+    if (is_null($user)) {
+        $result = null;
+    } else {
+        $result = $user->name;
+    }
+}
+</pre>
+
+<!-- ************************************* -->
+<h3 id="16-3-types-class-variables-7-4">types - class variables - 7.4</h3>
+<pre>
+class User{
+    public int $id;
+    public ?string $name;   // nullable
+}
+</pre>
+
+
+<!-- ************************************* -->
+<h3 id="16-4-constructor-property-promotion-8-0">Constructor property promotion - 8.0</h3>
+<pre>
+- prefix the constructor parameters with public, protected or private => replaces the declaration of class members
+- untyped properties are allowed
+- allowed in traits ; not allowed in abstract classes
+- variadic parameters can't be promoted (ex : public string ...$a )
+class CustomerDTO {
+    public function __construct(
+        /** Doc comments can go here => same as for regular properties */
+        public string $name = 'toto',           // default value
+        #[MyAttribute]                          // attributes also possible here
+        public DateTimeImmutable $birth_date,   // expressions not allowed ; " = new DateTimeImmutable()" is illegal
+    ) {
+        // in constructor body, promoted properties can be accessed
+    }
+}
+</pre>
+
+
+<!-- ************************************* -->
+<h3 id="16-5-readonly-properties-8-1">Readonly properties - 8.1</h3>
+<pre>
+- Readonly properties do not change after an object is constructed
+- Can be normal properties or promoted in constructor
+- Readonly properties can only be used in combination with typed properties
+- Normal readonly properties can not have a default value - but possible if promoted in constructor
+- Unset not allowed on readonly properties
+- ReflectionProperty::isReadOnly() and ReflectionProperty::IS_READONLY
+class BlogData {
+    public readonly string $description,
+    public function __construct(
+        public readonly string $title,
+        public readonly ?DateTimeImmutable $publishedAt = null,
+    ) {}
+}
+</pre>
+
+
+<!-- ************************************* -->
+<h3 id="16-6-readonly-classes-8-2">Readonly classes - 8.2</h3>
+<pre>
+- A class where all readonly properties are readonly
+readonly class BlogData {
+    public function __construct(
+        public string $title,
+        public ?DateTimeImmutable $publishedAt = null,
+    ) {}
+}
+</pre>
+
+<!-- ************************************* -->
+<h3 id="16-7-enum-8-1">enum - 8.1</h3>
+<pre>
+enum Suit{
+    case Hearts;
+    case Diamonds;
+    case Clubs;
+    case Spades;
+}
+function pick_a_card(Suit $suit) { ... }
+$val = Suit::Diamonds;                              
+pick_a_card($val);
+pick_a_card(Suit::Clubs);
+
+// Backed enum ; backed by int or string
+enum Suit: string {
+    case Hearts = 'H';
+    case Diamonds = 'D';
+    case Clubs = 'C';
+    case Spades = 'S';
+}
+
+To get all scalar equivalents values of Backed Enum as an array you could define a method in your Enum:
+public static function values(): array {
+   return array_column(self::cases(), 'value');
+}
+</pre>
+
+
+<!-- ************************************* -->
+<h3 id="16-8-anonymous-classes">Anonymous classes</h3>
+TODO
+
+<!-- ************************************* -->
+<h3 id="16-9-late-static-binding">Late static binding</h3>
+TODO
+
+<!-- ********************************************************************************* -->
+<h2 id="17-session">Session</h2>
+<pre>
+session_start()
+=> a session id is generated and is sent to the browser as a cookie named PHPSESSID
+If cookies not allowed, php uses the url to keep trace of the session id ; cookie is favoured.
+Session data are available through $_SESSION
+session_id()                # permits to retrieve the session id
+session_set_save_handler()  # implement custom session handler
+session_write_close()       # if the session handler is "file", unlock the session file (eg useful for concurrent acces via ajax)
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="18-dom-parser">DOM parser</h2>
+<pre>
+$dom = new DOMDocument();
+@$dom->loadHTML($text);
+foreach ($dom->getElementsByTagName('h2') as $h2) {
+    echo "Section: " . $h2->textContent . "\n";
+    $content = '';
+    for ($node = $h2->nextSibling; $node; $node = $node->nextSibling) {
+        if ($node->nodeName === 'h2') break;
+        $content .= $dom->saveHTML($node);
+    }
+    echo "Content:\n$content\n";
+}
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="19-composer">Composer</h2>
+<pre>
+composer require flowjs/flow-php-server
+composer install
+composer update
+composer update monolog/monolog
+composer audit
+
+composer.json
+{
+    "require": {
+        "monolog/monolog": "2.0.*"
+    }
+}
+
+Package version constraints:
+"6.2.*"
+">=8.1"
+"^2"                # from version 2 up to next major version 
+"^2.12|^3.0"
+
+# In composer.json :
+{
+    "autoload": {
+        "psr-4": {"Acme\\": "src/"}
+    }
+}
+# then run :
+composer dump-autoload
+
+composer self-update --2.2
+
+# install new packages without modifying composer.lock:
+composer install
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="20-php-docker-images">PHP Docker images</h2>
+<ul class="">
+    <li><a href="https://betterstack.com/community/guides/scaling-php/php-docker-images/">https://betterstack.com/community/guides/scaling-php/php-docker-images/</a></li>
+    <li><a href="https://hub.docker.com/_/php">https://hub.docker.com/_/php</a></li>
+</ul>
+
+<pre>
+&lt;PHP version>-&lt;variant>-&lt;OS>
+
+&lt;PHP version> is the semantic version number corresponding to the PHP release shipped with that particular Docker image; it is formatted as MAJOR.MINOR.PATCH.
+
+&lt;variant>
+    apache      supplies a PHP interpreter compiled as a shared Apache 2.0 module, bundled together with a complete installation of the Apache 2.0 web server.
+    cli         supplies a PHP interpreter compiled for command-line usage (e.g., for executing PHP scripts from the terminal).
+    fpm         supplies a PHP interpreter compiled as a FastCGI processor (e.g., for integrating with third-party web servers supporting the FastCGI protocol).
+    zts         is almost the same as cli but with Zend Thread Safety enabled in the PHP interpreter (hence zts), allowing users to run multithreaded applications that rely on extensions such as pthreads (now deprecated) or parallel.
+
+docker pull php:8.4.7-alpine3.21
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="21-php-cs-fixer">php-cs-fixer</h2>
+<pre>
+composer require --dev friendsofphp/php-cs-fixer
+</pre>
+
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        Linux
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/systemd.html">Systemd</a></li>
+            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            <li><a href="../linux/deploy.html">Deployment</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Database
+        <ul>
+            <li><a href="../db/postgres.html">Postgresql</a></li>
+            <li><a href="../db/postgres.html">Sqlite</a></li>
+            <li><a href="../db/postgres.html">Mysql</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Programing
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="../go/index.html">Go</a>
+        <ul>
+            <li></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

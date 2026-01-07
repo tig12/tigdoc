@@ -1,7 +1,7 @@
 
 Cheatsheets / documentation on technologies I use.
 
-The doc can be browsed on https://larzac.info/tigdoc
+The doc can be browsed on https://larzac.info/tigdoc, or clone the repository and browse locally web/index.html.
 
 The reference repository is on https://codeberg.org/tig12/tigdoc
 

@@ -60,6 +60,24 @@ defer client.Close()
 sftp, err := client.NewSftp()
 </pre>
 
+<!-- ********************************************************************************* -->
+<h2>fpdf - build PDF</h2>
+
+Doc on <a href="https://www.fpdf.org/">fpdf.org</a>
+<!-- old: github.com/jung-kurt/gofpdf -->
+<pre>
+import (
+	"codeberg.org/go-pdf/fpdf"
+)
+
+pdf := gofpdf.New("P", "mm", "A4", "")
+tr := pdf.UnicodeTranslatorFromDescriptor("") // "" defaults to "cp1252"
+pdf.AddPage()
+MetaDataPDF(pdf, tr, ctx.Config, "My title")
+
+</pre>
+
+
 </article>
 </div><!-- end class="main" -->
 
@@ -92,6 +110,7 @@ sftp, err := client.NewSftp()
     <li>
         Programing
         <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
         </ul>
     </li>
