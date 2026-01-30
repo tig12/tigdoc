@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Bash | tigdoc</title>
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-01-05 01:18:38+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<a name="topage"></a>
+<header>
+<h1 class="margin-bottom2">
+Bash
+</h1>
+<div class="intro"></div>
+
+</header>
+
+<nav class="pagetoc">
+    <ul>
+        <li>
+            <a href="#1-basics">Basics</a>
+        </li>
+        <li>
+            <a href="#2-variables">variables</a>
+        </li>
+        <li>
+            <a href="#3-terminal-tips">Terminal tips</a>
+        </li>
+        <li>
+            <a href="#4-xargs">xargs</a>
+        </li>
+        <li>
+            <a href="#5-compilation">compilation</a>
+        </li>
+        <li>
+            <a href="#6-diff">diff</a>
+        </li>
+        <li>
+            <a href="#7-screen">screen</a>
+        </li>
+        <li>
+            <a href="#8-sudo">sudo</a>
+        </li>
+        <li>
+            <a href="#9-systemctl">systemctl</a>
+        </li>
+        <li>
+            <a href="#10-who">who</a>
+        </li>
+        <li>
+            <a href="#11-system-infos">System infos</a>
+            <ul>
+                <li>
+                    <a href="#11-1-running-processes">running processes</a>
+                </li>
+                <li>
+                    <a href="#11-2-lsof">lsof</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#12-nice-process-execution-priority">nice - process execution priority</a>
+        </li>
+        <li>
+            <a href="#13-kill">kill</a>
+        </li>
+        <li>
+            <a href="#14-users-and-groups">users and groups</a>
+        </li>
+        <li>
+            <a href="#15-reboot-n-co">reboot 'n' co</a>
+        </li>
+        <li>
+            <a href="#16-crontab">crontab</a>
+        </li>
+        <li>
+            <a href="#17-acl">acl</a>
+        </li>
+        <li>
+            <a href="#18-systemd">systemd</a>
+        </li>
+        <li>
+            <a href="#19-timezone-setting">timezone setting</a>
+        </li>
+        <li>
+            <a href="#20-compression">compression</a>
+        </li>
+        <li>
+            <a href="#21-encrypt">encrypt</a>
+        </li>
+        <li>
+            <a href="#22-file-system">FILE SYSTEM</a>
+        </li>
+        <li>
+            <a href="#23-infos-disk-and-directories">infos disk and directories</a>
+        </li>
+        <li>
+            <a href="#24-rename">rename</a>
+        </li>
+        <li>
+            <a href="#25-grep">grep</a>
+        </li>
+        <li>
+            <a href="#26-find">find</a>
+        </li>
+        <li>
+            <a href="#27-heredoc-syntax">heredoc syntax</a>
+        </li>
+        <li>
+            <a href="#28-jq-json-processing">jq - json processing</a>
+        </li>
+        <li>
+            <a href="#29-sed">sed</a>
+        </li>
+        <li>
+            <a href="#30-tr">tr</a>
+        </li>
+        <li>
+            <a href="#31-cut">cut</a>
+        </li>
+        <li>
+            <a href="#32-network">Network</a>
+        </li>
+        <li>
+            <a href="#33-curl">curl</a>
+        </li>
+        <li>
+            <a href="#34-scp">scp</a>
+        </li>
+        <li>
+            <a href="#35-ssh">ssh</a>
+            <ul>
+                <li>
+                    <a href="#35-1-sshfs">sshfs</a>
+                </li>
+                <li>
+                    <a href="#35-2-ssh-tunnel">ssh tunnel</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#36-install-package-manager-debian">Install, package manager (debian)</a>
+            <ul>
+                <li>
+                    <a href="#36-1-apt">apt</a>
+                </li>
+                <li>
+                    <a href="#36-2-apt">apt</a>
+                </li>
+                <li>
+                    <a href="#36-3-dpkg">dpkg</a>
+                </li>
+                <li>
+                    <a href="#36-4-update-alternatives">update-alternatives</a>
+                </li>
+                <li>
+                    <a href="#36-5-colorize-text">Colorize text</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#37-stdout-stderr">stdout stderr</a>
+        </li>
+        <li>
+            <a href="#38-script-examples">Script examples</a>
+            <ul>
+                <li>
+                    <a href="#38-1-tests">Tests</a>
+                </li>
+                <li>
+                    <a href="#38-2-loops">Loops</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<article>
+
+<div class="big3 bold">TODO</div>
+
+<ul class="naked">
+    <li>rg: <a href="https://github.com/BurntSushi/ripgrep">https://github.com/BurntSushi/ripgrep</a></li>
+    <li><a href="http://www.pixelbeat.org/cmdline.html">http://www.pixelbeat.org/cmdline.html</a></li>
+    <li><a href="lifewire.com">lifewire.com</a></li>
+</ul>
+
+<!-- ********************************************************************************* -->
+<h2 id="1-basics">Basics</h2>
+<pre>
+ctrl alt F1 => log to tty1
+
+# print full path of a file
+readlink -f file.txt
+
+rm dog{1..2}.txt
+
+# concatenate several files
+cat *.txt >> all.txt
+
+ncbu        # list reps with their sizes
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="2-variables">variables</h2>
+<pre>
+myVar=someValue
+export myVar
+export myVar="Bus"
+export PATH=$PATH:/my/new/path
+echo $myVar
+unset myVar
+printenv            # prints user's environnement variables
+printenv GOPATH
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="3-terminal-tips">Terminal tips</h2>
+<pre>
+man history
+history
+~/.bash_history
+
+!!:$            last argument of the last command (identical to esc .)
+!^              first argument of the last command
+!cp             last command starting by cp
+
+ctrl backspace  delete untill preceding word
+esc .           insert last argument of the preceding command (works also with alt .) - like ctrl r (type several times to loop on previous commands)
+!!              re-execute last command
+!XX			    re-execute last command starting by XX
+!XX:p           print last command starting by XX without executing it
+&lt;cmd> !*        execute command &lt;cmd> with all parameters of the last command
+&lt;cmd> !$		execute command &lt;cmd> with the last parameter of the last command
+
+cp titi.txt toto.txt
+ls !cp:2    # will do : ls toto.txt (the 2nd argument of the last cp command) 
+ls !cp:$    # will do : ls toto.txt (the last argument of the last cp command)
+
+#
+#   general
+#
+ctrl-d          exit session (synonym of "exit" or "logout")
+ctrl-l          delete the content of terminal
+ctrl-r &lt;cmd>    search occurences of &lt;cmd> in history
+ctrl-s          hide input (ctrl-q to show again input)
+#
+#   move
+#
+ctrl-a          move cursor to the beginning of line
+ctrl-e          move cursor to the end of line
+alt-f           go to following word
+alt-b           go to preceding word
+#
+#   cut
+#
+ctrl-u          cut everything before cursor
+ctrl-k          cut everything after cursor
+ctrl-w          cut the word preceding the cursor
+alt-backsuppr   delete the word preceding the cursor
+alt-d           delete the word following the cursor
+#
+#   miscelaneous
+#
+ctrl-y          paste what has been cut
+alt-t           intervert two words (preceding and following cursor)
+ctrl-v + &lt;tab>  inserts a "true" tabulation
+
+echo a
+# oh shit, I wanted to echo t
+^a^t
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="4-xargs">xargs</h2>
+Build and execute command lines from standard input
+
+<pre>
+# xargs takes output of a command and passes each like as argument of another command
+
+# Ex: url-list.txt contains one URL per line, xargs permits to download all the URLs:
+cat url-list.txt | xargs wget –c
+
+# build sql commands with one id per line:
+# sql.sql contains:
+    1
+    2
+    3
+
+-I      replace-string
+xargs -I {} echo "select * from users where id={};" &lt; sql.sql
+# {} is just a placeholder, so this is equivalent:
+xargs -I ZZZ echo "select * from users where id=ZZZ;" &lt; sql.sql
+# or:
+cat sql.sql | xargs -I {} echo "select * from users where id={};"
+# result:
+    select * from users where id=1;
+    select * from users where id=2;
+    select * from users where id=3;
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="5-compilation">compilation</h2>
+<pre>
+sudo apt install build-essential
+sudo apt install autoconf
+sudo apt install automake
+./autogen.sh 
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="6-diff">diff</h2>
+<pre>
+diff file1 file2
+    &lt; means the line is missing in file2
+    > means the line is missing in file1
+    d = deleted, a = added, c = changed
+    The number on the left of the character is the line number in file1
+    The number on the right is the line number in file2
+    So 3d2 tells you that line 3 in file1 was deleted and is line 2 in file2
+diff -u                                             # => "unified format"
+diff -qr dir1 dir2                                  # lists the differences of files in dir1 and dir2
+diff --brief --recursive dir1 dir2                  # lists the differences of files in dir1 and dir2
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="7-screen">screen</h2>
+<pre>
+screen -list                # list of active screens (named and unnamed)
+screen                      # start a new screen
+scren -S &lt;screen name>      # start a new named screen
+screen -r &lt;screen number>   # reattach to a non detached screen
+screen -r &lt;screen name>     # reattach to a non detached named screen
+In a screen :
+    Ctrl A Ctrl D : detach
+    Ctrl A Ctrl P : previous
+    Ctrl A Ctrl N : next
+    exit          : terminate screen session
+# two persons can share the same screen
+person1 : screen -rx &lt;screen name or nb>
+person2 : screen -rx &lt;screen name or nb>
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="8-sudo">sudo</h2>
+<pre>
+apt install sudo
+sudo vi /etc/hosts      # exec command as root
+sudo -i                 # log as root, interactive mode
+sudo -s                 # log as root, interactive mode, keeping your own environment variables
+sudo -E                 # execute a command, preserving your environment variables
+sudo su toto            # log as toto without knowing his password
+sudo -K                 # suppress sudo capability to current user
+sudo -u                 # Run the command as a user other than the default target user (usually root)
+                        sudo -s -u postgres     
+sudo visudo             # instead of sudo vi /etc/sudoers (before save, visudo analyzes the syntax errors)
+cat /usr/share/doc/sudo/examples/sudoers
+toto	ALL = NOPASSWD: /sbin/halt, /sbin/reboot, /usr/bin/apm
+%sudo	ALL=(ALL:ALL) ALL     # Allow members of group sudo to execute any command
+
+# setting sudo on debian :
+# in root :
+apt install sudo
+adduser user1
+adduser user1 sudo
+
+su myuser
+# deactivate root
+sudo usermod -p '!' root
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="9-systemctl">systemctl</h2>
+<pre>
+sudo systemctl reload postgresql
+sudo systemctl --all list-unit-files --type=service     # list services at startup
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="10-who">who</h2>
+<pre>
+w                   # permet de savoir quels utilisateurs sont loggés sur le système et ce qu'ils font.
+whoami              # print effective userid
+who                 # show who is logged on
+whereis             # locate the binary, source, and manual page files for a command
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="11-system-infos">System infos</h2>
+<pre>
+arch                    # x86_64
+lsb_release -a          # (...) Debian GNU/Linux 7.5 (wheezy) (...)
+lsscsi -g               # list SCSI devices
+lscpu                   # number of CPUs, threads...
+lsblk                   # list block devices
+lsblk -f                # list block devices, file system type
+lspci                   # buses in the system and devices connected to them
+hostnamectl             # 
+uname -a                # Linux ns12345.ovh.net 3.8.13-xxxx-grs-ipv6-32 #3 SMP Fri May 31 13:20:30 CEST 2013 i686 GNU/Linux
+uname -m                # i686
+free -h                 # infos ram and swap
+file /sbin/init         #/sbin/init: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), (...), for GNU/Linux 2.6.26 (...)
+file /lib/systemd/systemd
+
+cat /proc/cpuinfo       # infos sur les processeurs
+cat /proc/meminfo       # infos sur la ram
+cat /proc/interrupts    # infos sur l'utilisation des IRQs par les périphériques.
+cat /proc/dma           # infos sur l'utilisation des DMA par les périphériques.
+cat /proc/ioports       # infos sur l'utilisation des ports I/O par les périphériques.
+
+sudo smartctl --all /dev/sda| grep Reallocated_Sector_Ct        # check a disk 
+
+gnome-system-monitor &amp;
+</pre>
+
+<!-- ************************************* -->
+<h3 id="11-1-running-processes">running processes</h3>
+<pre>
+ps                  # liste les processus de l'utilisateur qui exécute la commande qui sont rattachés au terminal depuis lequel la commande est exécutée.
+ps -u               # liste les processus de l'utilisateur qui exécute la commande quel que soit le terminal de rattachement.
+ps -au              # liste les processus de tous les utilisateurs quel que soit le terminal de rattachement.
+ps -aux (ou ps -A)  # liste les processus de tous les utilisateurs même ceux qui sont rattachés à aucun terminal, donc l'intégralité des processus du système
+ps -faux            # liste tous les processus du système en les regroupant par enchaînement d'exécution.
+</pre>
+
+<!-- ************************************* -->
+<h3 id="11-2-lsof">lsof</h3>
+
+List open files
+
+<!-- ********************************************************************************* -->
+<h2 id="12-nice-process-execution-priority">nice - process execution priority</h2>
+<pre>
+# N = int between -20 (high priority) and 19 (low priority) ; -20 to -1 reserved to root
+nice -n N myprog    # run myprog with priority N
+renice N mypid      # affect priority N to process id mypid
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="13-kill">kill</h2>
+<pre>
+kill -9 $(pidof skype)
+kill -9 $(cat /var/run/myProcess.pid)
+sudo kill $(sudo lsof -t -i:4200)   # kill what runs on port 4200
+# list PIDs running on port 8000
+lsof -wni tcp:8000
+then kill -9 PID
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="14-users-and-groups">users and groups</h2>
+<pre>
+cat /etc/passwd
+cat /etc/group
+id                  # permet de savoir quel numéro d'utilisateur (uid, comme user id) et quel numéro de groupe (gid, comme group id) sont associés à un utilisateur.
+passwd              # change le mot de passe (il commence par demander l'ancien mot de passe quand il s'agit d'un simple utilisateur).
+groups              # pour savoir à quels groupes appartient l'utilisateur.
+
+sudo groupadd developers
+sudo useradd -g group1 user1    # create user belonging to existing group
+sudo useradd -G group1 user1    # create a group and create a user belonging to this group
+sudo usermod -a -G group2 user1 # add a user to supplementary group
+sudo passwd user1               # modify a user's password
+
+sudo adduser toto               # adds user toto.
+sudo deluser toto               # removes user toto.
+sudo adduser toto disk          # adds user toto to group disk (effective after quit and relog)
+sudo adduser toto adm           # to read logs without being root
+sudo deluser toto audio         # removes user toto from group audio.
+
+=== recover lost password ===
+- reboot and click escape to go to grub ; advanced options ; choose to log as root
+mount -o rw,remount /
+passwd user1
+reboot
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="15-reboot-n-co">reboot 'n' co</h2>
+<pre>
+sudo halt                # éteint l'ordi. Equivaut à la commande shutdown -h now.
+sudo reboot              # reboote l'ordi. Equivaut à la commande shutdown -r now.
+uptime                   # dit depuis combien de temps le système n'a pas rebooté.
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="16-crontab">crontab</h2>
+<pre>
+update-alternatives --config editor     # Change default crontab editor from nano to vim
+EDITOR=vi &amp;&amp; crontab -e                 # same thing just for this session
+sudo ls -l /var/spool/cron/crontabs/
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="17-acl">acl</h2>
+<pre>
+# for existing files and folders
+setfacl -R -m u:www-data:rwX -m u:`whoami`:rwX app/cache/ app/logs/
+sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX /home/user1/path/to/directory
+# for future files and folders
+setfacl -dR -m u:www-data:rwX -m u:`whoami`:rwX app/cache/ app/logs/
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="18-systemd">systemd</h2>
+<pre>
+systemctl --help
+sudo systemctl start application.service    # .service can be omitted
+               stop application.service
+               restart application.service
+               reload application.service
+               reload-or-restart application.service
+               enable application.service
+               disable application.service
+# informative commands doesn't need sudo
+systemctl status application.service
+          list-dependencies sshd.service               
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="19-timezone-setting">timezone setting</h2>
+<pre>
+timedatectl
+sudo dpkg-reconfigure tzdata
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="20-compression">compression</h2>
+
+z commands
+<pre>
+# list z commands
+ls -l /bin/z* /sbin/z* /usr/local/bin/z* /usr/local/sbin/z* /usr/bin/z* /usr/sbin/z*
+
+zless data.txt.gz
+zmore data.txt.gz
+zcat file.gz
+zdiff file1.gz file2.gz
+zcmp file1.gz file2.gz
+zegrep -w '^word1|word2' file.gz
+zgrep 'wordToSearch' file.gz
+</pre>
+
+bz commands, for bz2 files
+<pre>
+# list z commands
+ls -l /bin/bz* /sbin/bz* /usr/local/bin/bz* /usr/local/sbin/bz* /usr/bin/bz* /usr/sbin/bz*
+/bin/bzcat -> bzip2
+/bin/bzcmp -> bzdiff
+/bin/bzdiff
+/bin/bzegrep -> bzgrep
+/bin/bzexe
+/bin/bzfgrep -> bzgrep
+/bin/bzgrep
+/bin/bzip2
+/bin/bzip2recover
+/bin/bzless -> bzmore
+/bin/bzmore
+/usr/bin/bzcat -> bzip2
+/usr/bin/bzcmp -> bzdiff
+/usr/bin/bzdiff
+/usr/bin/bzegrep -> bzgrep
+/usr/bin/bzexe
+/usr/bin/bzfgrep -> bzgrep
+/usr/bin/bzgrep
+/usr/bin/bzip2
+/usr/bin/bzip2recover
+/usr/bin/bzless -> bzmore
+/usr/bin/bzmore
+</pre>
+
+zip / unzip
+<pre>
+zip myfile.zip myfile
+zip -r mydir.zip mydir
+
+# remove hello7.c from myfile.zip without uncompressing myfile.zip
+zip -d myfile.zip hello7.c
+
+# add hello9.c to myfile.zip without uncompressing myfile.zip
+# -u : update archive with a new file
+zip -u myfile.zip hello9.c
+
+# cat a zip file without extracting
+unzip -p dbdump/db5-2023-04-15-000845.pgdump.zip | less
+</pre>
+
+bz2, tbz2
+<pre>
+# compress
+bzip2 myfile.txt                # or bzip2 -z myfile.txt
+
+# decompress
+bzip2 -d myfile.txt.bz2         # -d or --decompress
+
+    -k --keep                   # Keep (don't delete) input files during compression or decompression.
+
+# compress
+tar cjf mydir.tbz2 mydir
+
+# decompress
+tar xjf mydir.tbz2
+</pre>
+
+<pre>
+# uncompress .gz without keeping the original .gz file
+gzip -d app-2025-02-17.log.1.gz
+
+# compressing using multi-cores
+sudo apt install pigz pbzip2
+time tar -I pbzip2 -cf gauquelin-2002.tbz2 gauquelin-2002
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="21-encrypt">encrypt</h2>
+<pre>
+gpg -c file.txt -o file.txt.gpg     # encrypt
+gpg -d fichier.txt.gpg > file.txt   # decrypt
+
+# encrypt a directory
+tar -cvf archive.tar &lt;directory>
+gpg -c archive.tar
+# decrypt
+gpg -d archive.tar.gpg > archive.tar
+tar -xvf archive.tar
+
+openssl des3 -salt -in codes.dec -out codes.enc     # encode
+openssl des3 -d -salt -in codes.enc -out codes.dec  # decode
+
+sha256sum &lt; php-7.4.12.tar.bz2 
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="22-file-system">FILE SYSTEM</h2>
+<pre>
+# determine encoding of a file
+file --mime-encoding myfile.sql
+# convert to utf8
+iconv -f iso-8859-15 -t utf-8 myfile.sql > myfile-UTF8.sql
+for i in $(ls); do iconv -f iso-8859-15 -t utf-8 $i > $i-utf8 &amp;&amp; rm $i &amp;&amp; mv $i-utf8 $i; done;
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="23-infos-disk-and-directories">infos disk and directories</h2>
+<pre>
+df -h       # Lists free space on each partition
+du -sh      # size of a directory
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="24-rename">rename</h2>
+<pre>
+-n, --nono                              No action: print names of files to be renamed, but don't rename.
+-f, --force                             Over write: allow existing files to be over-written.
+--path, --fullpath                      Rename full path: including any directory component.  DEFAULT
+-d, --filename, --nopath, --nofullpath  Do not rename directory: only rename filename component of path.
+
+touch dog{1..3}.dog                                 # dog1.dog  dog2.dog  dog3.dog
+rename -v 's/dog/cat/' *                            # cat1.dog  cat2.dog  cat3.dog          # without modifier g (global), only the first occurence is replaced
+rename -v 's/dog/cat/g' *                           # cat1.cat  cat2.cat  cat3.cat          # with modifier g, all occurences are replaced
+rename -v 's/cat//' *                               # 1.cat  2.cat  3.cat                   # without modifier g, only the first occurence is replaced
+rename -v 's/^/PONIES-/' *                          # PONIES-1.cat  PONIES-2.cat  PONIES-3.cat
+rename 's/\d+/sprintf("%02d", $&amp;)/e' *              # PONIES-01.cat  PONIES-02.cat  PONIES-03.cat
+
+rename -v 's/^error/prod1-error/' *.gz
+
+rename -v 's/\.log\.1$/.log/' prod1-error-*.log.1   # prod1-error-2025-05-19.log.1 renamed as prod1-error-2025-05-19.log   etc.
+
+touch {a..c}                                        # a  b  c
+rename 's/$/our $i; sprintf("-%02d", 1+$i++)/e' *   # a-01  b-02  c-03
+                                                    # /e    => evaluate the replacement part as code
+                                                    # our $i => $i is a global variable => the value of $i persists across multiple calls of rename
+
+touch lowercase UPPERCASE MixedCase                 # lowercase UPPERCASE MixedCase
+rename 'y/a-z/A-Z/' *                               # LOWERCASE  MIXEDCASE  UPPERCASE
+
+i=0; for file in *.JPG; do ((i=i+1)); echo "mv $file myprefix-$i.jpg"; done
+# equivalent to
+rename 's/jpeg$/jpg/' *
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="25-grep">grep</h2>
+<pre>
+To match . or *, use \. or \*
+
+# highlight matched pattern : export GREP_OPTIONS='--color=auto' GREP_COLOR='101;10'
+grep -rn 'text' .                                   # find occurences of toto in current dir and subdirs and print also line number
+grep -w "text" file.txt                             # find only full word
+grep -v "text" file.txt                             # find lines that does NOT match "text"
+grep -c "text" file.txt                             # echo the nb of matches
+grep -l "text" *                                    # echo the filenames
+grep -h, --no-filename                              # Suppress the prefixing of file names on output. This is the default when there is only one file to search
+grep -rl "text" my-dir/
+grep -A 3 "text" file.txt                           # display matched lines + 3 lines after
+grep -B 3 "text" file.txt                           # display matched lines + 3 lines before
+grep -C 3 "text" file.txt                           # display matched lines + 3 lines around
+grep -I                                             # I = ignore binary files
+
+grep -rn --exclude-dir=vendor struct                # find lines containing 'struct' but do not search in vendor
+
+
+########### todo ###########
+--exclude=GLOB
+      Skip  any  command-line  file  with  a  name suffix that matches the pattern GLOB, using wildcard matching; a name suffix is either the whole name, or a trailing part that
+      starts with a non-slash character immediately after a slash (/) in the name.  When searching recursively, skip any subfile whose base name matches GLOB; the base  name  is
+      the part after the last slash.  A pattern can use *, ?, and [...] as wildcards, and \ to quote a wildcard or backslash character literally.
+
+--exclude-from=FILE
+      Skip files whose base name matches any of the file-name globs read from FILE (using wildcard matching as described under --exclude).
+
+--exclude-dir=GLOB
+      Skip  any command-line directory with a name suffix that matches the pattern GLOB.  When searching recursively, skip any subdirectory whose base name matches GLOB.  Ignore
+      any redundant trailing slashes in GLOB.
+
+--include=GLOB
+      Search only files whose base name matches GLOB (using wildcard matching as described under --exclude).  If contradictory --include and --exclude  options  are  given,  the
+      last matching one wins.  If no --include or --exclude options match, a file is included unless the first such option is --include.
+########### end todo ###########
+
+grep -rIl "pattern" src/                            # print the names of the files that contain pattern
+grep -rIL "pattern" src/                            # print the names of the files that do NOT contain pattern
+
+grep -o 'pattern1'                                  # print the part matching pattern1
+
+grep -v -e "pattern1" -e "pattern2"                 # find lines that match neither pattern1 nor pattern2
+
+regex : grep "PATTERN" file.txt
+grep "^text" file.txt                               # lines beginning by "text"
+grep "text$" file.txt                               # lines ending by "text"
+grep -c  "^$" file1.txt file2.txt                   # empty lines in file1.txt and file2.txt
+grep ".ello" file.txt                               # . single character
+grep "kernel: *" file.txt                           # * 0 or more times of preceeding char (here space)
+                                                    # quantifiers :  ?  *  +  {n}  {n,}  {,m}  {n,m}
+grep "hi \+hello" input
+grep "hi \?hello" input
+Character class :
+grep -i  "[^aeiou]"                                 # find lines without vowels
+egrep = grep -E (extended regex)
+egrep '^StopArea:87[[:digit:]]{5}' stops.txt | wc -l
+
+# grep OR : grep one of multiple pattern
+grep "PATTERN1\|PATTERN2" FILE
+grep -E "PATTERN1|PATTERN2" FILE
+grep -e PATTERN1 -e PATTERN2 FILE
+egrep "PATTERN1|PATTERN2" FILE
+
+# lines in a nginx access.log like that (custom log with last field = duration in ms) :
+127.0.0.1 - - [23/Jan/2025:09:00:40 +0100] "GET /api/my-endpoint HTTP/1.0" 204 0 "-" "-" 0.080
+rev access.log-1 | cut -c 1-5 | rev | grep -E '^[0-9]+\.[0-9]+$' | sort -r | uniq --count --repeated
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="26-find">find</h2>
+<pre>
+locate .mp3
+find . -iname "*.mp3"                               # find mp3 files in . and subdirs
+find . -name "*.mp3"                                # find mp3 files in . and subdirs
+find . -name ".svn" -exec ls {} \;                  # find and list files named ".svn" in current dir and subdirs
+find . -name "*.pdf" -exec ls {} \;                 # same, but use regex
+find . -type f -name *.txt" | xargs ls -l
+find . -name ".svn" -exec rm -rf {} \;              # find and remove files named ".svn" in current dir and subdirs
+find . -type d -name "yang*"                        # find directories
+find . -type l                                      # find symbolic links
+find . -path *.json -amin +360 -exec ls -l {} \;    # find and list json files not modified the last 360 minutes
+find /home -type f | wc -l                          # counts recursively files in a directory
+find . -type f -name "*.txt" -exec grep -i alice {} +   # find txt files containing alice
+find . -type f -name "*.txt" | xargs grep -i alice      # find txt files containing alice
+
+# count all files in a dir and its subdirs
+find data/7-full/person/ -type f | wc -l
+
+find /home/username/ -name config-mysql.php -o -name parameters.yml -o -name config-local.yaml
+find /home/username/ \( -name "config-mysql.php" -o -name "parameters.yml" -o -name "config-local.yaml" \) -exec sed -i "s/old_password/new_password/" {} \;
+(parentheses needed to group options -o ; without parentheses, exec only done on config-local.yaml)
+fzf : fuzzy find 
+find . | fzf
+# then type the fuzzy filters
+
+# count lines of code
+find . -name '*.go' | xargs wc -l
+
+cd /home/username/produits/autovaleur/data/cotes-etg
+for m in `ls | grep 2014`; do c=0; for d in `ls $m` ; do x=`ls $m/$d/ |wc -l` c=$(($c +$x)); done; echo $m : $c; done;
+
+find ~/.gnupg -type f -exec chmod 600 {} \;
+find ~/.gnupg -type d -exec chmod 700 {} \;
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="27-heredoc-syntax">heredoc syntax</h2>
+<pre>
+sort &lt;&lt; EOF
+    case SEPA       = 'SEPA';
+    case CB         = 'CB';
+    case WID        = 'WID';
+    case MANUAL     = 'MANUEL';
+    case BOL        = 'BOL';
+    case EXTERNAL   = 'EXTERNAL';
+EOF
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="28-jq-json-processing">jq - json processing</h2>
+<pre>
+https://www.baeldung.com/linux/jq-command-json
+echo '{"fruit":{"name":"apple","color":"green","price":1.20}}' | jq '.'
+jq '.' myfile.json
+curl http://api.open-notify.org/iss-now.json | jq '.'
+# .field operator
+jq '.fruit' fruit.json
+# chain .field operator
+jq '.fruit.color' fruit.json
+# retrieve multiple keys, separate them using a comma
+jq '.fruit.color,.fruit.price' fruit.json
+# handle special characters
+echo '{ "with space": "hello" }' | jq '."with space"'
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="29-sed">sed</h2>
+In the replacement part, captured strings are refered as <code>\1</code> <code>\2</code> etc.
+<pre>
+
+-n, --quiet, --silent
+    suppress automatic printing of pattern space
+-e script, --expression=script
+    add the script to the commands to be executed
+-f script-file, --file=script-file
+    add the contents of script-file to the commands to be executed
+--follow-symlinks
+    follow symlinks when processing in place
+-i[SUFFIX], --in-place[=SUFFIX]
+    edit files in place (makes backup if SUFFIX supplied)
+-l N, --line-length=N
+    specify the desired line-wrap length for the 'l' command
+--posix
+    disable all GNU extensions.
+-E, -r, --regexp-extended
+    use extended regular expressions in the script (for portability use POSIX -E).
+-s, --separate
+    consider files as separate rather than as a single, continuous long stream.
+--sandbox
+    operate in sandbox mode (disable e/r/w commands).
+-u, --unbuffered
+    load minimal amounts of data from the input files and flush the output buffers more often
+-z, --null-data
+    separate lines by NUL characters
+--help
+    display this help and exit
+--version
+    output version information and exit
+
+sudo sed -i 's/^#192.168.1.101/192.168.1.101/g' /etc/host   # uncomments the line
+sudo sed -i 's/^192.168.1.101/#192.168.1.101/g' /etc/host   # comments the line
+sed -i 's#&lt;br/>#&lt;br>#g' *.html
+sed -i 's/test-geo/check-geo/g' *.yml                       # find and replace in several files at once
+sed -i.bck 's/get_logged_user/getLoggedUser/g' model/*.php  # find and replace in several files at once + create backup files
+sed -i "s/old_password/new_password/" mon_fichier_de_config    (#hint: ! must be escaped => write  \!)
+
+sed -e 's#\([0-9][NSEW]\) \([0-9]\)#\10\2#g' | \    # Change strings like '48N 5' to '48N05'
+tr -s '[:space:]' | \                               # Convert multiple spaces to one space
+sed -e 's/^ //g' | \                                # Remove first space of each line
+sed -e 's/ /;/g' \                                  # Convert spaces to semicolon (;)
+
+# find and replace in multiple files
+find . -type f -name 'xa*' | xargs sed -i 's/asd/dsg/g'
+find config/ -type f -name *.yml | xargs sed -i 's/commandClass/command-class/g'
+
+# capture
+sed -E 's/.*"state":"([^"]*).*/\1/' 
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="30-tr">tr</h2>
+<pre>
+# tr = translate
+# Accepts character classes, like [CHAR*REPEAT] [:alnum:] [:alpha:] [:blank:] [:cntrl:] [:digit:] [:graph:] [:lower:] [:print:] [:punct:] [:space:] [:upper:] [:xdigit:] [=CHAR=] \t \n \v
+echo "Tilekil.cot"|tr it am                             # Talekal.com       # replace i => a, t => m (first set replaced by second)
+echo "Hello world!"| tr '[a-z]' '[A-Z]'                 # HELLO WORLD!      # uppercase
+echo "Tilekil.cot"|tr -d ki                             # Tlel.cot          # -d = delete characters of the first set
+echo "Tilekil.cot"|tr -c it a                           # aiaaaiaaaata      # -c = complete, operations apply to characters not present in the first set (it)
+echo 'fille' | tr -s l r                                # fire              # -s => replace repeated characters (ll) by only one occurence in the second set
+echo 'fille' | tr l r                                   # firre             # same thing normal, without -s
+echo "Welcome to   malekal.com" | tr -d '[:space:]'     # Welcometomalekal.com  # suppress spaces, tabs 'n' co
+echo "My ID is 5456556" | tr -cd [:digit:]              # 5456556           # -c to invert, -d to suppress not digits
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="31-cut">cut</h2>
+<pre>
+cut OPTION... [FILE]...
+Print selected parts of lines from each FILE to standard output. With no FILE, or when FILE is -, read standard input.
+-b, --bytes=LIST                select only these bytes
+-c, --characters=LIST           select only these characters
+-d, --delimiter=DELIM           use DELIM instead of TAB for field delimiter
+-f, --fields=LIST               select only these fields;  also print any line that contains no delimiter character, unless the -s option is specified
+--complement                    complement the set of selected bytes, characters or fields
+-s, --only-delimited            do not print lines not containing delimiters
+--output-delimiter=STRING       use STRING as the output delimiter the default is to use the input delimiter
+
+LIST:
+N       byte, character or field (starts from 1)
+N-      from N byte, character or field to the end of the line
+N-M     from N à M (included) byte, character or field
+-M      from first to Mth (included) byte, character or field
+
+Ex: file employes.txt
+    Riveau Alain    1919-05-22  2020-02-01  Directeur des operations
+    Cavalier Bart   1987-09-09  2020-09-01  Directeur des ventes
+    Stone Emma      1991-01-30  2021-01-02  Directrice des communication
+    Trembblay Guy   1962-02-02  2020-08-01  Vendeur
+cut -f 2 employes.txt                   # prints the 2nd field (dates)
+cut -f 1-3 employes.txt                 # prints fields 1 to 3
+cut -f -3 employes.txt                  # same result
+cut -f 2- employes.txt                  # prints fields 2,3,4
+cut --complement -f 2- employes.txt     # prints field 1 (= all fields but not fields 2-)
+
+Ex: file etudiants.txt
+    S101,Pierre,91
+    S102,Vincent,84
+    S103,Laura,989
+cut -d ',' -f 2 etudiant.txt            # here, specify the delimiter of the input file
+
+cut -b 1-3 employes.txt                 # prints the 3 first bytes of each line
+cut -c 1-3 employes.txt                 # same result (because the file contains ascii, so 1 character = 1 byte)
+-c and -b are different if the file is in UTF-8
+
+# count the nb of request per seconds on nginx access.log
+cut -d ' ' -f 4 access.log | uniq --count --repeated | sort --general-numeric-sort
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="32-network">Network</h2>
+<pre>
+ping vaioz.local        # to find a machine on the local network
+64 bytes from pae50s41-in-e04.1e124.net (112.123.123.123): icmp_seq=1 ttl=115 time=15.1 ms
+    64 bytes                        The size of the ICMP (Internet Control Message Protocol) reply payload received (default is 56 bytes of data + 8 bytes ICMP header = 64).
+    from pae50s41-in-e04.1e124.net  The reverse DNS name of the IP address you're pinging (Google’s DNS server resolved).
+    (112.123.123.123)               The actual IP address responding to your ping.
+    icmp_seq=1                      Sequence number of the ICMP Echo Request. Each ping gets incremented (helps track order/loss).
+    ttl=115	                        "Time To Live" — a hop counter (starting from 255 typically), indicating how many network hops the reply took.
+    time=15.1 ms                    Round-trip time — how long it took to send the ping and receive the reply (&lt; 50 ms considered as good).
+
+
+# to know the public ip of a machine
+curl icanhazip.com
+curl ifconfig.me
+
+nmap 192.168.11.1-255       # list of connected machines 
+nmap -PN 127.0.0.1          # list of open ports
+netstat -naputen | grep 80
+# lpn = Listening ports Numbers with the Process responsible on each one
+sudo netstat -tlpn | grep mariadb
+
+# ifconfig replacement
+hostname -I
+ip addr
+
+sudo service networking restart
+sudo service unbound restart
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="33-curl">curl</h2>
+<pre>
+curl http://www.dataden.tech            # GET by default
+curl -s http://www.dataden.tech         # equivalent
+
+curl -o output.html www.dataden.tech
+curl www.dataden.tech > output.html
+
+# -d or --data makes POST request
+curl --data "name=John&amp;surname=Doe" http://www.dataden.tech
+curl --data '{"name":"John","surname":"Doe"}' \http://www.dataden.tech
+# -X to specify method
+curl -X POST --data 'one=1' 'http://localhost:8000/'
+curl -X "POST" \-d "name=John&amp;surname=Doe" http://www.example.com
+curl --user-agent "Mozilla/4.73 [en] (X11; U; Linux 2.2.15 i686)" www.example.com
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="34-scp">scp</h2>
+<pre>
+scp myfile.bz2  toto@mymachine.net:/home/sites
+scp -r toto@mymachine.net:/home/sites/site1 .
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="35-ssh">ssh</h2>
+<pre>
+sudo apt install openssh-server
+
+man ssh_config
+ENTER ~ .               # to unlock a ssh
+/etc/ssh/ssh_config, add : ServerAliveInterval 120
+
+ssh-keygen -t ed25519
+ssh-copy-id -i ~/.ssh/id_ed25519.pub titi@toto.host.org     # ssh-copy-id just copies the content of .ssh/id_ed25519.pub in .ssh/authorized_keys
+# WARNING : preciously keep .ssh/id_ed25519 (private key)
+ssh titi@toto.host.org
+
+# to remove a line from known_hosts
+ssh-keygen -f "/home/me/.ssh/known_hosts" -R "tigasus.local"
+
+# to memorize passphrase
+eval `ssh-agent`
+ssh-add /home/user1/.ssh/id_rsa       # private key
+
+# execute a command through ssh
+ssh user01@server01 "command"
+</pre>
+
+<!-- ************************************* -->
+<h3 id="35-1-sshfs">sshfs</h3>
+<pre>
+sudo apt install sshfs
+# sshfs login@machine:/path /mountpoint
+# fusermount -u /mountpoint  #demonter
+sshfs username@5prod:relative/path /home/me/bin/sshfs/
+fusermount -u /home/me/bin/sshfs/
+</pre>
+
+<!-- ************************************* -->
+<h3 id="35-2-ssh-tunnel">ssh tunnel</h3>
+<pre>
+ssh -L 127.0.0.1:3307:127.0.0.1:3306 username@mymachine.domaine.com -N
+ssh -L 9856:localhost:9856 username@mymachine.domain.com
+ssh -L 63333:localhost:5432 bdlqgis
+ssh -L 76543:localhost:5432 my_postgres_dedicated_user # then use localhost:76543 to connect postgresql from local
+# List opened ssh tunnels
+sudo lsof -i -n | egrep '\&lt;ssh\>'
+
+ssh -D 7777 username@dd      # on local machine
+Then on firefox :
+- extension ff proxy selector
+- or pref firefox : avancé / réseau / parametres de connexion
+Host Socks : localhost
+port 7777
+gstm - logiciel ubuntu
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="36-install-package-manager-debian">Install, package manager (debian)</h2>
+
+<!-- ************************************* -->
+<h3 id="36-2-apt">apt</h3>
+<pre>
+/usr/share/keyrings/
+/etc/apt/sources.list.d/
+
+alias apt-upgrade='sudo apt update &amp;&amp; sudo apt full-upgrade &amp;&amp; sudo apt clean &amp;&amp; sudo apt autoremove'
+
+sudo apt remove --purge &lt;package>
+
+apt update          download package information from all configured sources.
+sudo apt list --upgradable
+apt upgrade         install available upgrades of all packages currently installed on the system from the sources configured via sources.list
+apt full-upgrade    performs the function of upgrade but will remove currently installed packages if this is needed to upgrade the system as a whole.
+apt dist-upgrade    = apt full-upgrade
+
+sudo apt update &amp;&amp; sudo apt upgrade &amp;&amp; sudo apt dist-upgrade -y
+apt-cache show php5
+apt clean
+
+# See which version would be installed in case of apt install
+apt-cache policy php
+
+# list the available versions:
+apt policy qgis
+# install a precise package:
+sudo apt install &lt;package>=&lt;version>        # ex: sudo apt install firefox=63.0+build1-0ubuntu1
+
+# keep a package from updating
+sudo apt-mark hold &lt;package>
+apt-mark showhold
+sudo apt-mark unhold &lt;package>
+
+# find the package which provides a file
+sudo apt install apt-file
+sudo apt-file update        # update the apt-file database
+apt-file search &lt;filename>
+
+First character = current state of the package
+    p  no trace of the package exists on the system
+    c  the package was deleted but its configuration files remain on the system
+    i  the package is installed
+    v  meaning that the package is virtual.
+Second character = stored action (if any; otherwise a blank space is displayed) to be performed on the package
+    i  the package will be installed
+    d  the package will be deleted
+    p  the package and its configuration files will be removed.
+If the third character is A, the package was automatically installed. 
+=> https://www.debian.org/doc/manuals/aptitude/ch02s02s02.en.html
+
+sudo aptitude why-not mariadb-server
+sudo apt list --upgradable      # check that package is here
+sudo apt-mark hold codium       # mark package to exclude from upgrade
+sudo apt-mark unhold codium     # mark package to include again from upgrade
+</pre>
+
+
+<!-- ************************************* -->
+<h3 id="36-3-dpkg">dpkg</h3>
+<pre>
+dpkg -i mypackage.deb       # install
+dpkg -r mypackage           # remove
+dpkg -P mypackage           # remove and purge configuration files
+dpkg -L mypackage           # list package files
+
+dpkg -l | grep codium           # see list
+dpkg -l '*vi*'              # list and grep
+
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/
+xxx
+First letter → desired package state ("selection state"):
+    u ... unknown
+    i ... install
+    r ... remove/deinstall
+    p ... purge (remove including config files)
+    h ... hold
+Second letter → current package state:
+    n ... not-installed
+    i ... installed
+    c ... config-files (only the config files are installed)
+    U ... unpacked
+    F ... half-configured (configuration failed for some reason)
+    h ... half-installed (installation failed for some reason)
+    W ... triggers-awaited (package is waiting for a trigger from another package)
+    t ... triggers-pending (package has been triggered)
+Third letter → error state (you normally shouldn't see a third letter, but a space, instead):
+    R ... reinst-required (package broken, reinstallation required)
+
+sudo dpkg --remove-architecture i386
+</pre>
+
+<!-- ************************************* -->
+<h3 id="36-4-update-alternatives">update-alternatives</h3>
+<pre>
+sudo update-alternatives --list java
+sudo update-alternatives --config java
+</pre>
+
+
+<!-- ************************************* -->
+<h3 id="36-5-colorize-text">Colorize text</h3>
+<pre>
+echo option     Description
+-e              Enable interpretation of backslash escapes
+\e[             Begin the color modifications
+COLORm          Color Code + ‘m’ at the end
+\e[0m           End the color modifications
+
+# General template
+echo -e "\e[COLORmSample Text\e[0m"
+
+# Color codes
+Color       Foreground Code Background Code
+Black       30              40 	
+Red         31              41
+Green       32              42
+Brown       33              43
+Blue        34              44
+Purple      35              45
+Cyan        36              46
+Light Gray  37              47
+
+echo -e "\e[42mGreen Background\e[0m"
+
+Code    Description
+0       Normal Characters
+1       Bold Characters
+3       Italic
+4       Underlined Characters
+5       Blinking Characters
+7       Reverse video Characters (bg / fg)
+9       Strike through
+
+echo -e "\e[1mbold\e[0m"
+echo -e "\e[3mitalic\e[0m"
+echo -e "\e[3m\e[1mbold italic\e[0m"
+echo -e "\e[4munderline\e[0m"
+echo -e "\e[9mstrikethrough\e[0m"
+
+# Combining colors
+echo -e "\e[COLOR1;COLOR2mSample Text\e[0m"
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="37-stdout-stderr">stdout stderr</h2>
+<pre>
+3.2 ample: stdout 2 file
+
+This will cause the ouput of a program to be written to a file.
+            ls -l > ls-l.txt
+Here, a file called 'ls-l.txt' will be created and it will contain what you would see
+on the screen if you type the command 'ls -l' and execute it.
+
+3.3 Sample: stderr 2 file
+
+This will cause the stderr ouput of a program to be written to a file.
+            grep da * 2> grep-errors.txt
+Here, a file called 'grep-errors.txt' will be created and it will contain what you would see the stderr portion of the output of the 'grep da *' command.
+
+3.4 Sample: stdout 2 stderr
+This will cause the stderr ouput of a program to be written to the same filedescriptor than stdout.
+            grep da * 1>&amp;2 
+
+Here, the stdout portion of the command is sent to stderr, you may notice that in differen ways.
+
+3.5 Sample: stderr 2 stdout
+This will cause the stderr ouput of a program to be written to the same filedescriptor than stdout.
+            grep * 2>&amp;1
+Here, the stderr portion of the command is sent to stdout, if you pipe to less, you'll see that lines that normally 'dissapear' (as they are written to stderr) are being kept now (because they're on stdout).
+
+3.6 Sample: stderr and stdout 2 file
+This will place every output of a program to a file. This is suitable sometimes for cron entries, if you want a command to pass in absolute silence.
+            rm -f $(find / -name core) &amp;> /dev/null 
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="38-script-examples">Script examples</h2>
+<pre>
+#! /bin/sh
+#! /bin/bash
+#! /bin/false
+#! /usr/bin/env python3
+
+grep -v -e '^$' tmp.txt | \                         # Remove white lines
+grep -v 'file:///' | \                              # Remove useless lines (footer containing the url of the file)
+sed -e 's#\([0-9][NSEW]\) \([0-9]\)#\10\2#g' | \    # Change strings like '48N 5' to '48N05'
+tr -s '[:space:]' | \                               # Convert multiple spaces to one space
+sed -e 's/^ //g' | \                                # Remove first space of each line
+sed -e 's/ /;/g' \                                  # Convert spaces to semicolon (;)
+> gq-heredity-newalch-20916.csv                     # Generate the csv
+
+find *.php -print0 | xargs -0 wc -l         # Count lines of php files of current directory
+cat myfile.log |egrep -v '(^$)'|wc -l       # Count lines, skipping empty lines
+
+cat access.log |grep 'GET /acces' |cut -d ' ' -f1 |sort -n |uniq -c | head -10
+sudo apt -s upgrade |grep -E '(^Inst*)'|cut -d ' ' -f 2 |sed -e 's/(//g' # show packages to upgrade + new version number
+</pre>
+
+<!-- ************************************* -->
+<h3 id="38-1-tests">Tests</h3>
+<pre>
+if [ $# -lt 1 ] || [ $# -gt 1 ]; then
+
+boolean_variable=true
+if [ "$boolean_variable" = true ]; then
+    echo "The Boolean is true"
+fi
+</pre>
+
+<!-- ************************************* -->
+<h3 id="38-2-loops">Loops</h3>
+<pre>
+dbs="
+    db1
+    db2
+    db3
+"
+for db in $dbs; do
+    echo Processing $db
+done
+
+# Build an array from a file
+# (one element of the array per line of the file):
+mapfile -t tables &amp;lt; output/$db/$db-tables.txt
+for table in "${tables[@]}"; do
+    echo $table
+done
+
+# a is an array
+echo "${#a[@]}"         # length of a
+
+for i in "${a[@]}"; do :
+    echo $i
+done
+
+for dir in dir1 dir2 dir3
+do
+    echo $dir
+done
+
+for i in $(ls *.htm); do mv $i ${i/.htm/.html}; done;
+for i in $(ls); do tar cjf $i.tbz2 $i &amp;&amp; rm -fr $i; done;
+
+for i in $(tree -fi | grep -e "tp[0-9]\.html" | grep -v initial); do jedit ${i}; done;
+
+#for i in $(tree -fid); do
+for i in $(ls); do
+  if [ -f "$i/README.md" ]; then
+    echo "mv $i/README.md $i/README";
+  fi
+done;
+for i in $(tree -fid); do mv $i/README.md $i/README; done;
+for i in $(tree -fi | grep '\.class'); do echo "rm $i"; done; 
+for i in $(tree -fi | grep '\.class'); do rm $i; done;
+
+for((i=1;i&lt;=15;i++)); do wget https://.../index$i.html; done;
+
+for dir in "dir1" "dir2" "dir3"
+do
+   echo rsync -az --delete $dir/ $dest/user1/$dir/
+   rsync -az --delete $dir/ $dest/user1/$dir/
+done
+
+for dir in $dirs
+do
+  if [ ! -d $dir ]; then
+   mkdir $dir
+  fi
+done
+
+for file in * ; do echo "$file" `cat "$file"`; done
+for file in *.gz ; do echo "$file" `zcat "$file" | grep exceeded | wc -l`; done
+for i in `ls .`; do grep -Hni access $i; done;      # print lines and file numbers ...
+for i in {1..9..1} ; do gocr -u 'X' -i "0$i.jpg" -o "0$i.yaml" ; done
+
+for file in *; do ls -l "$file"; done
+for file in *
+do
+  ls -l "$file"
+  tar cjf "$file".bz2 "$file"
+done
+
+x=1
+while [ $x -le 5 ]
+do
+  echo "Welcome $x times"
+  x=$(( $x + 1 ))
+done
+</pre>
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        Linux
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/systemd.html">Systemd</a></li>
+            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            <li><a href="../linux/deploy.html">Deployment</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Database
+        <ul>
+            <li><a href="../db/postgres.html">Postgresql</a></li>
+            <li><a href="../db/sqlite.html">Sqlite</a></li>
+            <li><a href="../db/mysql.html">Mysql</a></li>
+            <li><a href="../db/sparql.html">Sparql</a></li>
+            <li><a href="../db/wikidata.html">Wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Programing
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="../go/index.html">Go</a>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

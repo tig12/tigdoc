@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Postgres | tigdoc</title>
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-01-27 07:16:30+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<a name="topage"></a>
+<header>
+<h1 class="margin-bottom2">
+Postgres
+</h1>
+
+<div class="intro">
+</div>
+</header>
+
+<nav class="pagetoc">
+    <ul>
+        <li>
+            <a href="#1-install">Install</a>
+        </li>
+        <li>
+            <a href="#2-first-steps">First steps</a>
+        </li>
+        <li>
+            <a href="#3-utilities">Utilities</a>
+        </li>
+        <li>
+            <a href="#4-psql-basics">psql basics</a>
+        </li>
+        <li>
+            <a href="#5-output-to-a-file">output to a file</a>
+        </li>
+        <li>
+            <a href="#6-languages">Languages</a>
+            <ul>
+                <li>
+                    <a href="#6-1-python">python</a>
+                </li>
+                <li>
+                    <a href="#6-2-php">php</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#7-sql">SQL</a>
+        </li>
+        <li>
+            <a href="#8-schemas">Schemas</a>
+        </li>
+        <li>
+            <a href="#9-enums-custom-types">enums (custom types)</a>
+        </li>
+        <li>
+            <a href="#10-json-jsonb">json jsonb</a>
+        </li>
+        <li>
+            <a href="#11-setting-parameters">Setting parameters</a>
+            <ul>
+                <li>
+                    <a href="#11-1-extensions">Extensions</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#12-postgrest">postgrest</a>
+        </li>
+        <li>
+            <a href="#13-postgis">postgis</a>
+        </li>
+        <li>
+            <a href="#14-debian-clusters">debian clusters</a>
+        </li>
+        <li>
+            <a href="#15-extensions">Extensions</a>
+            <ul>
+                <li>
+                    <a href="#15-1-pgtrgm">pgtrgm</a>
+                </li>
+                <li>
+                    <a href="#15-2-osm2pgsql">osm2pgsql</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#16-mysql-equivalent">mysql equivalent</a>
+        </li>
+        <li>
+            <a href="#17-explain">explain</a>
+        </li>
+    </ul>
+</nav>
+
+<article>
+
+<table class="wikitable">
+    <tr>
+        <td><a href="https://wiki.postgresql.org">https://wiki.postgresql.org</a></td>
+    </tr>
+</table>
+
+<!-- ********************************************************************************* -->
+<h2 id="1-install">Install</h2>
+<pre>
+sudo apt install postgresql-16
+sudo apt install php8.3-pgsql 
+
+sudo -u postgres psql -c "SELECT version();"
+
+sudo -s -u postgres
+psql
+psql --version
+
+sudo find /usr -wholename '*/bin/postgres'
+
+sudo systemctl reload postgresql
+sudo systemctl restart postgresql
+sudo systemctl stop postgresql
+sudo systemctl start postgresql
+</pre>
+
+
+Uninstall
+<pre>
+https://kb.objectrocket.com/postgresql/how-to-completely-uninstall-postgresql-757
+ll /etc/postgresql/
+ll /etc/postgresql-common/
+ll /var/lib/postgresql/
+dpkg -l | grep postgres
+sudo apt --purge remove postgresql-13
+sudo apt --purge remove postgresql-13-postgis-3-scripts  postgresql-client-13 postgresql-client-common postgresql-common
+sudo rm -fr /etc/postgresql-common
+sudo rm -fr /var/lib/postgresql
+</pre>
+
+Files
+<pre>
+/etc/postgresql/9.3/jth_anonyme1/
+    environment
+    pg_ctl.conf
+    pg_hba.conf
+    pg_ident.conf
+    postgresql.conf
+    start.conf
+
+~/.postgresqlrc
+9.3 jth_anonyme1 famille
+
+~/.pgpass
+localhost:5433:*:jetheme:jetheme
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="2-first-steps">First steps</h2>
+<pre>
+sudo -s -u postgres
+psql
+postgres=# CREATE USER &lt;user name>;
+postgres=# ALTER ROLE &lt;user name> WITH CREATEDB;
+postgres=# ALTER USER &lt;user name> WITH ENCRYPTED PASSWORD 'my password';
+postgres=# CREATE DATABASE &lt;database name> OWNER &lt;user name>;
+postgres=# \q
+
+exit
+
+sudo /etc/init.d/postgresql restart
+
+# start un cluster
+sudo pg_ctlcluster 9.4 jth-anonyme1 start
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="3-utilities">Utilities</h2>
+<pre>
+createdb --owner pg_username dbname
+dropdb --owner pg_username dbname
+pg_lsclusters
+sudo pg_createcluster --user=pg_username --encoding=UTF-8 --start 9.1 jth-collective
+
+# connection to a database :
+psql -h backup.domain.net -p 5434 -U pg_username pg_database
+psql spag  # localhost
+psql -h backup.domain.net -p 5434 -U spag spag
+psql --cluster 9.3/dbname -d slugindex -U pg_username -W -h localhost
+psql --cluster 9.1/spag -W -d spag -U spag -h localhost
+psql --cluster 9.1/main  dbname
+psql --cluster 9.1/main -W -d dbname -U pg_username -h localhost
+
+psql --cluster 9.3/main -d dbname  -U pg_username -W
+
+# dump a database :
+pg_dump --file spag.pgsql.dump -h &lt;host> -p 5434 -U &lt;dbuser_name> &lt;db_name>
+pg_dump --file gitea.pgsql.dump -h localhost -p 5432 -U gitea gitea1
+pg_dump --cluster 9.1/spag --file train_recup.postgres.dump -h localhost -U spag -W --table=train_recup spag
+
+# dump a table :
+pg_dump --file spag-gare.pgsql.dump -h backup.domain.net -p 5434 -U spag --table=gare spag
+pg_dump --file spag-gare_parse.pgsql.dump -h localhost -U pg_username --table=gare_parse spag
+
+# dump a schema
+pg_dump --file the_pg_dump_file.pg.dump --schema the_schema the_database
+
+# dump only schema create table structure
+pg_dump --schema-only
+pg_dump --schema-only --file bdl-structure.dump --schema public -h localhost -p 5432 -U &lt;dbuser_name> &lt;db_name>
+
+# dump only data, no create table structure
+pg_dump --data-only
+
+echo '\x \\ alter database the_database rename to the_database_old;' | psql
+
+# import a dump :
+psql --file train_recup.pgsql.dump spag pg_username
+psql --cluster 9.1/spag -W -d db_name -U user_name -h localhost --file /path/to/dump.pg.dump
+psql -h localhost -U gitea -W gitea1 &lt; gitea.pgsql.dump
+
+# import schema
+psql --command='drop schema the_schema CASCADE;' the_database
+psql the_database &lt; the_pg_dump_file.pg.dump
+psql -U bdl -W -h localhost --cluster 12/main -d bdlbois &lt; ~/tmp/bdl-2021-03-03T085029.pgdump
+
+# import a dump in another schema
+# created a dump containing schema_1 ; want to import to schema_2
+alter schema schema_1 rename to schema_1_bck;
+create schema schema_1;
+# execute the dump => goes to schema_1
+drop schema_2 cascade;
+alter schema schema_1 rename to schema_2;
+alter schema schema_1_bck rename to schema_1;
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="4-psql-basics">psql basics</h2>
+<pre>
+psql -c "\du"
+
+\?                      = help
+\l                      = list databases
+\d                      = list tables and indexes
+\dt                     = list tables
+\dv                     = list views
+\dtv                    = list tables and views
+\dT                     = list types
+\di                     = list indexes
+\d cities               = describe table cities
+\dn                     = list schemas
+\du                     = list users
+\s                      = command history
+\c &lt;dbname>             = switch database
+\c &lt;dbname> &lt;dbuser>    = switch database as &lt;dbuser>
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="5-output-to-a-file">output to a file</h2>
+<pre>
+# \o to start output redirection
+\o /path/to/file
+    SELECT foo, bar FROM baz
+# \o again to stop output redirection
+\o
+
+# alternative - but need authorization, see pg_read_all_settings
+COPY (SELECT foo, bar FROM baz) TO '/tmp/query.csv' (format csv, delimiter ';')
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="6-languages">Languages</h2>
+
+<!-- ************************************* -->
+<h3 id="6-1-python">python</h3>
+<pre>
+sudo apt install python-psycopg2
+http://initd.org/psycopg/docs/index.html
+</pre>
+
+<!-- ************************************* -->
+<h3 id="6-2-php">php</h3>
+<pre>
+sudo apt install php7-pgsql
+
+# sudo vi /etc/php5/apache2/php.ini
+# or
+# sudo vi   /etc/php5/conf.d/pgsql.ini
+# extension=pgsql.so
+
+# sudo service apache2 restart
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="7-sql">SQL</h2>
+<pre>
+createdb dbtest # en ligne de commandes
+
+TRUNCATE [ TABLE ] name [, ...]
+ALTER TABLE name RENAME TO newname
+ALTER DATABASE name RENAME TO newname
+
+# mysql : ALTER TABLE mytable ADD myid INT UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE;
+# the simplest, type "serial" :
+create table mytable(id serial, ...)
+# other possibility:
+ALTER TABLE gare_parse
+    ALTER COLUMN id
+        SET DEFAULT NEXTVAL('gare_parse_id_seq');
+        
+CREATE UNIQUE INDEX train_recup_id_train_recup ON train_recup(id_train_recup);
+
+create table train_small as select distinct numtrain,id_periode,dessertes from train_parse;
+
+# list privileges on a table
+SELECT grantee, privilege_type  FROM information_schema.role_table_grants  WHERE table_name='person';
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="8-schemas">Schemas</h2>
+<pre>
+CREATE SCHEMA myschema;
+
+SET SCHEMA 'myschema';
+
+# display current schema
+select current_schema();
+SHOW search_path;
+
+# list schemas of the database
+\dn
+
+CREATE TABLE myschema.mytable ( ....);      # or the even more general syntax : database.schema.table
+DROP SCHEMA myschema CASCADE;
+CREATE SCHEMA schemaname AUTHORIZATION username;
+# You can even omit the schema name, in which case the schema name will be the same as the user name
+
+# search path - to avoid prefixing table name with schema name
+set search_path to my_schema;
+set search_path to schema1, schema2;
+
+# Permanently change search_path of a user => connect to this schema by default with psql
+alter role my_user set search_path to my_schema;
+
+# dump schema
+pg_dump --file the_pg_dump_file.pg.dump --schema the_schema the_database
+
+# import schema
+psql --command='drop schema the_schema CASCADE;' the_database
+psql the_database &lt; the_pg_dump_file.pg.dump
+
+# drop all tables of schema (without deleting the schema)
+DO $$ DECLARE
+    r RECORD;
+BEGIN
+    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = current_schema()) LOOP
+        EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
+    END LOOP;
+END $$;
+
+ALTER SCHEMA public OWNER TO bdl;
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="9-enums-custom-types">enums (custom types)</h2>
+<pre>
+create type my_type as enum('AB','DB','BR','DC');
+alter type typevalorisation add value 'PI' after 'CH';
+
+# use the type in a column definition :
+create table my_table(my_col_name my_type);
+
+# to list types in psql
+\dT
+
+# to list the possible values of a given type :
+SELECT unnest(enum_range(NULL::my_type));
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="10-json-jsonb">json jsonb</h2>
+<pre>
+https://www.postgresql.org/docs/15/datatype-json.html
+https://www.postgresql.org/docs/15/functions-json.html
+https://www.postgresqltutorial.com/postgresql-json/
+
+Example values : table persons
+occus = '["ATH", "WR"]'
+ids_in_sources = '{"A1": "1", "cura": "A1-1"}'
+history = '{"date": "2020-09-07T16:55:37+02:00", "source": "A1", "values": {"name": {"given": "Pierre", "family": "Alard"}, "birth": {"place": {"c2": "33", "c3": "", "cy": "FR", "lg": "-0.56667", "lat": "44.83333", "name": "BORDEAUX"}, "date-ut": "1937-09-17 17:00:00"}, "occus": ["ATH"], "trust": 4}, "command": "cura A1 tmp2db"}'
+
+select notes from person where notes::text like '%earlyaviators%';
+
+# A jsonb column can be requested in plain text:
+select slug,wd from groop where type='occu' and parents='[]';
+select slug,wd from groop where type='occu' and parents='["scientist"]';
+
+Pretty print
+================
+select jsonb_pretty(acts) from person where slug='galois-evariste-1811-10-25';
+
+Type
+================
+select jsonb_typeof(ids_in_sources) from person limit 1;
+
+Access to fields
+================
+The operator -> returns JSON object field by key (returns json)
+The operator ->> returns JSON object field by text (returns text)
+# assoc array
+select slug,ids_in_sources->'A1' from person;
+select birth->'date-ut' from person limit 1;
+# regular array
+select history->0 from person limit 1;
+select history->>0 from person limit 1;
+
+select history->0->'source' from person limit 1;
+select history->0->>'source' from person limit 1;
+select * from person where history->0->>'source'='a1';
+select * from person where ids_in_sources->>'a2'='2';
+select birth->'place'->>'cy', count(*) from person
+    group by birth->'place'->>'cy'
+    order by count(*) desc;
+--  order by birth->'place'->>'cy';
+
+loop
+================
+select jsonb_array_elements(sources) from person limit 1;
+select jsonb_each(ids_in_sources) from person limit 1;
+
+Containment &lt;@
+================
+# regular array
+select count(*) from person where '["WR"]' &lt;@ occus;
+select count(*) from person where '"WR"' &lt;@ occus;
+select * from person where '"a4"' &lt;@ sources and '"5muller_writers"' &lt;@ sources and not '"a6"' &lt;@ sources;
+# associative array
+select slug,occus,ids_in_sources from person where '{"1":"actor"}' &lt;@ occus;
+
+Existence ?
+================
+# where birth.place has a field geoid
+select slug,birth from person where birth->'place' ? 'geoid' limit 1;
+
+array_length
+================
+select slug,issues from person where jsonb_array_length(issues) != 0;
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="11-setting-parameters">Setting parameters</h2>
+<pre>
+# log as postgres user
+\c my_db
+
+# per session change
+show log_statement;
+set log_statement to 'all';
+set log_statement to default;
+
+# permanent change
+alter system set log_statement to 'all';
+# need to reload postgresql: sudo systemctl reload postgresql
+</pre>
+
+<!-- ************************************* -->
+<h3 id="11-1-extensions">Extensions</h3>
+<pre>
+\dx     List extensions
+create extension postgis schema bdlprod;
+drop extension postgis cascade;
+alter extension postgis add schema public;
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="12-postgrest">postgrest</h2>
+<pre>
+# install: see ub-*.txt
+https://postgrest.org/en/stable/tutorials/tut0.html
+
+# create postgresql user
+sudo -s -u postgres
+psql
+create role web_anon nologin;
+grant usage on schema &lt;schema name> to web_anon;
+grant select on &lt;schema name>.&lt;table name> to web_anon;
+create role authenticator noinherit login password 'mysecretpassword';
+grant web_anon to authenticator;
+\q
+exit
+
+# to echo a sample posgrest.conf file :
+postgrest -e
+
+# create config file posgrest.conf containing:                                                         
+db-uri = "postgres://authenticator:mysecretpassword@localhost:5433/postgres"
+db-schema = "&lt;schema name>"
+db-anon-role = "web_anon"
+
+# connect to the api
+postgrest postgrest.conf
+
+# query the database
+
+https://postgrest.org/en/stable/api.html
+
+    /todos
+    /groop?type=eq.history
+    /people?age=gte.18&amp;student=is.true
+    /people?or=(age.lt.18,age.gt.21)
+    /people?grade=gte.90&amp;student=is.true&amp;or=(age.eq.14,not.and(age.gte.11,age.lte.17))
+You can request table/columns with spaces in them by percent encoding the spaces with %20:
+    /Order%20Items?Unit%20Price=lt.200 
+If filters include PostgREST reserved characters(,, ., :, ()) you’ll have to surround them in percent encoded double quotes %22 for correct processing.
+    /employees?name=in.(%22Hebdon,John%22,%22Williams,Mary%22)
+    /people?order=age.desc,height.asc
+If no direction is specified it defaults to ascending order:
+    /people?order=age
+    /people?limit=15&amp;offset=30
+    
+    curl "http://localhost:3000/people" -i \
+      -H "Range-Unit: items" \
+      -H "Range: 0-19"
+
+eq      =           equals
+gt      >           greater than
+gte     >=          greater than or equal
+lt      &lt;           less than
+lte     &lt;=          less than or equal
+neq     &lt;> or !=    not equal
+like    LIKE        LIKE operator (use * in place of %)
+ilike   ILIKE       ILIKE operator (use * in place of %)
+in      IN          one of a list of values, e.g. ?a=in.(1,2,3)
+                    also supports commas in quoted strings like ?a=in.("hi,there","yes,you")
+is      IS          checking for exact equality (null,true,false,unknown)
+fts     @@          Full-Text Search using to_tsquery
+plfts   @@          Full-Text Search using plainto_tsquery
+phfts   @@          Full-Text Search using phraseto_tsquery
+wfts    @@          Full-Text Search using websearch_to_tsquery
+cs      @>          contains e.g. ?tags=cs.{example, new}
+cd      &lt;@          contained in e.g. ?values=cd.{1,2,3}
+ov      &amp;&amp;          overlap (have points in common), e.g. ?period=ov.[2017-01-01,2017-06-30]
+                    also supports array types, use curly braces instead of square brackets e.g. :code: ?arr=ov.{1,3}
+sl      &lt;&lt;          strictly left of, e.g. ?range=sl.(1,10)
+sr      >>          strictly right of
+nxr     &amp;&lt;          does not extend to the right of, e.g. ?range=nxr.(1,10)
+nxl     &amp;>          does not extend to the left of
+adj     -|-         is adjacent to, e.g. ?range=adj.(1,10)
+not     NOT         negates another operator, see Logical operators
+or      OR          logical OR, see Logical operators
+and     AND         logical AND, see Logical operators
+</pre>
+
+
+<pre>
+---------------------------------------------------------------------------
+Allow remote connections
+---------------------------------------------------------------------------
+pg_hba.conf
+postgresql.conf
+ 
+---------------------------------------------------------------------------
+Show last modification time of a table
+---------------------------------------------------------------------------
+# logged as postgres user
+show data_directory
+# => /var/lib/postgresql/11/main
+
+SELECT pg_relation_filepath('fermier')
+# => base/16385/22055
+
+sudo ls -l /var/lib/postgresql/11/main/base/16385/22055
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="13-postgis">postgis</h2>
+<pre>
+install : https://gist.github.com/djq/2846196
+sudo su postgres
+psql -d dbname -c "CREATE EXTENSION postgis;"
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="14-debian-clusters">debian clusters</h2>
+<pre>
+# important : on ubuntu 18.4, postgres 10, need to specify user postgres
+sudo pg_createcluster --user=postgres --encoding=UTF-8 --start 10 jth-collective
+
+# start a cluster
+sudo systemctl start postgresql@10-jth-collective
+sudo pg_ctlcluster 10 jth-collective start
+
+# drop a cluster :
+sudo pg_ctlcluster 10 jth-collective stop
+sudo pg_dropcluster 10 jth-collective
+
+cat /etc/postgresql-common/user_clusters
+man user_clusters
+
+createdb           createuser         createlang 
+pg_basebackup      pg_createcluster   pg_dropcluster     pg_dumpall         pg_restore         pg_upgradecluster  
+pg_config          pg_ctlcluster      pg_dump            pg_lsclusters      pg_updatedicts 
+
+@todo fix :
+sudo pg_createcluster --user=pg_username --encoding=UTF-8 --start 9.1 jth-collective news
+            Warning: The socket directory for owners other than 'postgres'
+            defaults to /tmp. You might want to change the unix_socket_directory parameter
+            in postgresql.conf to a more secure directory.
+            
+---------------------------------------------------------------------------
+debian clusters
+---------------------------------------------------------------------------
+in /etc/postgresql-common/createcluster.conf, add line :
+lc_messages = 'C' # by default when creating a cluster, messages will be in english
+
+sudo apt-get install postgresql-contrib
+
+pg_lsclusters                       # list clusters
+
+sudo pg_createcluster --encoding=UTF-8 --start 9.4 jth-anonyme1
+sudo pg_createcluster --user=pg_username --encoding=UTF-8 --start 9.1 jth-collective news
+sudo pg_dropcluster --stop 9.1 jth-collective
+
+# trick to enter the first time in the cluster : use database "postgres" created by default
+
+postgres=# create database news;
+postgres=# \q
+
+psql --cluster 9.1/jth-collective news              # now connect to database "news" 
+news=# create table etc.
+
+psql --cluster 9.1/pg_database -W -d spag -U pg_username -h localhost
+
+sudo pg_ctlcluster 9.1 jth-collective stop
+sudo pg_dropcluster 9.1 jth-collective
+
+vi /etc/postgresql/9.1/pg_database/pg_hba.conf 
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+host    pg_database     spag            0.0.0.0/0               md5
+
+sudo vi /etc/postgresql/9.1/spag/postgresql.conf
+listen_addresses = '*'
+
+ouvrir le port indiqué dans postgresql.conf (5433)
+
+pg_ctlcluster 9.1 spag restart
+sudo pg_ctlcluster 9.1 main stop
+sudo pg_ctlcluster 9.1 main start
+
+createuser --cluster 9.1/spag -P
+Saisir le nom du rôle à ajouter : spag
+Saisir le mot de passe pour le nouveau rôle : 
+Le saisir de nouveau : 
+Le nouveau rôle est-il super-utilisateur ? (o/n) n
+Le nouveau rôle est-il autorisé à créer des bases de données ? (o/n) o
+Le nouveau rôle est-il autorisé à créer de nouveaux rôles ? (o/n) n
+
+createdb --cluster 9.1/spag -O spag spag
+
+psql --cluster 9.1/spag spag
+CREATE EXTENSION pg_trgm;
+
+exit # quitte le user postgres
+
+psql --cluster 9.1/spag -W -d spag -U spag -h localhost
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="15-extensions">Extensions</h2>
+
+<!-- ************************************* -->
+<h3 id="15-1-pgtrgm">pgtrgm</h3>
+trigram matching text functionnality :
+<br>Determining the similarity of alphanumeric text based on trigram matching
+
+<pre>
+http://www.postgresql.org/docs/9.1/static/pgtrgm.html
+sudo apt-get install postgresql-contrib
+sudo -s -u postgres
+psql garebuild
+CREATE EXTENSION pg_trgm;
+Créer les index : CREATE INDEX trgm_idx_spag ON cities_spag USING gin (nom gin_trgm_ops);
+</pre>
+
+<!-- ************************************* -->
+<h3 id="15-2-osm2pgsql">osm2pgsql</h3>
+<pre>
+sudo apt-get install osm2pgsql
+cd /usr/share
+sudo wget http://svn.openstreetmap.org/applications/utils/export/osm2pgsql/default.style
+
+sudo -s -u postgres
+psql my_database
+CREATE EXTENSION hstore;
+exit;
+psql -d osm_monaco -S /home/me/if/2.topics/osm/default.style -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
+osm2pgsql monaco.osm --create -d osm_monaco -U pg_username -W
+
+# city coordinates
+select osm_id, name, ST_AsKml(way) from planet_osm_point where railway='station';
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="16-mysql-equivalent">mysql equivalent</h2>
+<pre>
+mysql: show tables
+postgresql: \d
+postgresql: SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+
+mysql: show databases
+postgresql: \l
+postgresql: SELECT datname FROM pg_database;
+
+mysql: use &lt;dbname>
+postgresql: \c &lt;dbname>
+
+mysql: desc &lt;table>
+postgresql: \d table
+postgresql: \d+ table
+postgresql: SELECT column_name FROM information_schema.columns WHERE table_name ='table';
+
+# name of current database
+select catalog_name from information_schema.information_schema_catalog_name;
+select current_catalog;
+
+# name of current schema
+select current_schema;
+
+# list schemas in a database :
+\dn
+select schema_name from information_schema.schemata
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="17-explain">explain</h2>
+<pre>
+explain select * from acteur;
+                       QUERY PLAN                        
+---------------------------------------------------------
+ Seq Scan on acteur  (cost=0.00..2.69 rows=69 width=122)
+(1 row)
+
+explain select * from acteur order by nom;
+                          QUERY PLAN                           
+---------------------------------------------------------------
+ Sort  (cost=4.80..4.97 rows=69 width=122)
+   Sort Key: nom
+   ->  Seq Scan on acteur  (cost=0.00..2.69 rows=69 width=122)
+(3 rows)
+
+
+explain select distinct id_chantier from tas where id in (
+                  select id_tas from ventecharge where id_livraison in(
+                      select id from ventelivre where id_vente in(
+                          select id from venteplaq where id=178
+                      )
+                  )
+              )
+;
+                                             QUERY PLAN                                             
+----------------------------------------------------------------------------------------------------
+ Unique  (cost=16.48..16.49 rows=1 width=4)
+   ->  Sort  (cost=16.48..16.49 rows=1 width=4)
+         Sort Key: tas.id_chantier
+         ->  Nested Loop  (cost=15.71..16.47 rows=1 width=4)
+               ->  HashAggregate  (cost=15.57..15.58 rows=1 width=4)
+                     Group Key: ventecharge.id_tas
+                     ->  Hash Semi Join  (cost=10.38..15.57 rows=1 width=4)
+                           Hash Cond: (ventecharge.id_livraison = ventelivre.id)
+                           ->  Seq Scan on ventecharge  (cost=0.00..4.72 rows=172 width=8)
+                           ->  Hash  (cost=10.37..10.37 rows=1 width=4)
+                                 ->  Nested Loop Semi Join  (cost=0.00..10.37 rows=1 width=4)
+                                       ->  Seq Scan on ventelivre  (cost=0.00..5.15 rows=1 width=8)
+                                             Filter: (id_vente = 178)
+                                       ->  Seq Scan on venteplaq  (cost=0.00..5.21 rows=1 width=4)
+                                             Filter: (id = 178)
+               ->  Index Scan using tas_pkey on tas  (cost=0.14..0.86 rows=1 width=8)
+                     Index Cond: (id = ventecharge.id_tas)
+(17 rows)
+</pre>
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        Linux
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/systemd.html">Systemd</a></li>
+            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            <li><a href="../linux/deploy.html">Deployment</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Database
+        <ul>
+            <li><a href="../db/postgres.html">Postgresql</a></li>
+            <li><a href="../db/sqlite.html">Sqlite</a></li>
+            <li><a href="../db/mysql.html">Mysql</a></li>
+            <li><a href="../db/sparql.html">Sparql</a></li>
+            <li><a href="../db/wikidata.html">Wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Programing
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="../go/index.html">Go</a>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

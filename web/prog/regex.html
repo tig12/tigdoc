@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Regex | tigdoc</title>
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-01-30 14:37:49+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<a name="topage"></a>
+<header>
+<h1 class="margin-bottom2">
+Regular expressions
+</h1>
+
+<div class="intro">
+</div>
+</header>
+
+<nav class="pagetoc">
+    <ul>
+        <li>
+            <a href="#1-modifiers">Modifiers</a>
+        </li>
+        <li>
+            <a href="#2-meta-characters">Meta-characters</a>
+        </li>
+        <li>
+            <a href="#3-quantifiers">Quantifiers</a>
+        </li>
+        <li>
+            <a href="#4-character-class">Character class</a>
+        </li>
+        <li>
+            <a href="#5-escape-sequence">Escape sequence</a>
+        </li>
+        <li>
+            <a href="#6-assertions-lookbehind-lookahead">Assertions : Lookbehind Lookahead</a>
+        </li>
+        <li>
+            <a href="#7-subpattern">Subpattern</a>
+        </li>
+        <li>
+            <a href="#8-grep-e">grep -E</a>
+        </li>
+    </ul>
+</nav>
+
+<article>
+
+<!-- ********************************************************************************* -->
+<h2 id="1-modifiers">Modifiers</h2>
+
+<a href="https://www.php.net/manual/en/reference.pcre.pattern.modifiers.php"></a>
+<pre>
+i (PCRE_CASELESS)
+    If this modifier is set, letters in the pattern match both upper and lower case letters. 
+m (PCRE_MULTILINE)
+    By default, PCRE treats the subject string as consisting of a single "line" of characters (even if it actually contains several newlines). The "start of line" metacharacter (^) matches only at the start of the string, while the "end of line" metacharacter ($) matches only at the end of the string, or before a terminating newline (unless D modifier is set). This is the same as Perl. When this modifier is set, the "start of line" and "end of line" constructs match immediately following or immediately before any newline in the subject string, respectively, as well as at the very start and end. This is equivalent to Perl's /m modifier. If there are no "\n" characters in a subject string, or no occurrences of ^ or $ in a pattern, setting this modifier has no effect. 
+s (PCRE_DOTALL)
+    If this modifier is set, a dot metacharacter in the pattern matches all characters, including newlines. Without it, newlines are excluded. This modifier is equivalent to Perl's /s modifier. A negative class such as [^a] always matches a newline character, independent of the setting of this modifier. 
+x (PCRE_EXTENDED)
+    If this modifier is set, whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, and characters between an unescaped # outside a character class and the next newline character, inclusive, are also ignored. This is equivalent to Perl's /x modifier, and makes it possible to include commentary inside complicated patterns. Note, however, that this applies only to data characters. Whitespace characters may never appear within special character sequences in a pattern, for example within the sequence (?( which introduces a conditional subpattern. 
+A (PCRE_ANCHORED)
+    If this modifier is set, the pattern is forced to be "anchored", that is, it is constrained to match only at the start of the string which is being searched (the "subject string"). This effect can also be achieved by appropriate constructs in the pattern itself, which is the only way to do it in Perl. 
+D (PCRE_DOLLAR_ENDONLY)
+    If this modifier is set, a dollar metacharacter in the pattern matches only at the end of the subject string. Without this modifier, a dollar also matches immediately before the final character if it is a newline (but not before any other newlines). This modifier is ignored if m modifier is set. There is no equivalent to this modifier in Perl. 
+S
+    When a pattern is going to be used several times, it is worth spending more time analyzing it in order to speed up the time taken for matching. If this modifier is set, then this extra analysis is performed. At present, studying a pattern is useful only for non-anchored patterns that do not have a single fixed starting character. As of PHP 7.3.0 this flag has no effect. 
+U (PCRE_UNGREEDY)
+    This modifier inverts the "greediness" of the quantifiers so that they are not greedy by default, but become greedy if followed by ?. It is not compatible with Perl. It can also be set by a (?U) modifier setting within the pattern or by a question mark behind a quantifier (e.g. .*?).
+
+Note: It is usually not possible to match more than pcre.backtrack_limit characters in ungreedy mode.
+
+X (PCRE_EXTRA)
+    This modifier turns on additional functionality of PCRE that is incompatible with Perl. Any backslash in a pattern that is followed by a letter that has no special meaning causes an error, thus reserving these combinations for future expansion. By default, as in Perl, a backslash followed by a letter with no special meaning is treated as a literal. There are at present no other features controlled by this modifier. 
+J (PCRE_INFO_JCHANGED)
+    The (?J) internal option setting changes the local PCRE_DUPNAMES option. Allow duplicate names for subpatterns. As of PHP 7.2.0 J is supported as modifier as well. 
+u (PCRE_UTF8)
+    This modifier turns on additional functionality of PCRE that is incompatible with Perl. Pattern and subject strings are treated as UTF-8. An invalid subject will cause the preg_* function to match nothing; an invalid pattern will trigger an error of level E_WARNING. Five and six octet UTF-8 sequences are regarded as invalid. 
+n (PCRE_NO_AUTO_CAPTURE)
+    This modifier makes simple (xyz) groups non-capturing. Only named groups like (?<name>xyz) are capturing. This only affects which groups are capturing, it is still possible to use numbered subpattern references, and the matches array will still contain numbered results. Available as of PHP 8.2.0. 
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="2-meta-characters">Meta-characters</h2>
+<table class="">
+    <tr>
+        <td><a href="https://www.php.net/manual/en/regexp.reference.meta.php">https://www.php.net/manual/en/regexp.reference.meta.php</a></td>
+    </tr>
+    <tr>
+        <td><a href="https://www.php.net/manual/en/regexp.reference.anchors.php">https://www.php.net/manual/en/regexp.reference.anchors.php</a></td>
+    </tr>
+</table>
+
+<pre>
+Meta-characters outside square brackets
+    
+    \	general escape character with several uses
+    ^	assert start of subject (or line, in multiline mode)
+    $	assert end of subject or before a terminating newline (or end of line, in multiline mode)
+    .	match any character except newline (by default)
+    [	start character class definition
+    ]	end character class definition
+    |	start of alternative branch
+    (	start subpattern
+    )	end subpattern
+    
+    ?	extends the meaning of (, also 0 or 1 quantifier, also makes greedy quantifiers lazy (see repetition)
+
+Part of a pattern that is in square brackets is called a character class.
+In a character class the only meta-characters are:
+
+    \	general escape character
+    ^	negate the class, but only if the first character
+    -	indicates character range
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="3-quantifiers">Quantifiers</h2>
+<pre>
+*	0 or more quantifier
++	1 or more quantifier
+{	start min/max quantifier
+}	end min/max quantifier
+
+[A-Z]{5,8}      between 5 and 8 capital letters
+[A-Z]{,3}       between 0 and 3 capital letters ???
+
+.*              0 or more character
+.*?             0 or more character, ungreedy
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="4-character-class">Character class</h2>
+<a href="https://www.php.net/manual/en/regexp.reference.character-classes.php">https://www.php.net/manual/en/regexp.reference.character-classes.php</a>
+
+<pre>
+Perl supports the POSIX notation for character classes. This uses names enclosed by
+[: and :] within the enclosing square brackets.
+
+For example,
+[01[:alpha:]%]
+matches "0", "1", any alphabetic character, or "%".
+
+alnum	letters and digits
+alpha	letters
+ascii	character codes 0 - 127
+blank	space or tab only
+cntrl	control characters
+digit	decimal digits (same as \d)
+graph	printing characters, excluding space
+lower	lower case letters
+print	printing characters, including space
+punct	printing characters, excluding letters and digits
+space	white space (not quite the same as \s)
+upper	upper case letters
+word	"word" characters (same as \w)
+xdigit	hexadecimal digits
+
+\d      any decimal digit
+\D      any character that is not a decimal digit
+\h      any horizontal white space character
+\H      any character that is not a horizontal white space character
+\s      any white space character
+\S      any character that is not a white space character
+\v      any vertical white space character
+\V      any character that is not a vertical white space character
+\w      any "word" character
+\W      any "non-word" character
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="5-escape-sequence">Escape sequence</h2>
+
+<a href="https://www.php.net/manual/en/regexp.reference.escape.php">https://www.php.net/manual/en/regexp.reference.escape.php</a>
+<pre>
+\n      newline (hex 0A) 
+\r      carriage return (hex 0D) 
+\R      line break: matches \n, \r and \r\n 
+\t      tab (hex 09)
+
+\b      word boundary
+\B      not a word boundary
+\A      start of subject (independent of multiline mode)
+\Z      end of subject or newline at end (independent of multiline mode) 
+\z      end of subject (independent of multiline mode)
+\G      first matching position in subject
+
+Since 5.1.0, three additional escape sequences to match generic character types are available when UTF-8 mode is selected (with u modifier: /my regex/u)
+\p{xx}  a character with the xx property
+\P{xx}  a character without the xx property
+\X      an extended Unicode sequence 
+xx properties are listed here: https://www.php.net/manual/en/regexp.reference.unicode.php
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="6-assertions-lookbehind-lookahead">Assertions : Lookbehind Lookahead</h2>
+
+<a href="https://www.php.net/manual/en/regexp.reference.assertions.php">https://www.php.net/manual/en/regexp.reference.assertions.php</a>
+
+Lookahead assertions start with
+<pre>
+(?= for positive assertions
+(?! for negative assertions.
+\w+(?=;)            # matches a word followed by a semicolon, but does not include the semicolon in the match
+foo(?!bar)          # matches any occurrence of "foo" that is not followed by "bar"
+</pre>
+
+Lookbehind assertions start with
+<pre>
+(?&lt;= for positive assertions
+(?&lt;! for negative assertions
+(?&lt;=foo)bar         # finds an occurrence of "bar" that is preceded by "foo".
+(?&lt;!foo)bar         # finds an occurrence of "bar" that is not preceded by "foo".
+</pre>
+
+<pre>
+preg_match_all('/&lt;h2.*?>(.*?)&lt;\/h2>(.*?)(?=&lt;h2|\Z)/s', $text, $m);
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="7-subpattern">Subpattern</h2>
+<pre>
+- alternative
+cat(aract|erpillar|)        # match "cataract", "caterpillar", empty string
+
+- capture
+?: non capturing, if opening parenthesis is followed by "?:"
+(?:red|white)
+
+- named patterns - 3 possible syntaxes:
+(?P&lt;name>pattern)
+(?&lt;name>pattern)
+(?'name'pattern)
+</pre>
+
+
+delimiters
+-------------------------------------------------------------------------------
+<a href="https://www.php.net/manual/en/regexp.reference.delimiters.php"></a>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="8-grep-e">grep -E</h2>
+
+<pre>
+Basic Regular Expressions: meta-characters ?, +, {, |, (, and ) lose their special meaning; instead use the backslashed versions \?, \+, \{, \|, \(, and \).
+
+grep understands three different versions of regular expression syntax: 
+    “basic” (BRE)
+    “extended” (ERE)
+    “perl” (PCRE)
+In GNU grep there is no difference in available functionality between basic and extended syntaxes. In other implementations, basic regular expressions are less powerful. The following description applies to extended regular expressions; differences for basic regular expressions are summarized afterwards. Perl-compatible regular expressions give additional functionality, and are documented in B&lt;pcresyntax>(3) and B&lt;pcrepattern>(3), but work only if PCRE support is enabled.
+
+The fundamental building blocks are the regular expressions that match a single character. Most characters, including all letters and digits, are regular expressions that match
+themselves. Any meta-character with special meaning may be quoted by preceding it with a backslash.
+
+The period . matches any single character. It is unspecified whether it matches an encoding error.
+
+Character Classes and Bracket Expressions
+A bracket expression is a list of characters enclosed by [ and ]. It matches any single character in that list. If the first character of the list is the caret ^ then it matches any character not in the list; it is unspecified whether it matches an encoding error. For example, the regular expression [0123456789] matches any single digit.
+
+Within a bracket expression, a range expression consists of two characters separated by a hyphen. It matches any single character that sorts between the two characters, inclusive, using the locale's collating sequence and character set. For example, in the default C locale, [a-d] is equivalent to [abcd]. Many locales sort characters in dictionary order, and in these locales [a-d] is typically not equivalent to [abcd]; it might be equivalent to [aBbCcDd], for example. To obtain the traditional interpretation of bracket expressions, you can use the C locale by setting the LC_ALL environment variable to the value C.
+
+\w      synonym for [_[:alnum:]]
+
+Predefined charcter classes:
+    [:alnum:]       In the C locale and ASCII character set encoding this is the same as [0-9A-Za-z]
+    [:alpha:]
+    [:blank:]
+    [:cntrl:]
+    [:digit:]
+    [:graph:]
+    [:lower:]
+    [:print:]
+    [:punct:]
+    [:space:]
+    [:upper:]
+    [:xdigit:]
+Ex:
+
+Most meta-characters lose their special meaning inside bracket expressions. To include a literal ] place it first in the list. Similarly, to include a literal ^ place it anywhere but first. Finally, to include a literal - place it last.
+
+
+Positional meta characters - match the empty string
+    ^   caret       beginning of line
+    $   dollar      end of line
+    \&lt;              beginning of word
+    \>              end of word
+    \b              edge of word
+    \B              not edge of word
+    
+Anchoring
+The caret ^ and the dollar sign $ are meta-characters that respectively match the empty string at the beginning and end of a line.
+
+The Backslash Character and Special Expressions
+The symbols \&lt; and \> respectively match the empty string at the beginning and end of a word. The symbol \b matches the empty string at the edge of a word, and \B matches the
+empty string provided it's not at the edge of a word. The symbol \w is a synonym for [_[:alnum:]] and \W is a synonym for [^_[:alnum:]].
+
+Repetition
+    A regular expression may be followed by one of several repetition operators:
+    ?  The preceding item is optional and matched at most once.
+    *  The preceding item will be matched zero or more times.
+    +  The preceding item will be matched one or more times.
+    {n} The preceding item is matched exactly n times.
+    {n,} The preceding item is matched n or more times.
+    {,m} The preceding item is matched at most m times. This is a GNU extension.
+    {n,m} The preceding item is matched at least n times, but not more than m times.
+
+Concatenation
+Two regular expressions may be concatenated; the resulting regular expression matches any string formed by concatenating two substrings that respectively match the concatenated
+expressions.
+
+Alternation
+Two regular expressions may be joined by the infix operator |; the resulting regular expression matches any string matching either alternate expression.
+
+Precedence
+Repetition takes precedence over concatenation, which in turn takes precedence over alternation. A whole expression may be enclosed in parentheses to override these precedence
+rules and form a subexpression.
+
+Back-references and Subexpressions
+The back-reference \n, where n is a single digit, matches the substring previously matched by the nth parenthesized subexpression of the regular expression.
+</pre>
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        Linux
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/systemd.html">Systemd</a></li>
+            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            <li><a href="../linux/deploy.html">Deployment</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Database
+        <ul>
+            <li><a href="../db/postgres.html">Postgresql</a></li>
+            <li><a href="../db/sqlite.html">Sqlite</a></li>
+            <li><a href="../db/mysql.html">Mysql</a></li>
+            <li><a href="../db/sparql.html">Sparql</a></li>
+            <li><a href="../db/wikidata.html">Wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Programing
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="../go/index.html">Go</a>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

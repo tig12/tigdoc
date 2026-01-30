@@ -9,7 +9,7 @@
     <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
     <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
     <meta name="dcterms.rightsHolder" content="Thierry Graff">
-    <meta name="dcterms.dateCopyrighted" content="2026-01-05 00:12:28+01:00">
+    <meta name="dcterms.dateCopyrighted" content="2026-01-18 01:10:49+01:00">
 </head>
 
 <body>
@@ -30,75 +30,18 @@ Go tools
 
 <article>
 
-<nav class="pagetoc">
-    <ul>
-        <li>
-            <a href="#1-start-a-project">Start a project</a>
-        </li>
-        <li>
-            <a href="#2-air">air</a>
-        </li>
-        <li>
-            <a href="#3-binaries-go-mod">Binaries, go mod</a>
-        </li>
-        <li>
-            <a href="#4-go-doc">go doc</a>
-        </li>
-        <li>
-            <a href="#5-gofmt">gofmt</a>
-        </li>
-        <li>
-            <a href="#6-go-get-go-install">go get - go install</a>
-        </li>
-        <li>
-            <a href="#7-go-mod">go mod</a>
-        </li>
-        <li>
-            <a href="#8-vim-go">vim-go</a>
-        </li>
-        <li>
-            <a href="#9-go-test">go test</a>
-        </li>
-    </ul>
-</nav>
-
-
-<pre>
-go help
-go help get
-
-go env
-go env GOPATH
-</pre>
 
 <!-- ********************************************************************************* -->
-<h2 id="1-start-a-project">Start a project</h2>
-<pre>
-go mod init example/user/hello
+<h2>air</h2>
 
-vi index.go
-=============
-package main
-
-import "fmt"
-
-func main() {
-    fmt.Println("Hello, world.")
-}
-=============
-
-go install example/user/hello
-go run index.go
-</pre>
-
-
-<!-- ********************************************************************************* -->
-<h2 id="2-air">air</h2>
 Automatic reload on source change
-<pre>
-# https://github.com/cosmtrek/air
-# CONFIG REFERENCE: https://github.com/cosmtrek/air/blob/master/air_example.toml
 
+<ul class="naked">
+    <li><a href="https://github.com/cosmtrek/air">https://github.com/cosmtrek/air</a></li>
+    <li>Reference config: <a href="https://github.com/cosmtrek/air/blob/master/air_example.toml">https://github.com/cosmtrek/air/blob/master/air_example.toml</a></li>
+</ul>
+
+<pre>
 curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
 
 # cd /path/to/project/src
@@ -109,155 +52,6 @@ air         # runs the application using .air.toml
 src/tmp
 </pre>
 
-
-<!-- ********************************************************************************* -->
-<h2 id="3-binaries-go-mod">Binaries, go mod</h2>
-<pre>
-go help importpath
-
-go install stores binaries :
-- if GOBIN is defined, stores them in this directory
-- else if GOPATH is defined, stores them in the first directory of GOPATH
-- else stores them in the default GOPATH (/home/me/go)
-
-go mod tidy         : adds missing module requirements for imported packages and removes requirements on modules that aren't used anymore. 
-go clean -modcache  : remove all downloaded modules
-
-----------------------------------------------------------------------------------------------------
-go run main.go
-go build main.go && ./main
-
-go tool dist list   # list of os / arch combinations
-</pre>
-
-<!-- ********************************************************************************* -->
-<h2 id="4-go-doc">go doc</h2>
-<pre>
-
-https://pkg.go.dev/std
-
-go doc net
-go doc net/http
-go doc net/http.Request
-
-godoc strconv ParseInt
-godoc github.com/soniakeys/meeus/planetposition
-godoc cmd/go            # doc of go tool
-godoc -http=:6060       # http mode, browse http://localhost:6060/
-
-https://go.dev/ref/spec - The Go Programming Language Specification
-</pre>
-
-<!-- ********************************************************************************* -->
-<h2 id="5-gofmt">gofmt</h2>
-<pre>
-go doc cmd/gofmt
-
-# recursively gofmt files overwrite and print names of overwritten files
-gofmt -l -w .
-
-gofmt -w file.go
-
-gofmt <filename or directory>
-gofmt -w file.go    # overwrite file.go
-gofmt -d file.go    # print the diff
-gofmt -l *.go       # list the file names that differ
-    -comments=true      # Print comments; if false, all comments are elided from the output.
-    -tabs=true          # Indent with tabs; if false, spaces are used instead.
-    -tabwidth=8         # Tab width in spaces.
-
-gofmt [flags] [path ...]
-
-The flags are:
-    -d
-    	Do not print reformatted sources to standard output.
-    	If a file's formatting is different than gofmt's, print diffs
-    	to standard output.
-    -e
-    	Print all (including spurious) errors.
-    -l
-    	Do not print reformatted sources to standard output.
-    	If a file's formatting is different from gofmt's, print its name
-    	to standard output.
-    -r rule
-    	Apply the rewrite rule to the source before reformatting.
-    -s
-    	Try to simplify code (after applying the rewrite rule, if any).
-    -w
-    	Do not print reformatted sources to standard output.
-    	If a file's formatting is different from gofmt's, overwrite it
-    	with gofmt's version. If an error occurred during overwriting,
-    	the original file is restored from an automatic backup.
-</pre>
-
-
-<!-- ********************************************************************************* -->
-<h2 id="6-go-get-go-install">go get - go install</h2>
-<pre>
-https://tip.golang.org/doc/go1.16#modules           use of go get to build and install packages is deprecated.
-
-=== uninstall package ===
-go clean -i github.com/test/package
-go clean -i importpath...
-(be sure to include ... on the importpath, because if a package includes an executable, go clean -i will only remove that and not archive files for subpackages)
-or remove manually the code in $GOPATH/src and the package file under $GOPATH/pkg/<architecture>
-
-# install
-go get -u github.com/kortschak/utter
-# uninstall
-go get -u github.com/kortschak/utter@none
-
-go get golang.org/x/tools/cmd/goimports
-goimports -w file.go
-</pre>
-
-
-<!-- ********************************************************************************* -->
-<h2 id="7-go-mod">go mod</h2>
-<pre>
-go mod init bdl.local/bdl
-# the downloaded modules are cached locally (in $GOPATH/pkg/mod)
-
-# if needed, add replace directive
-replace bdl.local/bdl => ../src/
-
-# go.mod contains the list of direct dependencies
-# go.sum contains the expected cryptographic hashes of the content of specific module version
-# go.mod and go.sum should be checked into version control
-
-# synchronize the module's dependencies, adding those required by the code, but not yet tracked in the module. 
-go mod tidy
-
-# lists the current module and all its dependencies
-go list -m all
-
-# Change go version in go mod
-go mod edit -go=1.22
-</pre>
-
-
-<!-- ********************************************************************************* -->
-<h2 id="8-vim-go">vim-go</h2>
-<a href="https://github.com/fatih/vim-go">https://github.com/fatih/vim-go</a>
-<pre>
-:GoInstallBinaries
-~/.vim/bundle/vim-go/autoload/go/fmt.vim
-</pre>
-
-<!-- ********************************************************************************* -->
-<h2 id="9-go-test">go test</h2>
-<pre>
-Test functions of myfile.go must be located in myfile_test.go
-Test functions must be located in the same package
-Test functions must be named BenchmarkXxxx()
-
-Execute only certain test functions:
-go test -run regex
-
-Benchmark
-Test functions must be named benchXxxx()
-go test -bench regex
-</pre>
 
 </article>
 </div><!-- end class="main" -->
@@ -283,8 +77,10 @@ go test -bench regex
         Database
         <ul>
             <li><a href="../db/postgres.html">Postgresql</a></li>
-            <li><a href="../db/postgres.html">Sqlite</a></li>
-            <li><a href="../db/postgres.html">Mysql</a></li>
+            <li><a href="../db/sqlite.html">Sqlite</a></li>
+            <li><a href="../db/mysql.html">Mysql</a></li>
+            <li><a href="../db/sparql.html">Sparql</a></li>
+            <li><a href="../db/wikidata.html">Wikidata</a></li>
         </ul>
     </li>
     
@@ -299,7 +95,7 @@ go test -bench regex
     <li>
         <a href="../go/index.html">Go</a>
         <ul>
-            <li></li>
+            <li><a href="../go/tools.html">Tools</a></li>
             <li><a href="../go/libext.html">External libraries</a></li>
             <li><a href="../go/write-webapp.html">Write a web application</a></li>
             <li><a href="../go/write-api.html">Write an API</a></li>

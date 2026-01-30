@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sqlite | tigdoc</title>
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-01-18 22:21:23+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<a name="topage"></a>
+<header>
+<h1 class="margin-bottom2">
+Sqlite
+</h1>
+
+<div class="intro">
+</div>
+</header>
+
+<article>
+<pre>
+sudo apt install sqlite3
+</pre>
+
+<pre>
+cat &lt;&lt; EOF > ~/.sqliterc
+.headers on
+.mode table
+EOF
+</pre>
+
+<pre>
+sqlite3 path/to/mydb.sqlite3
+
+.help
+.help mode
+
+.headers on
+.mode list|csv|column|line|table
+.mode table
+
+.tables             # list tables
+.databases          # List names and files of attached databases
+
+.schema             # show create table for all tables
+.schema mytable     # show create table for one table
+</pre>
+
+<pre>
+select json_pretty(column_containing_json) from my_table
+</pre>
+
+
+<pre>
+# .once specifies that the next query will be sent to a file.
+.once my_file1.txt
+SELECT * FROM my_table;
+
+# .output specifies that all further output will be sent to a file.
+# my_file2.txt will contain the results of the 2 queries.
+.output my_file2.txt
+SELECT * FROM my_table;
+SELECT * FROM my_table limit 10;
+
+# to come back to normal display.
+.output stdout
+# or
+.output
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2>php</h2>
+<pre>
+public static function getConnection($path): ?\PDO {
+    return new \PDO('sqlite:' . $path);
+}
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2>go</h2>
+
+<!-- ********************************************************************************* -->
+<h2>java</h2>
+<a href="https://www.tutorialspoint.com/sqlite/sqlite_java.htm">https://www.tutorialspoint.com/sqlite/sqlite_java.htm</a>
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        Linux
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/systemd.html">Systemd</a></li>
+            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            <li><a href="../linux/deploy.html">Deployment</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Database
+        <ul>
+            <li><a href="../db/postgres.html">Postgresql</a></li>
+            <li><a href="../db/sqlite.html">Sqlite</a></li>
+            <li><a href="../db/mysql.html">Mysql</a></li>
+            <li><a href="../db/sparql.html">Sparql</a></li>
+            <li><a href="../db/wikidata.html">Wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Programing
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="../go/index.html">Go</a>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

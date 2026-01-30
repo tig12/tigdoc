@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Wikidata | tigdoc</title>
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-01-22 15:04:43+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<a name="topage"></a>
+<header>
+<h1 class="margin-bottom2">
+Wikidata
+</h1>
+
+<div class="intro">
+</div>
+</header>
+
+<article>
+
+<table class="wikitable">
+    <tr>
+        <td>Query service</td>
+        <td><a href="https://query.wikidata.org">https://query.wikidata.org</a></td>
+    </tr>
+    <tr>
+        <td>DB dump</td>
+        <td><a href="https://dumps.wikimedia.org/wikidatawiki/entities">https://dumps.wikimedia.org/wikidatawiki/entities</a></td>
+    </tr>
+    <tr>
+        <td>Property page</td>
+        <td><a href="https://www.wikidata.org/wiki/Property:P25">https://www.wikidata.org/wiki/Property:P25</a></td>
+    </tr>
+    <tr>
+        <td>Entity page</td>
+        <td><a href="https://www.wikidata.org/wiki/Q28640">https://www.wikidata.org/wiki/Q28640</a></td>
+    </tr>
+    <tr>
+        <td>Entity details/td>
+        <td><a href="http://www.wikidata.org/wiki/Special:EntityData/Q41390.json">http://www.wikidata.org/wiki/Special:EntityData/Q41390.json</a></td>
+    </tr>
+</table>
+
+
+<!-- ********************************************************************************* -->
+<h2>Some properties</h2>
+
+<table class="wikitable">
+    <tr>
+        <td><code>P31</code></td><td><code>instance of</code></td>
+    </tr>
+    <tr>
+        <td><code>P279</code></td><td><code>subclass of</code></td>
+    </tr>
+    <tr>
+        <td><code>P734</code></td><td><code>family name</code></td>
+    </tr>
+    <tr>
+        <td><code>P735</code></td><td><code>given name</code></td>
+    </tr>
+    <tr>
+        <td><code>P1448</code></td><td><code>official name</code></td>
+    </tr>
+    <tr>
+        <td><code>P1449</code></td><td><code>nickname</code></td>
+    </tr>
+    <tr>
+        <td><code>P1477</code></td><td><code>birth name</code></td>
+    </tr>
+    <tr>
+        <td><code>P1813</code></td><td><code>short name</code></td>
+    </tr>
+    <tr>
+        <td><code>P2561</code></td><td><code>name</code></td>
+    </tr>
+    <tr>
+        <td><code>P2562</code></td><td><code>married name</code></td>
+    </tr>
+    <tr>
+        <td><code>P569</code></td><td><code>date of birth</code></td>
+    </tr>
+    <tr>
+        <td><code>P19</code></td><td><code>place of birth</code></td>
+    </tr>
+    <tr>
+        <td><code>P570</code></td><td><code>date of death</code></td>
+    </tr>
+    <tr>
+        <td><code>P20</code></td><td><code>place of death</code></td>
+    </tr>
+    <tr>
+        <td><code>P106</code></td><td><code>occupation</code></td>
+    </tr>
+    <tr>
+        <td><code>P21</code></td><td><code>sex or gender</code></td>
+    </tr>
+</table>
+
+
+<!-- ********************************************************************************* -->
+<h2>Query all properties of an entity</h2>
+
+All direct properties of entity <code>Q560823</code>
+<pre>
+SELECT ?property ?propertyLabel ?value ?valueLabel WHERE {
+  wd:Q560823 ?prop ?value .
+  ?property wikibase:directClaim ?prop .
+  
+  SERVICE wikibase:label {
+    bd:serviceParam wikibase:language "en".
+  }
+}
+</pre>
+
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        Linux
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/systemd.html">Systemd</a></li>
+            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            <li><a href="../linux/deploy.html">Deployment</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Database
+        <ul>
+            <li><a href="../db/postgres.html">Postgresql</a></li>
+            <li><a href="../db/sqlite.html">Sqlite</a></li>
+            <li><a href="../db/mysql.html">Mysql</a></li>
+            <li><a href="../db/sparql.html">Sparql</a></li>
+            <li><a href="../db/wikidata.html">Wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Programing
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <a href="../go/index.html">Go</a>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

@@ -38,28 +38,49 @@ Go
     </ul>
 </nav>
 
-<ul class="naked">
-    <li><a href="https://versionlog.com/golang/">Go Release History</a></li>
-    <li><a href="https://go.dev/wiki/Go-Release-Cycle">go.dev/wiki/Go-Release-Cycle</a></li>
-</ul>
+<table class="wikitable">
+    <tr>
+        <td>Go Release History</td>
+        <td><a href="https://versionlog.com/golang">https://versionlog.com/golang</a></td>
+    </tr>
+    <tr>
+        <td>Release cycle</td>
+        <td><a href="https://go.dev/wiki/Go-Release-Cycle">https://go.dev/wiki/Go-Release-Cycle</a></td>
+    </tr>
+</table>
 
 <!-- ********************************************************************************* -->
 <h2 id="1-install-go">Install go</h2>
+
+<a href="https://go.dev/doc/toolchain">https://go.dev/doc/toolchain</a>
 <pre>
-wget -c https://go.dev/dl/go1.24.6.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.24.6.linux-amd64.tar.gz
-go version
-
-See ~/if/cheatsheets/ub*.txt for go env and .bashrc modifications
-
-To update go:
-go env -w GOTOOLCHAIN=go1.24.6+auto (go1.24.6 being the last version)
-https://go.dev/doc/toolchain
-
 /usr/local/go           # installation dir
 /usr/local/go/bin/go    # binary location
+</pre>
 
-# uninstall go
+Install go
+<pre>
+wget -c https://go.dev/dl/go1.25.6.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go &amp;&amp; sudo tar -C /usr/local -xzf go1.25.6.linux-amd64.tar.gz
+go version
+</pre>
+
+Change GOPATH
+<pre>
+# in ~/.bashrc
+
+export GOPATH=$HOME/bin/go
+export PATH=$PATH:$GOPATH/bin
+</pre>
+
+Update go (change version)
+<pre>
+# update to go1.25.6
+go env -w GOTOOLCHAIN=go1.25.6+auto
+</pre>
+
+Uninstall go
+<pre>
 sudo rm -fr /usr/local/go
 # then remove go from $PATH
 </pre>
@@ -88,8 +109,10 @@ sudo rm -fr /usr/local/go
         Database
         <ul>
             <li><a href="../db/postgres.html">Postgresql</a></li>
-            <li><a href="../db/postgres.html">Sqlite</a></li>
-            <li><a href="../db/postgres.html">Mysql</a></li>
+            <li><a href="../db/sqlite.html">Sqlite</a></li>
+            <li><a href="../db/mysql.html">Mysql</a></li>
+            <li><a href="../db/sparql.html">Sparql</a></li>
+            <li><a href="../db/wikidata.html">Wikidata</a></li>
         </ul>
     </li>
     
@@ -104,7 +127,7 @@ sudo rm -fr /usr/local/go
     <li>
         <a href="../go/index.html">Go</a>
         <ul>
-            <li></li>
+            <li><a href="../go/tools.html">Tools</a></li>
             <li><a href="../go/libext.html">External libraries</a></li>
             <li><a href="../go/write-webapp.html">Write a web application</a></li>
             <li><a href="../go/write-api.html">Write an API</a></li>
