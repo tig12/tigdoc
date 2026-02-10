@@ -30,8 +30,54 @@ Go error handling
 
 <article>
 
-<nav class="pagetoc">
-</nav>
+
+<!-- 
+2026-02-02 17:44
+chatgpt
+
+In Go, %w in fmt.Errorf is only valid for values of type error and is used to enable error wrapping for errors.Is / errors.As.
+In your code:
+defer func() {
+    if p := recover(); p != nil {
+        err := fmt.Errorf("%w", p)
+        ctxt.LogError(err)
+    }
+}()
+recover() returns any (interface{}), not necessarily an error, so %w is invalid and will panic at runtime.
+
+Correct patterns
+
+1 - If you want to preserve non-error panics safely
+
+defer func() {
+    if p := recover(); p != nil {
+        err := fmt.Errorf("panic: %v", p)
+        ctxt.LogError(err)
+    }
+}()
+
+2 - If you want to wrap only when it is an error
+
+defer func() {
+    if p := recover(); p != nil {
+        if err, ok := p.(error); ok {
+            ctxt.LogError(fmt.Errorf("panic: %w", err))
+        } else {
+            ctxt.LogError(fmt.Errorf("panic: %v", p))
+        }
+    }
+}()
+
+3 - If you want stack traces (recommended for panics)
+
+defer func() {
+    if p := recover(); p != nil {
+        ctxt.LogError(fmt.Errorf("panic: %v\n%s", p, debug.Stack()))
+    }
+}()
+
+-->
+
 
 </article>
 </div><!-- end class="main" -->
@@ -69,6 +115,7 @@ Go error handling
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
         </ul>
     </li>
     

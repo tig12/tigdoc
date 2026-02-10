@@ -411,14 +411,21 @@ select jsonb_pretty(acts) from person where slug='galois-evariste-1811-10-25';
 Type
 ================
 select jsonb_typeof(ids_in_sources) from person limit 1;
+:: cast operator
+
+# Equivalent requests
+select count(*) from person where name->>'full' is null;
+select count(*) from person where name->'full'::text = 'null';
 
 Access to fields
 ================
 The operator -> returns JSON object field by key (returns json)
 The operator ->> returns JSON object field by text (returns text)
+
 # assoc array
 select slug,ids_in_sources->'A1' from person;
 select birth->'date-ut' from person limit 1;
+
 # regular array
 select history->0 from person limit 1;
 select history->>0 from person limit 1;
@@ -450,6 +457,9 @@ Existence ?
 ================
 # where birth.place has a field geoid
 select slug,birth from person where birth->'place' ? 'geoid' limit 1;
+
+# where name doesn't have a field full
+select count(*) from person where not(name ? 'full')
 
 array_length
 ================
@@ -826,6 +836,7 @@ explain select distinct id_chantier from tas where id in (
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
         </ul>
     </li>
     

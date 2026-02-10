@@ -27,6 +27,20 @@ Sqlite
 </div>
 </header>
 
+<nav class="pagetoc">
+    <ul>
+        <li>
+            <a href="#1-php">php</a>
+        </li>
+        <li>
+            <a href="#2-go">go</a>
+        </li>
+        <li>
+            <a href="#3-java">java</a>
+        </li>
+    </ul>
+</nav>
+
 <article>
 <pre>
 sudo apt install sqlite3
@@ -60,6 +74,9 @@ sqlite3 path/to/mydb.sqlite3
 select json_pretty(column_containing_json) from my_table
 </pre>
 
+<pre>
+select rowid,* from person
+</pre>
 
 <pre>
 # .once specifies that the next query will be sent to a file.
@@ -71,7 +88,6 @@ SELECT * FROM my_table;
 .output my_file2.txt
 SELECT * FROM my_table;
 SELECT * FROM my_table limit 10;
-
 # to come back to normal display.
 .output stdout
 # or
@@ -79,7 +95,7 @@ SELECT * FROM my_table limit 10;
 </pre>
 
 <!-- ********************************************************************************* -->
-<h2>php</h2>
+<h2 id="1-php">php</h2>
 <pre>
 public static function getConnection($path): ?\PDO {
     return new \PDO('sqlite:' . $path);
@@ -88,10 +104,10 @@ public static function getConnection($path): ?\PDO {
 
 
 <!-- ********************************************************************************* -->
-<h2>go</h2>
+<h2 id="2-go">go</h2>
 
 <!-- ********************************************************************************* -->
-<h2>java</h2>
+<h2 id="3-java">java</h2>
 <a href="https://www.tutorialspoint.com/sqlite/sqlite_java.htm">https://www.tutorialspoint.com/sqlite/sqlite_java.htm</a>
 
 </article>
@@ -130,6 +146,7 @@ public static function getConnection($path): ?\PDO {
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
         </ul>
     </li>
     

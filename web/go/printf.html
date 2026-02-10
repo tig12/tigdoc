@@ -28,6 +28,17 @@ Go Printf
 </div>
 </header>
 
+<nav class="pagetoc">
+    <ul>
+        <li>
+            <a href="#1-quick-reminder">Quick reminder</a>
+        </li>
+        <li>
+            <a href="#2-go-printf-verbs">Go Printf verbs</a>
+        </li>
+    </ul>
+</nav>
+
 <article>
 
 <nav class="pagetoc">
@@ -43,15 +54,16 @@ Go Printf
 
 
 <!-- ********************************************************************************* -->
-<h2 id="1-printf-in-go-templates">Quick reminder</h2>
+<h2 id="1-quick-reminder">Quick reminder</h2>
 <pre>
+# equivalent of php print_r()
 fmt.Printf("%+v\n", r.PostForm)
+
+# In a go template
+{{printf "%+v" .Raw}}
 
 fmt.Printf("Type of math.MaxInt is %T\n", math.MaxInt)
 
-# In a go template
-# equivalent of php print_r()
-{{printf "%+v" .Raw}}
 </pre>
 
 <!-- ********************************************************************************* -->
@@ -123,7 +135,7 @@ recursively, laid out like this:
     struct:             {field0 field1 ...}
     array, slice:       [elem0 elem1 ...]
     maps:               map[key1:value1 key2:value2]
-    pointer to above:   &{}, &[], &map[]
+    pointer to above:   &amp;{}, &amp;[], &amp;map[]
 
 Width is specified by an optional decimal number immediately preceding the
 verb. If absent, the width is whatever is necessary to represent the value.
@@ -195,6 +207,7 @@ alternate decimal format, so %#d and %d behave identically.
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
         </ul>
     </li>
     

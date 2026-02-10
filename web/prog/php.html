@@ -191,9 +191,20 @@ Mainly contains new language features introduced since php 7.
     <li><a href="https://php.watch/versions">https://php.watch/versions</a></li>
 </ul>
 
+TODO <a href="https://www.adimeo.com/blog/forum-php-2019-clean-architecture">https://www.adimeo.com/blog/forum-php-2019-clean-architecture</a>
+
 <!-- ********************************************************************************* -->
 <h2 id="1-quick-reminder">Quick reminder</h2>
 <pre>
+<b>in_array</b>(mixed $findme, array $array, bool $strict = false): bool
+<b>strpos</b>(string $string, string $findme, int $offset = 0): int|false
+<b>substr</b>(string $string, int $offset, ?int $length = null): string
+
+<b>str_replace</b>(array|string $search, array|string $replace, string|array $subject, int &$count = null): string|array
+<b>str_contains</b>(string $haystack, string $needle)
+<b>str_starts_with</b>(string $haystack, string $needle): bool
+<b>str_ends_with</b>(string $haystack, string $needle): bool
+
 &lt;?= 'hello here' ?>
 
 $str = &lt;&lt;&lt;TEXT
@@ -204,17 +215,7 @@ $str = &lt;&lt;&lt;'TEXT'
 My nowdoc text, without variable substitution
 TEXT;
 
-in_array(mixed $findme, array $array, bool $strict = false): bool
-strpos(string $string, string $findme, int $offset = 0): int|false
-substr(string $string, int $offset, ?int $length = null): string
 
-str_contains()
-str_starts_with()
-str_ends_with() 
-
-tmp
---------------------------------------------------------------------------------------------------
-https://www.adimeo.com/blog/forum-php-2019-clean-architecture
 </pre>
 
 <!-- ********************************************************************************* -->
@@ -228,16 +229,6 @@ sudo apt install php8.5 php8.5-{apcu,bcmath,calendar,curl,fpm,gd,gmp,intl,mbstri
 
 apt search php8.5 | grep bz
 
---------------------------------------------------------------------------------------------------
-Creating config file /etc/php/8.5/mods-available/pgsql.ini with new version
-Creating config file /etc/php/8.5/mods-available/pdo_pgsql.ini with new version
-Processing triggers for php8.5-fpm (8.5.1-3+ubuntu22.04.1+deb.sury.org+1) ...
-NOTICE: Not enabling PHP 8.5 FPM by default.
-NOTICE: To enable PHP 8.5 FPM in Apache2 do:
-NOTICE: a2enmod proxy_fcgi setenvif
-NOTICE: a2enconf php8.5-fpm
-NOTICE: You are seeing this message because you have apache2 package installed.
-Processing triggers for php8.5-cli (8.5.1-3+ubuntu22.04.1+deb.sury.org+1) ...
 </pre>
 
 <!-- ************************************* -->
@@ -971,6 +962,7 @@ composer require --dev friendsofphp/php-cs-fixer
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
         </ul>
     </li>
     

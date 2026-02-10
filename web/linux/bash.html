@@ -156,16 +156,13 @@ Bash
                     <a href="#36-1-apt">apt</a>
                 </li>
                 <li>
-                    <a href="#36-2-apt">apt</a>
+                    <a href="#36-2-dpkg">dpkg</a>
                 </li>
                 <li>
-                    <a href="#36-3-dpkg">dpkg</a>
+                    <a href="#36-3-update-alternatives">update-alternatives</a>
                 </li>
                 <li>
-                    <a href="#36-4-update-alternatives">update-alternatives</a>
-                </li>
-                <li>
-                    <a href="#36-5-colorize-text">Colorize text</a>
+                    <a href="#36-4-colorize-text">Colorize text</a>
                 </li>
             </ul>
         </li>
@@ -1077,7 +1074,7 @@ gstm - logiciel ubuntu
 <h2 id="36-install-package-manager-debian">Install, package manager (debian)</h2>
 
 <!-- ************************************* -->
-<h3 id="36-2-apt">apt</h3>
+<h3 id="36-1-apt">apt</h3>
 <pre>
 /usr/share/keyrings/
 /etc/apt/sources.list.d/
@@ -1134,7 +1131,7 @@ sudo apt-mark unhold codium     # mark package to include again from upgrade
 
 
 <!-- ************************************* -->
-<h3 id="36-3-dpkg">dpkg</h3>
+<h3 id="36-2-dpkg">dpkg</h3>
 <pre>
 dpkg -i mypackage.deb       # install
 dpkg -r mypackage           # remove
@@ -1171,7 +1168,7 @@ sudo dpkg --remove-architecture i386
 </pre>
 
 <!-- ************************************* -->
-<h3 id="36-4-update-alternatives">update-alternatives</h3>
+<h3 id="36-3-update-alternatives">update-alternatives</h3>
 <pre>
 sudo update-alternatives --list java
 sudo update-alternatives --config java
@@ -1179,7 +1176,7 @@ sudo update-alternatives --config java
 
 
 <!-- ************************************* -->
-<h3 id="36-5-colorize-text">Colorize text</h3>
+<h3 id="36-4-colorize-text">Colorize text</h3>
 <pre>
 echo option     Description
 -e              Enable interpretation of backslash escapes
@@ -1406,6 +1403,7 @@ done
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
         </ul>
     </li>
     
