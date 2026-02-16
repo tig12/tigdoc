@@ -58,7 +58,6 @@ table.wikitable{
     border-collapse:collapse;
 }
 table.wikitable > tr > th, table.wikitable > * > tr > th {
-    /* background-color: #eaecf0; */
     background-color: lightblue;
     text-align: center;
     vertical-align:top;
@@ -79,16 +78,7 @@ table.wikitable tr td code{
 .alternate-rows tr:nth-child(even){background-color:#d9edf7;}
 
 .img-title{font-size:.9rem; font-weight:bold; text-align:center;}
-
-.tip{
-    margin:1rem;
-    padding:1rem;
-    background:lightblue;
-    border:2px solid yellow;
-}
-
-
-/* ================ Style shortcuts ================ */
+* ================ Style shortcuts ================ */
 
 .background-none{background:none;}
 

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Systemd | tigdoc</title>
+    <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-02-16 23:48:19+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<header id="topage">
+<h1 class="margin-bottom2">
+Systemd
+</h1>
+<div class="intro"></div>
+
+</header>
+
+<article>
+<a href="https://www.golinuxcloud.com/beginners-guide-systemd-tutorial-linux">https://www.golinuxcloud.com/beginners-guide-systemd-tutorial-linux</a>
+
+<table class="wikitable margin">
+    <tr>
+        <td>Target</td>
+        <td>
+            Group of services, similar to, but more general than, a System V runlevel.
+            <br>There is a default target which is the group of services that are started at boot time.
+        </td>
+    </tr>
+    <tr>
+        <td>Service</td>
+        <td>
+            Daemon that can be started and stopped, very much like a SystemV service.
+        </td>
+    </tr>
+    <tr>
+        <td>Unit</td>
+        <td>
+            Configuration file that describes a target, a service, and several other things. Units are text files that contain properties and values.
+        </td>
+    </tr>
+</table>
+
+<pre>
+man systemd.service
+man systemd.target
+man systemd.unit
+
+systemctl list-units
+systemctl list-units --type=service
+
+systemctl start httpd.service
+systemctl stop httpd.service
+systemctl restart httpd.service
+systemctl status my_script.service
+
+# the unit will be automatically started at boot time
+systemctl enable httpd.service
+# prevents a unit from starting automatically at boot time
+systemctl disable httpd.service
+
+systemctl daemon-reload
+
+
+journalctl -u my_script.service
+
+man systemd.journal-fields
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2>Units</h2>
+The basic item of configuration is the unit file.
+<br>Unit files are found in three different places:
+<pre>
+/etc/systemd/system: Local configuration
+/run/systemd/system: Runtime configuration
+/lib/systemd/system: Distribution-wide configuration
+/usr/lib/systemd/system/: Contains default systemd unit configurations as per contained in the rpm
+</pre>
+
+When looking for a unit, systemd searches the directories in that order, stopping as soon as it finds a match, allowing you to override the behavior of a distribution-wide unit by placing a unit of the same name in <code>/etc/systemd/system</code>.
+<br>You can disable a unit completely by creating a local file that is empty or linked to <code>/dev/null</code>.
+<br>
+<br>All unit files begin with a section marked [Unit] which contains basic information and dependencies.
+<br>Example:
+<pre>
+[Unit]
+Description=D-Bus System Message Bus
+Documentation=man:dbus-daemon(1)
+Requires=dbus.socket
+</pre>
+
+Unit dependencies are expressed though Requires, Wants, and Conflicts:
+<table class="wikitable margin">
+    <tr>
+        <td>Requires</td>
+        <td>A list of units that this unit depends on, which is started when this unit is started</td>
+    </tr>
+    <tr>
+        <td>Wants</td>
+        <td>A weaker form of Requires: the units listed are started but the current unit is not stopped if any of them fail</td>
+    </tr>
+    <tr>
+        <td>Conflicts</td>
+        <td>A negative dependency: the units listed are stopped when this one is started and, conversely, if one of them is started, this one is stopped</td>
+    </tr>
+</table>
+
+Processing the dependencies produces a list of units that should be started (or stopped).
+<br>The keywords Before and After determine the order in which they are started.
+<br>The order of stopping is just the reverse of the start order:
+
+<table class="wikitable margin">
+    <tr>
+        <td>Before</td><td>This unit should be started before the units listed</td>
+    </tr>
+    <tr>
+        <td>After</td><td>This unit should be started after the units listed</td>
+    </tr>
+</table>
+
+In the absence of Before or After directives, the units will be started or stopped in parallel with no particular ordering.
+
+<!-- ********************************************************************************* -->
+<h2>Services</h2>
+
+A service is a daemon that can be started and stopped, equivalent to a System V service. for example, lighttpd.service.
+<br>A service unit has a [Service] section that describes how it should be run.
+Here is the relevant section from lighttpd.service:
+<pre>
+[Service]
+ExecStart=/usr/sbin/lighttpd -f /etc/lighttpd/lighttpd.conf -D
+ExecReload=/bin/kill -HUP $MAINPID
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2>Target</h2>
+A target is another type of unit which groups services (or other types of unit).
+<br>It is a type of unit that only has dependencies.
+<br>Targets have names ending in .target, for example, multi-user.target.
+<br>A target is a desired state, which performs the same role as System V runlevels.
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        <div class="title">Linux</div>
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/systemd.html">Systemd</a></li>
+            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            <li><a href="../linux/deploy.html">Deployment</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Database</div>
+        <ul>
+            <li><a href="../db/postgres.html">Postgresql</a></li>
+            <li><a href="../db/sqlite.html">Sqlite</a></li>
+            <li><a href="../db/mysql.html">Mysql</a></li>
+            <li><a href="../db/sparql.html">Sparql</a></li>
+            <li><a href="../db/wikidata.html">Wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Programing</div>
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Misc</div>
+        <ul>
+            <li><a href="../misc/media.html">Media</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Front</div>
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+    <li>
+        <div class="title"><a href="../go/index.html">Go</a></div>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

@@ -17,8 +17,29 @@ body{
     font-family:"roboto flex",sans-serif;
     line-height:1.4;
 }
+code, pre{
+    border-radius: .25rem;
+    background: #2c333f;
+    font-size: .875em;
+    font-weight: 400;
+	font-family: "roboto flex mono", ui-monospace, monospace;
+    padding: 2px;
+}
 pre{
+    display:table;
     white-space:pre-wrap;
+    margin:1rem;
+    padding:.5rem;
+    border-radius:2px;
+    border:1px solid #717a9f;
+    line-height:1.15;
+}
+
+a{
+    color:#4b83f1;
+}
+a:hover{
+    text-decoration:underline;
 }
 
 .container {
@@ -32,17 +53,25 @@ pre{
     flex: 1;                     /* takes remaining width */
     overflow-y: auto;            /* independent vertical scroll */
     padding:1rem .5rem 2rem 1rem;
-    background: #f9f9f9;
+    background:#1e2129;
+    color:#d9e5fc;
 }
 
 /* LEFT SIDEBAR */
 .left {
     width: 300px;
     overflow-y: auto;            /* independent vertical scroll */
-    background:lightgoldenrodyellow;
+    background-color:#333;
     font-size:.9rem;
     border-right:1px solid grey;
     padding-top:1rem;
+}
+.left a{
+    color:#eee;
+}
+.left .title{
+    font-weight:bold;
+    color:#ddd;
 }
 .left li{
     list-style:none;
@@ -62,25 +91,16 @@ pre{
     padding-bottom:0.3rem;
 }
 
-footer{
-   flex: 0 0 auto;
-    width:100%;
-    text-align:center;
+table.wikitable > tr > th, table.wikitable > * > tr > th {
+    background-color:#333;
 }
-footer>div{background:black;}
-footer a{
-    display:inline-block;
-    padding: 0 2em;
-    color:lightgray;
-}                                                 
 
 /* ================ Table of contents ================ */
 .pagetoc{
     display:inline-block;
-    background: rgb(207,236,23);
-    background: radial-gradient(circle, rgba(207,236,23,0.0578) 17%, rgba(193,236,245,0.3827) 40%, rgba(213,235,204,0.4415) 47%); 
+    background: #2c333f;
     margin:1rem 2rem;
-    padding:1rem 1rem 1rem 0;
+    padding:1rem 1rem 1rem 1rem;
     border:1px dotted black;
     border-radius:5px;
     font-family:Arial,Helvetica,sans-serif;
@@ -92,55 +112,6 @@ footer a{
     margin:0;
 }
 .pagetoc ul>li{}
-.pagetoc>ul>li>a{font-weight:bold;}
-
-/* ================ Navigation ================ */
-.prevnext{
-    font-family:DejaVu,serif;
-    position:fixed; top:0px; left:0px;
-    margin:0;
-    width:15%; height:4rem;
-    background:lightgoldenrodyellow;
-    border-right:1px solid grey;
+.pagetoc>ul>li>a{
+    font-weight:bold;
 }
-.prevnext a{
-    display:inline-block;
-    position:fixed;
-    width:40px; height:40px;
-    text-decoration:none;
-    font-weight:bolder;
-    font-size:2rem;
-}
-.prevnext a.index{top:0px; left:50px; font-size:0.5rem;}
-.prevnext a.top{top:0px; left:80px;}
-.prevnext a.prev{top:25px; left:45px;}
-.prevnext a.next{top:25px; left:110px;}
-.prevnext a.topage{
-    top:15px; left:82px; color:#black; font-size:1.1rem;
-    transform:rotate(-90deg);
-}
-
-/* ================ Index page ================ */
-.index h1{margin:.5rem;}
-.mainlinks{
-    display:grid;
-    grid-gap:0;
-    grid-template-columns:repeat(3, 1fr);
-    justify-items:center;
-}
-.mainlinks .item{
-    min-height:4rem;
-    font-size:.8rem;
-    padding-bottom:1rem;
-}
-.mainlinks .item div.mainitem{
-    font-size:1.5rem;
-}
-.mainlinks .item div~div{
-    padding-left:1rem;
-}
-
-
-/* ================ Particular elements ================ */
-
-/* ================ Semantic ================ */

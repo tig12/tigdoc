@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Zed editor | tigdoc</title>
+    <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
     <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
     <meta name="description" content="">
     <meta name="robots" content="index,follow">
@@ -45,8 +46,9 @@ Zed editor
 <article>
 
 <a href="https://cheatsheets.zip/zed">https://cheatsheets.zip/zed</a>
+
 <!-- ********************************************************************************* -->
-<h2 id="1-settings">Settings</h2>
+<h2 id="1-settings">Configuration files</h2>
 
 <table class="wikitable">
     <tr>
@@ -61,34 +63,106 @@ Zed editor
         <td>Project settings</td>
         <td><code>.zed/settings.json</code></td>
     </tr>
+    <tr>
+        <td>Installed extensions</td>
+        <td><code>~/.local/share/zed/extensions/installed</code></td>
+    </tr>
 </table>
-
-
-<!-- ************************************* -->
-<h3 id="1-1-settings-json">settings.json</h3>
-open: <code>ctrl alt ,</code>
-
-<pre>
-# disable auto-formatting
-    "format_on_save": "off",
-
-# always show menus
-  "title_bar": {
-      "show_menus": true
-  },
-</pre>
-
-
 
 <!-- ********************************************************************************* -->
 <h2 id="2-shortcuts">Shortcuts</h2>
 <table class="wikitable">
-    <tr>
-        <td>ctrl + .</td><td>toogle action on current symbol</td>
-    </tr>
+    <tr><td>ctrl + .</td><td>toogle action on current symbol</td></tr>
+    <tr><td>alt + up arraow</td><td>Move current line up / down</td></tr>
 </table>
 
 
+<!-- ************************************* -->
+<h2 id="1-1-settings-json">settings.json</h2>
+open: <code>ctrl alt ,</code>
+
+<pre>
+{
+    // disable auto-formatting
+    "format_on_save": "off",
+
+    // always show menus
+    "title_bar": {
+        "show_menus": true
+    },
+    "git": {
+        "inline_blame": {
+            "enabled": false
+        }
+    },
+}  
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2>keymap.json</h2>
+<pre>
+[
+    // loop through open files in the order they are displayed
+    {
+        "context": "Workspace",
+        "bindings": {
+            "ctrl-tab": "pane::ActivateNextItem",
+            "ctrl-shift-tab": "pane::ActivatePreviousItem"
+        }
+    }
+]
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2>Actions namespaces</h2>
+
+<table class="wikitable">
+<thead><tr><th>Namespace</th><th>Purpose</th><th>Example Actions</th></tr></thead>
+<tbody>
+    <tr>
+        <td><code>editor</code></td>
+        <td>Text editing operations</td>
+        <td><code>MoveUp</code>, <code>SelectAll</code>, <code>Cut</code></td>
+    </tr>
+    <tr>
+        <td><code>workspace</code></td>
+        <td>Workspace-level commands</td>
+        <td><code>Save</code>, <code>CloseWindow</code>, <code>ToggleLeftDock</code></td>
+    </tr>
+    <tr>
+        <td><code>pane</code></td>
+        <td>Pane management</td>
+        <td><code>ActivateNextItem</code>, <code>CloseActiveItem</code></td>
+    </tr>
+    <tr>
+        <td><code>menu</code></td>
+        <td>Menu interactions</td>
+        <td><code>SelectNext</code>, <code>Confirm</code>, <code>Cancel</code></td>
+    </tr>
+    <tr>
+        <td><code>agent</code></td>
+        <td>AI agent operations</td>
+        <td><code>Chat</code>, <code>NewThread</code>, <code>ToggleModelSelector</code></td>
+    </tr>
+    <tr>
+        <td><code>git</code></td>
+        <td>Version control</td>
+        <td><code>Blame</code>, <code>Commit</code>, <code>Branch</code></td>
+    </tr>
+    <tr>
+        <td><code>buffer_search</code></td>
+        <td>In-buffer search</td>
+        <td><code>Deploy</code>, <code>Dismiss</code>, <code>FocusEditor</code></td>
+    </tr>
+    <tr>
+        <td><code>zed</code></td>
+        <td>Application-level</td>
+        <td><code>Quit</code>, <code>OpenSettings</code>, <code>ToggleFullScreen</code></td>
+    </tr>
+</tbody>
+</table>
 
 </article>
 </div><!-- end class="main" -->
@@ -99,7 +173,7 @@ open: <code>ctrl alt ,</code>
     <li class="bold big2"><a href="../index.html">Home</a></li>
     
     <li>
-        Linux
+        <div class="title">Linux</div>
         <ul>
             <li><a href="../linux/bash.html">BASH</a></li>
             <li><a href="../linux/systemd.html">Systemd</a></li>
@@ -111,7 +185,7 @@ open: <code>ctrl alt ,</code>
     </li>
     
     <li>
-        Database
+        <div class="title">Database</div>
         <ul>
             <li><a href="../db/postgres.html">Postgresql</a></li>
             <li><a href="../db/sqlite.html">Sqlite</a></li>
@@ -122,7 +196,7 @@ open: <code>ctrl alt ,</code>
     </li>
     
     <li>
-        Programing
+        <div class="title">Programing</div>
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
@@ -131,14 +205,14 @@ open: <code>ctrl alt ,</code>
     </li>
     
     <li>
-        Misc
+        <div class="title">Misc</div>
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
         </ul>
     </li>
     
     <li>
-        Front
+        <div class="title">Front</div>
         <ul>
             <li><a href="../front/html.html">HTML</a></li>
             <li><a href="../front/css.html">CSS</a></li>
@@ -149,7 +223,7 @@ open: <code>ctrl alt ,</code>
     </li>
         
     <li>
-        <a href="../go/index.html">Go</a>
+        <div class="title"><a href="../go/index.html">Go</a></div>
         <ul>
             <li><a href="../go/tools.html">Tools</a></li>
             <li><a href="../go/libext.html">External libraries</a></li>
