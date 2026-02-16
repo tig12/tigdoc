@@ -17,8 +17,7 @@
 
 <div class="main">
 
-<a name="topage"></a>
-<header>
+<header id="topage">
 <h1 class="margin-bottom2">
 Sqlite
 </h1>
@@ -102,6 +101,18 @@ public static function getConnection($path): ?\PDO {
 }
 </pre>
 
+prepare / execute / fetchAll
+<pre>
+$stmt = $sqlite->prepare("select rowid,* from person where bday=:bday");
+$stmt->execute([':bday' => $bday]);
+foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row){ ... }
+</pre>
+query / fetchAll
+<pre>
+$stmt = $sqlite->query("select slug from person where slug like 'gauquelin-%'");
+foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row){ ... }
+</pre>
+
 
 <!-- ********************************************************************************* -->
 <h2 id="2-go">go</h2>
@@ -151,6 +162,24 @@ public static function getConnection($path): ?\PDO {
     </li>
     
     <li>
+        Misc
+        <ul>
+            <li><a href="../misc/media.html">Media</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+    <li>
         <a href="../go/index.html">Go</a>
         <ul>
             <li><a href="../go/tools.html">Tools</a></li>
@@ -167,17 +196,6 @@ public static function getConnection($path): ?\PDO {
         </ul>
     </li>
     
-    <li>
-        Front
-        <ul>
-            <li><a href="../front/html.html">HTML</a></li>
-            <li><a href="../front/css.html">CSS</a></li>
-            <li><a href="../front/js.html">Javascript</a></li>
-            <li><a href="../front/svg.html">SVG</a></li>
-            <li><a href="../front/htmx.html">HTMX</a></li>
-        </ul>
-    </li>
-        
 </ul>
 </aside>
 

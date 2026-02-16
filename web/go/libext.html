@@ -17,8 +17,7 @@
 
 <div class="main">
 
-<a name="topage"></a>
-<header>
+<header id="topage">
 <h1 class="margin-bottom2">
 Go external libraries
 </h1>
@@ -40,14 +39,6 @@ A page to list the libraries I currently use in go
 </nav>
 
 <article>
-
-<nav class="pagetoc">
-    <ul>
-        <li>
-            <a href="#1-goph-ssh-client">goph - ssh client</a>
-        </li>
-    </ul>
-</nav>
 
 <!-- ********************************************************************************* -->
 <h2 id="1-goph-ssh-client">goph - ssh client</h2>
@@ -85,9 +76,7 @@ pdf := gofpdf.New("P", "mm", "A4", "")
 tr := pdf.UnicodeTranslatorFromDescriptor("") // "" defaults to "cp1252"
 pdf.AddPage()
 MetaDataPDF(pdf, tr, ctx.Config, "My title")
-
 </pre>
-
 
 </article>
 </div><!-- end class="main" -->
@@ -130,6 +119,24 @@ MetaDataPDF(pdf, tr, ctx.Config, "My title")
     </li>
     
     <li>
+        Misc
+        <ul>
+            <li><a href="../misc/media.html">Media</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        Front
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+    <li>
         <a href="../go/index.html">Go</a>
         <ul>
             <li><a href="../go/tools.html">Tools</a></li>
@@ -146,17 +153,6 @@ MetaDataPDF(pdf, tr, ctx.Config, "My title")
         </ul>
     </li>
     
-    <li>
-        Front
-        <ul>
-            <li><a href="../front/html.html">HTML</a></li>
-            <li><a href="../front/css.html">CSS</a></li>
-            <li><a href="../front/js.html">Javascript</a></li>
-            <li><a href="../front/svg.html">SVG</a></li>
-            <li><a href="../front/htmx.html">HTMX</a></li>
-        </ul>
-    </li>
-        
 </ul>
 </aside>
 
