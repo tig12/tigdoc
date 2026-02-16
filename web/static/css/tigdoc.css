@@ -86,7 +86,11 @@ footer a{
     font-family:Arial,Helvetica,sans-serif;
     line-height:1.6;
 }
-.pagetoc ul{list-style-type:none;margin:0;}
+.pagetoc ul{
+    list-style-type:none;
+    padding-left:1rem;
+    margin:0;
+}
 .pagetoc ul>li{}
 .pagetoc>ul>li>a{font-weight:bold;}
 
