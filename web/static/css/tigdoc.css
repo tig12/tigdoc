@@ -98,6 +98,9 @@ table.wikitable > tr > th, table.wikitable > * > tr > th {
 /* ================ Table of contents ================ */
 .pagetoc{
     display:inline-block;
+/* 
+    background: #2c333f;
+*/
     background: #2c333f;
     margin:1rem 2rem;
     padding:1rem 1rem 1rem 1rem;

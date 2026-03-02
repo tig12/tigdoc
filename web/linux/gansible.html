@@ -23,96 +23,212 @@
 Gansible
 </h1>
 <div class="intro">
-    Go program used to deploy machines. Opinionated, not generic as Ansible.
+<!-- 
+    Go program used to deploy machines.
     <br>Handles the following stack:
     <ul>
-        <li>Linux and systemd for execution and monitoring</li>
+        <li>Linux, ssh</li>
+        <li>Systemd for execution and monitoring</li>
         <li>Posgresql and pgbackrest</li>
         <li>Caddy</li>
         <li>Podman</li>
     </ul>
+-->
 </div>
 
 </header>
 
+<nav class="pagetoc" aria-label="Table of contents">
+    <ul>
+        <li>
+            <a href="#1-installation-usage">Installation, usage</a>
+            <ul>
+                <li>
+                    <a href="#1-1-configuration">Configuration</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#2-run">Run</a>
+            <ul>
+                <li>
+                    <a href="#2-1-possible-actions">Possible actions</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
 <article>
 
 <!-- ********************************************************************************* -->
-<h2>Install, usage</h2>
+<h2 id="1-installation-usage">Installation, usage</h2>
 <pre>
 cd /path/to/gansible
 go build
-# ==> Generates executable gansible
 </pre>
+=> Generates executable gansible
 
-To run the program:
+<br><br>To run the program:
 <pre>
 ./gansible &lt;host> &lt;action> &lt;argument>
 </pre>
-<ul>
-    <li><code>&lt;host></code>: machine to deploy - corresponds to an directory in <code>conf/</code></li>
-    <li><code>&lt;action></code></li>
-    <li><code>&lt;argument></code></li>
-</ul>
+<table class="margin">
+    <tr>
+        <td><code>&lt;host></code></td>
+        <td>machine to deploy - corresponds to a directory in <code>conf/</code></td>
+    </tr>
+    <tr>
+        <td><code>&lt;action></code></td>
+        <td>possible action (see full list below)</td>
+    </tr>
+    <tr>
+        <td><code>&lt;argument></code></td>
+        <td>optional argument for the action</td>
+    </tr>
+</table>
 
 <!-- ************************************* -->
-<h3>Configuration</h3>
+<h3 id="1-1-configuration">Configuration</h3>
 Before using gansible: <pre class="inline">cp -r conf.dist/ conf</pre> and adapt parameters.
 
 <pre>
 conf/
-    ├── global.yml
-    └── hdist
+    ├── global.yml                  # configuration applied to all hosts by default - can be redefined in each host configuration
+    └── hdist                       # configuration of host call "hdist" (replace "hdist" by a name identifying your host)
         ├── apps
-        │   ├── myapp.yml
-        │   ├── mypod.yml
+        │   ├── myapp.yml           # example for a web application in go
+        │   ├── mypod.yml           # example for an application deployed with podman
         │   ├── secrets
         │   │   └── myapp.env
-        │   └── site.fr.yml
-        └── hdist.yml
+        │   └── site.fr.yml         # example for a web site
+        └── hdist.yml               # machine-wide configuration or parameters that can be used by all apps by default
 </pre>
 
-<ul>
-    <li>
-        <code>conf/global.yml</code>: configuration applied to all hosts by default - can be redefined in each host configuration
-    </li>
-    <li>
-        <code>conf/hdist/</code>: configuration of host call "hdist" (replace "hdist" by a name identifying your host).
-    </li>
-    <li>
-        <code>conf/hdist/hdist.yml</code>: configuration of host call "hdist" (replace "hdist" by a name identifying your host).
-    </li>
-</ul>
+<!-- ********************************************************************************* -->
+<h2 id="2-run">Run</h2>
 
-
-
+Typical sequence to deploy a machine:
 <pre>
-./gansible htest init
-./gansible htest system
-./gansible htest postgresql init
+./gansible hdist init
+./gansible hdist system
+./gansible hdist postgresql init
 
-# if "all" instead of "bdl" => all apps of this server
-./gansible htest user bdl
-./gansible htest db bdl
-./gansible htest secret bdl
-./gansible htest service bdl
+# if "all" instead of "myapp" => all apps of this server
+./gansible hdist user myapp
+./gansible hdist db myapp
+./gansible hdist secret myapp
+./gansible hdist service myapp
 </pre>
 
+<!-- ************************************* -->
+<h3 id="2-1-possible-actions">Possible actions</h3>
 
-<!-- ********************************************************************************* -->
-<h2>init</h2>
-
-<!-- ********************************************************************************* -->
-<h2>system</h2>
-
-<!-- ********************************************************************************* -->
-<h2>postgres</h2>
-
-<!-- ********************************************************************************* -->
-<h2>pgbackrest</h2>
-
-<!-- ********************************************************************************* -->
-<h2>caddy</h2>
+<table class="wikitable margin">
+    <tr><th>Action [param]</th><th>Description</th></tr>
+    <tr><td class="center big2" colspan="2">System-wide actions</td></tr>
+    <tr>
+        <td><code>init</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>system</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>crowdsec</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>postgresql restart</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>postgresql reload</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>postgresql stop</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>postgresql start</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>postgresql status</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>postgresql init</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>postgresql pgbackrest</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>postgresql pgdump</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>clean pgdump</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>commit</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>caddyreload</code></td>
+        <td></td>
+    </tr>
+    <tr><td class="center big2" colspan="2">Application actions</td></tr>
+    <tr>
+        <td><code>ftp</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>user</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>site</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>service</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>list</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>status</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>restart</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>start</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>stop</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>db</code></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>secret</code></td>
+        <td></td>
+    </tr>
+</table>
 
 
 </article>
