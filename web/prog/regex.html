@@ -136,7 +136,8 @@ In a character class the only meta-characters are:
 }	end min/max quantifier
 
 [A-Z]{5,8}      between 5 and 8 capital letters
-[A-Z]{,3}       between 0 and 3 capital letters ???
+[A-Z]{,3}       between 0 and 3 capital letters (since PHP 8.4.0)
+[A-Z]{2,}       more than 2 capital letters
 
 .*              0 or more character
 .*?             0 or more character, ungreedy
@@ -349,23 +350,30 @@ The back-reference \n, where n is a single digit, matches the substring previous
     <li>
         <div class="title">Linux</div>
         <ul>
+            <li><a href="../linux/debian.html">debian</a></li>
             <li><a href="../linux/bash.html">BASH</a></li>
-            <li><a href="../linux/systemd.html">Systemd</a></li>
-            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <!-- 
             <li><a href="../linux/nginx.html">Nginx</a></li>
             <li><a href="../linux/apache.html">Apache</a></li>
-            <li><a href="../linux/deploy.html">Deployment</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
         </ul>
     </li>
     
     <li>
         <div class="title">Database</div>
         <ul>
-            <li><a href="../db/postgres.html">Postgresql</a></li>
-            <li><a href="../db/sqlite.html">Sqlite</a></li>
-            <li><a href="../db/mysql.html">Mysql</a></li>
-            <li><a href="../db/sparql.html">Sparql</a></li>
-            <li><a href="../db/wikidata.html">Wikidata</a></li>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
         </ul>
     </li>
     
@@ -382,6 +390,7 @@ The back-reference \n, where n is a single digit, matches the substring previous
         <div class="title">Misc</div>
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
         </ul>
     </li>
     

@@ -97,23 +97,33 @@ SELECT * FROM my_table limit 10;
 <!-- ********************************************************************************* -->
 <h2 id="1-php">php</h2>
 <pre>
-public static function getConnection($path): ?\PDO {
-    return new \PDO('sqlite:' . $path);
-}
+    public static function getConnection($path): ?\PDO {
+        return new \PDO('sqlite:' . $path);
+    }
 </pre>
 
-prepare / execute / fetchAll
+prepare / execute / fetch
 <pre>
-$stmt = $sqlite->prepare("select rowid,* from person where bday=:bday");
-$stmt->execute([':bday' => $bday]);
-foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row){ ... }
+        $stmt = $sqlite->prepare("select rowid,* from person where bday=:bday");
+        $stmt->execute([':bday' => $bday]);
+        foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row){}
+        // or fetch one row
+        $myVar = $stmt->fetch(\PDO::FETCH_ASSOC);
 </pre>
-query / fetchAll
+query / fetch
 <pre>
-$stmt = $sqlite->query("select slug from person where slug like 'gauquelin-%'");
-foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row){ ... }
+        $stmt = $sqlite->query("select slug from person where slug like 'gauquelin-%'");
+        foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row){}
+        // or fetch one row
+        $myVar = $stmt->fetch(\PDO::FETCH_ASSOC);
 </pre>
+direct queries
+<pre>
+        $stmt = $sqlite->query("insert into myTable(myCol) values('myValue')");
+        
+        $sqlite->exec('create table person(name varchar(255))');
 
+</pre>
 
 <!-- ********************************************************************************* -->
 <h2 id="2-go">go</h2>
@@ -133,23 +143,30 @@ foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row){ ... }
     <li>
         <div class="title">Linux</div>
         <ul>
+            <li><a href="../linux/debian.html">debian</a></li>
             <li><a href="../linux/bash.html">BASH</a></li>
-            <li><a href="../linux/systemd.html">Systemd</a></li>
-            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <!-- 
             <li><a href="../linux/nginx.html">Nginx</a></li>
             <li><a href="../linux/apache.html">Apache</a></li>
-            <li><a href="../linux/deploy.html">Deployment</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
         </ul>
     </li>
     
     <li>
         <div class="title">Database</div>
         <ul>
-            <li><a href="../db/postgres.html">Postgresql</a></li>
-            <li><a href="../db/sqlite.html">Sqlite</a></li>
-            <li><a href="../db/mysql.html">Mysql</a></li>
-            <li><a href="../db/sparql.html">Sparql</a></li>
-            <li><a href="../db/wikidata.html">Wikidata</a></li>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
         </ul>
     </li>
     
@@ -166,6 +183,7 @@ foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row){ ... }
         <div class="title">Misc</div>
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
         </ul>
     </li>
     

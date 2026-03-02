@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>pgbackrest | tigdoc</title>
+    <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-01-22 15:04:33+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<header id="topage">
+<h1 class="margin-bottom2">
+pgbackrest
+</h1>
+
+<div class="intro">
+</div>
+</header>
+
+<article>
+
+<a href="https://pgbackrest.org/user-guide.html">https://pgbackrest.org/user-guide.html</a>
+
+qd on fait un restore (depuis la machine de backup)
+le postgres est arreté
+pgbackrest indique comment postgres va démarrer :
+- que restoration
+- standby 
+
+Si une option est dans la conf, c'est come si on l'avait tapé à la main dans la commande
+
+<pre>
+sudo apt install pgbackrest
+
+sudo mkdir -p /etc/pgbackrest/conf.d/
+sudo chown -R postgres:postgres /etc/pgbackrest
+</pre>
+
+<pre>
+<br><br>stanza = configuration unit
+pgbackrest --stanza=test info
+</pre>
+
+<img class="pagging margin" src="../linux/gansible/pgbackrest.jpg" alt="">
+pgbackrest sends information on a remote machine.
+<ul>
+    <li>
+        <code>archive_mode = on</code> (postgres configuration)
+    </li>
+</ul>
+<br><br>stanza = configuration unit
+
+
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        <div class="title">Linux</div>
+        <ul>
+            <li><a href="../linux/debian.html">debian</a></li>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <!-- 
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Database</div>
+        <ul>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Programing</div>
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Misc</div>
+        <ul>
+            <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Front</div>
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+    <li>
+        <div class="title"><a href="../go/index.html">Go</a></div>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

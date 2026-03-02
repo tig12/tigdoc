@@ -55,32 +55,46 @@ Systemd
 man systemd.service
 man systemd.target
 man systemd.unit
+man systemd.journal-fields
+</pre>
 
+<pre>
 systemctl list-units
 systemctl list-units --type=service
+</pre>
 
+<pre>
 systemctl start httpd.service
 systemctl stop httpd.service
 systemctl restart httpd.service
 systemctl status my_script.service
 
-# the unit will be automatically started at boot time
-systemctl enable httpd.service
-# prevents a unit from starting automatically at boot time
-systemctl disable httpd.service
+systemctl start postgresql@18-htest         # @&lt;version>-&lt;cluster>
+</pre>
+    
+<pre>
+systemctl enable httpd.service      # The unit will be automatically started at boot time
+systemctl disable httpd.service     # Prevents a unit from starting automatically at boot time
+systemctl --user stop myapp
+systemctl --user disable myapp
 
 systemctl daemon-reload
-
-
-journalctl -u my_script.service
-
-man systemd.journal-fields
 </pre>
+
+<pre>
+journalctl -eu caddy
+    -u  --unit=UNIT|PATTERN     Show messages for the unit(s)
+    -e  --pager-end             Jump to the end of the journal
+    -r  --reverse               Reverse output so that the newest entries are displayed first
+    -f  --follow                Like tail -f
+</pre>
+
 
 <!-- ********************************************************************************* -->
 <h2>Units</h2>
 The basic item of configuration is the unit file.
 <br>Unit files are found in three different places:
+
 <pre>
 /etc/systemd/system: Local configuration
 /run/systemd/system: Runtime configuration
@@ -88,8 +102,9 @@ The basic item of configuration is the unit file.
 /usr/lib/systemd/system/: Contains default systemd unit configurations as per contained in the rpm
 </pre>
 
-When looking for a unit, systemd searches the directories in that order, stopping as soon as it finds a match, allowing you to override the behavior of a distribution-wide unit by placing a unit of the same name in <code>/etc/systemd/system</code>.
-<br>You can disable a unit completely by creating a local file that is empty or linked to <code>/dev/null</code>.
+When looking for a unit, systemd searches the directories in that order, stopping as soon as it finds a match.
+<br>=> possible to override the behavior of a distribution-wide unit by placing a unit of the same name in <code>/etc/systemd/system</code>.
+<br>To disable a unit completely, create a local file that is empty or linked to <code>/dev/null</code>.
 <br>
 <br>All unit files begin with a section marked [Unit] which contains basic information and dependencies.
 <br>Example:
@@ -100,7 +115,7 @@ Documentation=man:dbus-daemon(1)
 Requires=dbus.socket
 </pre>
 
-Unit dependencies are expressed though Requires, Wants, and Conflicts:
+Unit dependencies:
 <table class="wikitable margin">
     <tr>
         <td>Requires</td>
@@ -116,9 +131,8 @@ Unit dependencies are expressed though Requires, Wants, and Conflicts:
     </tr>
 </table>
 
-Processing the dependencies produces a list of units that should be started (or stopped).
-<br>The keywords Before and After determine the order in which they are started.
-<br>The order of stopping is just the reverse of the start order:
+<br>Before and After determine the order in which they are started.
+<br>The order of stopping is just the reverse of the start order.
 
 <table class="wikitable margin">
     <tr>
@@ -161,23 +175,30 @@ A target is another type of unit which groups services (or other types of unit).
     <li>
         <div class="title">Linux</div>
         <ul>
+            <li><a href="../linux/debian.html">debian</a></li>
             <li><a href="../linux/bash.html">BASH</a></li>
-            <li><a href="../linux/systemd.html">Systemd</a></li>
-            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <!-- 
             <li><a href="../linux/nginx.html">Nginx</a></li>
             <li><a href="../linux/apache.html">Apache</a></li>
-            <li><a href="../linux/deploy.html">Deployment</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
         </ul>
     </li>
     
     <li>
         <div class="title">Database</div>
         <ul>
-            <li><a href="../db/postgres.html">Postgresql</a></li>
-            <li><a href="../db/sqlite.html">Sqlite</a></li>
-            <li><a href="../db/mysql.html">Mysql</a></li>
-            <li><a href="../db/sparql.html">Sparql</a></li>
-            <li><a href="../db/wikidata.html">Wikidata</a></li>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
         </ul>
     </li>
     
@@ -194,6 +215,7 @@ A target is another type of unit which groups services (or other types of unit).
         <div class="title">Misc</div>
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
         </ul>
     </li>
     

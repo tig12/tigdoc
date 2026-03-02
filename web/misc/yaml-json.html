@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Media | tigdoc</title>
+    <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-02-03 21:04:14+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<header id="topage">
+<h1 class="margin-bottom2">
+Media
+</h1>
+
+<div class="intro">
+
+</div>
+</header>
+
+<nav class="pagetoc">
+    <ul>
+        <li>
+            <a href="#1-ocr">OCR</a>
+            <ul>
+                <li>
+                    <a href="#1-1-tesseract">tesseract</a>
+                </li>
+                <li>
+                    <a href="#1-2-gocr">gocr</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#2-ffmpeg">ffmpeg</a>
+        </li>
+        <li>
+            <a href="#3-yt-dlp">yt-dlp</a>
+        </li>
+    </ul>
+</nav>
+
+<article>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="1-ocr">OCR</h2>
+
+<!-- ************************************* -->
+
+<h3 id="1-1-tesseract">tesseract</h3>
+
+<pre>
+sudo apt install tesseract-ocr
+sudo apt install tesseract-ocr-fra
+sudo apt install tesseract-ocr-ita
+sudo apt install tesseract-ocr-frk      # allemand
+sudo apt install imagemagick
+
+# generate result.txt
+tesseract test.jpg result -l ita 
+
+# generate result.txt, using english + italian
+tesseract test.jpg result -l eng+ita 
+
+# Assume a single uniform block of text
+tesseract MullerWritersP1.jpg result --psm 6
+
+for i in $(ls *.jpg); do tesseract $i $i --psm 6; done;
+tesseract MullerWritersP1.jpg result --psm 6
+</pre>
+
+<!-- ************************************* -->
+<h3 id="1-2-gocr">gocr</h3>
+<pre>
+gocr -i test.jpg -o test.txt
+
+for i in $(ls *.pbm); do gocr -i $i -o ${i/.pbm/.txt}; done;
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="2-ffmpeg">ffmpeg</h2>
+
+Conversion
+<pre>
+sudo apt install ffmpeg
+
+ffmpeg -i myfile.webm myfile.mp4
+ffmpeg -i myfile.mp4 -vn -acodec libmp3lame -ab 128k myfile.mp3
+ffmpeg -i myfile.webm -vn -acodec libmp3lame -ab 128k myfile.mp3
+ffmpeg -i myfile.flv -vn -acodec libmp3lame -ab 128k myfile.mp3
+
+# convert all .mp4 to .mp3 (without deleting .mp4) ; do not treat subdirectories
+for file in $(ls -l | grep -v ^d); do file2=$(echo $file | sed -e 's/\..*$//'); ffmpeg -i $file2.mp4 -vn -acodec libmp3lame -ab 128k $file2.mp3; done
+for file in $(ls -I mp3 -I mp4); do file2=$(echo $file | sed -e 's/\..*$//'); ffmpeg -i $file2.mp4 -vn -acodec libmp3lame -ab 128k $file2.mp3; done
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="3-yt-dlp">yt-dlp</h2>
+(previously youtube-dl)
+
+<pre>
+# see https://forums.linuxmint.com/viewtopic.php?t=441348
+wget `curl https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest | jq -r '.assets[].browser_download_url' | grep 'yt-dlp$'` &amp;&amp; chmod +x yt-dlp
+</pre>
+
+Update to last version:
+<br>rm yt-dlp and run the previous command
+
+<pre>
+-i, --ignore-errors
+      Ignore download and postprocessing errors.  The download will be considered successful even if the postprocessing fails
+-f, --format FORMAT
+      Video format code, see "FORMAT SELECTION" for more details
+</pre>
+
+
+Download video
+<pre>
+yt-dlp &lt;video URL>
+yt-dlp https://vimeo.com/411316540 --video-password &lt;my_password>
+</pre>
+
+Download and convert to mp4
+<pre>
+yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' &lt;video URL>
+# smallest size
+yt-dlp -S '+size,+br' &lt;video URL>
+# specify quality
+yt-dlp -f "bestvideo[height&lt;=360]+bestaudio/best[height&lt;=360]" --merge-output-format mp4 &lt;video URL>
+yt-dlp -f "bestvideo[height&lt;=480]+bestaudio/best[height&lt;=480]" --merge-output-format mp4 &lt;video URL>
+</pre>
+
+Download and convert to mp3
+<pre>
+yt-dlp --extract-audio --audio-format mp3 &lt;video URL>
+yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 &lt;video URL>             # --audio-quality between 0 (best) and 10 (worst)
+
+# download whole playlist
+yt-dlp -i -f mp4 --yes-playlist 'https://www.youtube.com/watch?v=7Vy8970q0Xc&amp;list=PLwJ2VKmefmxpUJEGB1ff6yUZ5Zd7Gegn2'
+# Alternatively, you can just use the playlist ID:
+yt-dlp -i --yes-playlist PLx5f8IelFRgGuSn4L90j3taAGSzyfw-U1
+
+# batch
+# &lt;file containing list of urls> is a file where urls are listed, one url per line
+# Lines starting with "#", ";" or "]" are considered as comments and ignored
+yt-dlp --batch-file=&lt;file containing list of urls>
+
+--prefer-ffmpeg
+</pre>
+
+
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        <div class="title">Linux</div>
+        <ul>
+            <li><a href="../linux/debian.html">debian</a></li>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <!-- 
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Database</div>
+        <ul>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Programing</div>
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Misc</div>
+        <ul>
+            <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Front</div>
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+    <li>
+        <div class="title"><a href="../go/index.html">Go</a></div>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

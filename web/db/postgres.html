@@ -116,22 +116,34 @@ Postgres
 <h2 id="1-install">Install</h2>
 <pre>
 sudo apt install postgresql-16
-sudo apt install php8.3-pgsql 
+sudo apt install php8.3-pgsql
 
-sudo -u postgres psql -c "SELECT version();"
+# by default when creating a cluster, messages will be in english
+# in /etc/postgresql-common/createcluster.conf, add line :
+lc_messages = 'C'
 
-sudo -s -u postgres
-psql
-psql --version
+</pre>
 
-sudo find /usr -wholename '*/bin/postgres'
-
+<pre>
 sudo systemctl reload postgresql
 sudo systemctl restart postgresql
 sudo systemctl stop postgresql
 sudo systemctl start postgresql
 </pre>
 
+Version
+<pre>
+# solution 1
+sudo -u postgres psql -c "SELECT version();"
+
+# solution 2
+sudo -s -u postgres
+psql --version
+
+# solution 3
+sudo find /usr -wholename '*/bin/postgres'
+/usr/lib/postgresql/18/bin/postgres -V
+</pre>
 
 Uninstall
 <pre>
@@ -625,14 +637,10 @@ sudo pg_createcluster --user=pg_username --encoding=UTF-8 --start 9.1 jth-collec
             Warning: The socket directory for owners other than 'postgres'
             defaults to /tmp. You might want to change the unix_socket_directory parameter
             in postgresql.conf to a more secure directory.
-            
----------------------------------------------------------------------------
-debian clusters
----------------------------------------------------------------------------
-in /etc/postgresql-common/createcluster.conf, add line :
-lc_messages = 'C' # by default when creating a cluster, messages will be in english
 
-sudo apt-get install postgresql-contrib
+---------------------------------------------------------------------------
+
+sudo apt install postgresql-contrib
 
 pg_lsclusters                       # list clusters
 
@@ -811,23 +819,30 @@ explain select distinct id_chantier from tas where id in (
     <li>
         <div class="title">Linux</div>
         <ul>
+            <li><a href="../linux/debian.html">debian</a></li>
             <li><a href="../linux/bash.html">BASH</a></li>
-            <li><a href="../linux/systemd.html">Systemd</a></li>
-            <li><a href="../linux/caddy.html">Caddy</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <!-- 
             <li><a href="../linux/nginx.html">Nginx</a></li>
             <li><a href="../linux/apache.html">Apache</a></li>
-            <li><a href="../linux/deploy.html">Deployment</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
         </ul>
     </li>
     
     <li>
         <div class="title">Database</div>
         <ul>
-            <li><a href="../db/postgres.html">Postgresql</a></li>
-            <li><a href="../db/sqlite.html">Sqlite</a></li>
-            <li><a href="../db/mysql.html">Mysql</a></li>
-            <li><a href="../db/sparql.html">Sparql</a></li>
-            <li><a href="../db/wikidata.html">Wikidata</a></li>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
         </ul>
     </li>
     
@@ -844,6 +859,7 @@ explain select distinct id_chantier from tas where id in (
         <div class="title">Misc</div>
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
         </ul>
     </li>
     
