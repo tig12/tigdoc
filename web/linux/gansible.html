@@ -67,13 +67,13 @@ Gansible
 cd /path/to/gansible
 go build
 </pre>
-=> Generates executable gansible
+=> Generates executable file <code>gansible</code>
 
 <br><br>To run the program:
 <pre>
 ./gansible &lt;host> &lt;action> &lt;argument>
 </pre>
-<table class="margin">
+<table class="margin margin-left3">
     <tr>
         <td><code>&lt;host></code></td>
         <td>machine to deploy - corresponds to a directory in <code>conf/</code></td>
@@ -97,11 +97,11 @@ conf/
     ├── global.yml                  # configuration applied to all hosts by default - can be redefined in each host configuration
     └── hdist                       # configuration of host call "hdist" (replace "hdist" by a name identifying your host)
         ├── apps
-        │   ├── myapp.yml           # example for a web application in go
-        │   ├── mypod.yml           # example for an application deployed with podman
+        │   ├── myapp.yml           # example of a web application in go
+        │   ├── mypod.yml           # example of an application deployed with podman
         │   ├── secrets
         │   │   └── myapp.env
-        │   └── site.fr.yml         # example for a web site
+        │   └── site.fr.yml         # example of a web site
         └── hdist.yml               # machine-wide configuration or parameters that can be used by all apps by default
 </pre>
 
