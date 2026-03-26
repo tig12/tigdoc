@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>PDF Latex OCR | tigdoc</title>
+    <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-03-26 10:39:14+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<header id="topage">
+<h1 class="margin-bottom2">
+PDF Latex OCR
+</h1>
+
+<div class="intro">
+
+</div>
+</header>
+
+<article>
+
+<!-- ********************************************************************************* -->
+<h2>OCR</h2>
+
+<!-- ************************************* -->
+<h3>Tesseract</h3>
+<pre>
+sudo apt install tesseract-ocr
+sudo apt install tesseract-ocr-fra
+sudo apt install tesseract-ocr-ita
+sudo apt install tesseract-ocr-frk      # allemand
+sudo apt install imagemagick
+
+# generate result.txt
+tesseract test.jpg result -l ita 
+
+# generate result.txt, using english + italian
+tesseract test.jpg result -l eng+ita 
+
+# Assume a single uniform block of text
+tesseract MullerWritersP1.jpg result --psm 6
+
+for i in $(ls *.jpg); do tesseract $i $i --psm 6; done;
+tesseract MullerWritersP1.jpg result --psm 6
+</pre>
+
+<!-- ************************************* -->
+<h3>gocr</h3>
+<pre>
+gocr -i test.jpg -o test.txt
+
+for i in $(ls *.pbm); do gocr -i $i -o ${i/.pbm/.txt}; done;
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2>PDF</h2>
+A trier
+<pre>
+sudo apt install pdfgrep
+
+Overleaf
+TeXample.net
+ShareLaTeX
+
+djvu - Good converter
+https://djvu2pdf.com/
+</pre>
+
+<!-- ************************************* -->
+<h3>xreader - view pdf</h3>
+<pre>
+sudo apt install xreader
+xreader myfile.pdf
+</pre>
+
+<!-- ************************************* -->
+<h3>pdfimages - extract images from pdf</h3>
+<pre>
+# -j => output in jpg format
+pdfimages -j ClefI-II-III.pdf basename
+</pre>
+
+<!-- ************************************* -->
+<h3>pdftotext - convert pdf to text</h3>
+<pre>
+sudo apt install poppler-utils
+pdftotext -layout input.pdf output.txt
+</pre>
+
+<!-- ************************************* -->
+<h3>mupdf-tools - split pages vertically</h3>
+<pre>
+(nb of generated pages = original nb * 2)
+sudo apt install mupdf-tools
+mutool poster -x 2 castille2004-2.pdf test.pdf
+</pre>
+
+<!-- ************************************* -->
+<h3>wkhtmltopdf - convert pdf to html</h3>
+<pre>
+sudo apt install wkhtmltopdf
+wkhtmltopdf myfile.html myfile.pdf
+</pre>
+
+<!-- ************************************* -->
+<h3>Conversion latex / pdf</h3>
+www.sharelatex.com
+<pre>
+sudo apt install texlive
+sudo apt install texlive-lang-french
+sudo apt install texlive-latex-extra
+
+###### tex to pdf :
+pdflatex myfile.tex 
+</pre>
+
+
+<!-- ************************************* -->
+<h3>pdftk</h3>
+<pre>
+sudo apt install pdftk-java
+https://www.pdflabs.com/docs/pdftk-man-page/
+
+pdftk &lt; input PDF files | - | PROMPT >
+[ input_pw &lt; input PDF owner passwords | PROMPT > ]
+[ &lt; operation > &lt; operation arguments > ]
+[ output &lt; output filename | - | PROMPT > ]
+[ encrypt_40bit | encrypt_128bit ]
+[ allow &lt; permissions > ]
+[ owner_pw &lt; owner password | PROMPT > ]
+[ user_pw &lt; user password | PROMPT > ]
+[ flatten ] [ need_appearances ]
+[ compress | uncompress ]
+[ keep_first_id | keep_final_id ]
+[ drop_xfa ]
+[ verbose ]
+[ dont_ask | do_ask ]
+
+&lt; operation > can be empty, or:
+    cat
+    shuffle
+    burst
+    rotate
+    generate_fdf
+    fill_form
+    background
+    multibackground
+    stamp
+    multistamp
+    dump_data
+    dump_data_utf8
+    dump_data_fields
+    dump_data_fields_utf8
+    dump_data_annots
+    update_info
+    update_info_utf8
+    attach_files
+    unpack_files
+
+###### extract slice(s) of a pdf and create a pdf
+pdftk category-theory-for-scientists.pdf cat 58-112  output category-theory-for-scientists-chap3.pdf
+pdftk category-theory-for-scientists.pdf cat 1 3 5 7-57  output out.pdf
+
+###### merge multiple pdf in a single file
+pdftk file1.pdf file2.pdf file3.pdf cat output newfile.pdf
+
+###### rotate the document to the left
+pdftk test.pdf rotate 1-endwest output out.pdf 
+[ &lt;begin page number> [ -&lt;end page number> [ &lt;qualifier> ] ] ] [ &lt;page rotation> ] 
+- qualifier : even or odd
+- page rotation : north, south, east, west, left, right, or down. 
+
+###### adding metadata
+# - create a file metadata.txt with :
+InfoKey: Title
+InfoValue: Wild Flowers of Kashmir
+InfoKey: Author
+InfoValue: Coventry, B. O.
+InfoKey: Keywords
+InfoValue: London,1923,Raithby Lawrence and Company
+# - then :
+pdftk 2000-2-bayes-theorem.pdf update_info metadata.txt output test.pdf
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2>tikz - drawing in latex</h2>
+
+<pre>
+tikzcd to draw categories
+
+% https://tikzcd.yichuanshen.de
+\documentclass{article} 
+\nofiles        % do not generate .aux .log and .out files
+\usepackage{tikz-cd}
+\begin{document}
+\begin{tikzcd}
+A   \arrow[loop, "id_A"', distance=2em, in=305, out=235]
+    \arrow[rr, "g  o  f", bend left=49]
+    \arrow[r, "f"', bend left]
+&amp; B \arrow[loop, "id_B"', distance=2em, in=305, out=235]
+    \arrow[r, "g"', bend left]
+&amp; C \arrow[loop, "id_C"', distance=2em, in=305, out=235]
+\end{tikzcd}
+\end{document}
+
+\documentclass{article} 
+\usepackage{tikz-cd}
+\begin{document}
+
+\begin{tikzcd}
+Z    \arrow[r,"b"]
+     \arrow[d,"g"]
+     \arrow[loop, distance=2em, in=215, out=145]
+&amp; C  \arrow[r,"\alpha"]
+     \arrow[d,"\gamma",pos=0.4,swap]
+&amp; D  \arrow[d,"\beta"]\\
+B    \arrow[rru,"h",pos=0.7,swap]
+&amp; B' \arrow[r,"\omega"]
+&amp; D'
+\end{tikzcd}
+
+\begin{tikzcd}
+A   \arrow[d, "g"]
+    \arrow[r, "f"]
+&amp; B \arrow[r, "\alpha"]
+    \arrow[d, "\gamma"]
+&amp; D
+    \arrow[d, "\beta"] \\
+C   \arrow[rru, "h"]
+&amp; B'    \arrow[r, "\lambda"]
+&amp; D'
+\end{tikzcd}
+
+\end{document}
+
+-------------------------------------------------------------------------------
+\documentclass{article}
+\usepackage{tikz-cd}
+\begin{document}
+\begin{tikzcd}
+A   \arrow[r,"b"]
+    \arrow[d,"g"]
+&amp; C \arrow[r,"\alpha"]
+    \arrow[d,"\beta"]
+&amp; D \arrow[d,"\gamma"]
+\\ B \arrow[rru,"h"]
+&amp; B' \arrow[r,"\omega"]
+&amp; D' 
+\end{tikzcd}
+\end{document}
+
+-------------------------------------------------------------------------------
+%%%%%%% loop %%%%%%%% https://tikzcd.yichuanshen.de/
+\begin{tikzcd}
+A   \arrow[loop, distance=2em, in=215, out=145]
+    \arrow[rr, "f", bend left]
+&amp;
+&amp; B \arrow[loop, distance=2em, in=35, out=325]
+    \arrow[ll, "g", bend left]
+\end{tikzcd}
+</pre>
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        <div class="title">Linux</div>
+        <ul>
+            <li><a href="../linux/debian.html">debian</a></li>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <!-- 
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Database</div>
+        <ul>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Programing</div>
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Misc</div>
+        <ul>
+            <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Front</div>
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+    <li>
+        <div class="title"><a href="../go/index.html">Go</a></div>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

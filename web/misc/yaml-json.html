@@ -2,7 +2,7 @@
 <html lang="fr" lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Media | tigdoc</title>
+    <title>YAML JSON | tigdoc</title>
     <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
     <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
     <meta name="description" content="">
@@ -20,7 +20,7 @@
 
 <header id="topage">
 <h1 class="margin-bottom2">
-Media
+YAML JSON
 </h1>
 
 <div class="intro">
@@ -28,136 +28,49 @@ Media
 </div>
 </header>
 
-<nav class="pagetoc">
-    <ul>
-        <li>
-            <a href="#1-ocr">OCR</a>
-            <ul>
-                <li>
-                    <a href="#1-1-tesseract">tesseract</a>
-                </li>
-                <li>
-                    <a href="#1-2-gocr">gocr</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="#2-ffmpeg">ffmpeg</a>
-        </li>
-        <li>
-            <a href="#3-yt-dlp">yt-dlp</a>
-        </li>
-    </ul>
-</nav>
-
 <article>
 
+<!-- ********************************************************************************* -->
+<h2>YAML</h2>
+
+Variables
+<pre>
+somewhere: 
+  # define a variable using &amp;
+  data-dir: &amp;data-dir path/to/dir
+
+somewhere-else:
+  # use a variable using *
+  input-dir: *data-dir
+</pre>
+
 
 <!-- ********************************************************************************* -->
-<h2 id="1-ocr">OCR</h2>
+<h2>JSON</h2>
 
 <!-- ************************************* -->
+<h3>jq</h3>
 
-<h3 id="1-1-tesseract">tesseract</h3>
+<pre>sudo apt install jq</pre>
 
-<pre>
-sudo apt install tesseract-ocr
-sudo apt install tesseract-ocr-fra
-sudo apt install tesseract-ocr-ita
-sudo apt install tesseract-ocr-frk      # allemand
-sudo apt install imagemagick
-
-# generate result.txt
-tesseract test.jpg result -l ita 
-
-# generate result.txt, using english + italian
-tesseract test.jpg result -l eng+ita 
-
-# Assume a single uniform block of text
-tesseract MullerWritersP1.jpg result --psm 6
-
-for i in $(ls *.jpg); do tesseract $i $i --psm 6; done;
-tesseract MullerWritersP1.jpg result --psm 6
-</pre>
-
-<!-- ************************************* -->
-<h3 id="1-2-gocr">gocr</h3>
-<pre>
-gocr -i test.jpg -o test.txt
-
-for i in $(ls *.pbm); do gocr -i $i -o ${i/.pbm/.txt}; done;
-</pre>
-
-
-<!-- ********************************************************************************* -->
-<h2 id="2-ffmpeg">ffmpeg</h2>
-
-Conversion
-<pre>
-sudo apt install ffmpeg
-
-ffmpeg -i myfile.webm myfile.mp4
-ffmpeg -i myfile.mp4 -vn -acodec libmp3lame -ab 128k myfile.mp3
-ffmpeg -i myfile.webm -vn -acodec libmp3lame -ab 128k myfile.mp3
-ffmpeg -i myfile.flv -vn -acodec libmp3lame -ab 128k myfile.mp3
-
-# convert all .mp4 to .mp3 (without deleting .mp4) ; do not treat subdirectories
-for file in $(ls -l | grep -v ^d); do file2=$(echo $file | sed -e 's/\..*$//'); ffmpeg -i $file2.mp4 -vn -acodec libmp3lame -ab 128k $file2.mp3; done
-for file in $(ls -I mp3 -I mp4); do file2=$(echo $file | sed -e 's/\..*$//'); ffmpeg -i $file2.mp4 -vn -acodec libmp3lame -ab 128k $file2.mp3; done
-</pre>
-
-<!-- ********************************************************************************* -->
-<h2 id="3-yt-dlp">yt-dlp</h2>
-(previously youtube-dl)
+<a href="https://www.baeldung.com/linux/jq-command-json">https://www.baeldung.com/linux/jq-command-json</a>
 
 <pre>
-# see https://forums.linuxmint.com/viewtopic.php?t=441348
-wget `curl https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest | jq -r '.assets[].browser_download_url' | grep 'yt-dlp$'` &amp;&amp; chmod +x yt-dlp
-</pre>
+echo '{"fruit":{"name":"apple","color":"green","price":1.20}}' | jq '.'
+jq '.' myfile.json
+curl http://api.open-notify.org/iss-now.json | jq '.'
 
-Update to last version:
-<br>rm yt-dlp and run the previous command
+# .field operator
+jq '.fruit' fruit.json
 
-<pre>
--i, --ignore-errors
-      Ignore download and postprocessing errors.  The download will be considered successful even if the postprocessing fails
--f, --format FORMAT
-      Video format code, see "FORMAT SELECTION" for more details
-</pre>
+# chain .field operator
+jq '.fruit.color' fruit.json
 
+# retrieve multiple keys, separate them using a comma
+jq '.fruit.color,.fruit.price' fruit.json
 
-Download video
-<pre>
-yt-dlp &lt;video URL>
-yt-dlp https://vimeo.com/411316540 --video-password &lt;my_password>
-</pre>
-
-Download and convert to mp4
-<pre>
-yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' &lt;video URL>
-# smallest size
-yt-dlp -S '+size,+br' &lt;video URL>
-# specify quality
-yt-dlp -f "bestvideo[height&lt;=360]+bestaudio/best[height&lt;=360]" --merge-output-format mp4 &lt;video URL>
-yt-dlp -f "bestvideo[height&lt;=480]+bestaudio/best[height&lt;=480]" --merge-output-format mp4 &lt;video URL>
-</pre>
-
-Download and convert to mp3
-<pre>
-yt-dlp --extract-audio --audio-format mp3 &lt;video URL>
-yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 &lt;video URL>             # --audio-quality between 0 (best) and 10 (worst)
-
-# download whole playlist
-yt-dlp -i -f mp4 --yes-playlist 'https://www.youtube.com/watch?v=7Vy8970q0Xc&amp;list=PLwJ2VKmefmxpUJEGB1ff6yUZ5Zd7Gegn2'
-# Alternatively, you can just use the playlist ID:
-yt-dlp -i --yes-playlist PLx5f8IelFRgGuSn4L90j3taAGSzyfw-U1
-
-# batch
-# &lt;file containing list of urls> is a file where urls are listed, one url per line
-# Lines starting with "#", ";" or "]" are considered as comments and ignored
-yt-dlp --batch-file=&lt;file containing list of urls>
-
---prefer-ffmpeg
+# handle special characters
+echo '{ "with space": "hello" }' | jq '."with space"'
 </pre>
 
 
@@ -206,6 +119,7 @@ yt-dlp --batch-file=&lt;file containing list of urls>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
         </ul>
     </li>
     
@@ -214,6 +128,7 @@ yt-dlp --batch-file=&lt;file containing list of urls>
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
             <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
         </ul>
     </li>
     

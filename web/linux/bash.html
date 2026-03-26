@@ -118,9 +118,6 @@ Bash
             <a href="#27-heredoc-syntax">heredoc syntax</a>
         </li>
         <li>
-            <a href="#28-jq-json-processing">jq - json processing</a>
-        </li>
-        <li>
             <a href="#29-sed">sed</a>
         </li>
         <li>
@@ -208,7 +205,10 @@ cat *.txt >> all.txt
 
 ncbu        # list reps with their sizes
 </pre>
-
+Shebang
+<pre>
+#!/bin/bash
+</pre>
 
 <!-- ********************************************************************************* -->
 <h2 id="2-variables">variables</h2>
@@ -823,25 +823,6 @@ sort &lt;&lt; EOF
 EOF
 </pre>
 
-
-<!-- ********************************************************************************* -->
-<h2 id="28-jq-json-processing">jq - json processing</h2>
-<pre>
-https://www.baeldung.com/linux/jq-command-json
-echo '{"fruit":{"name":"apple","color":"green","price":1.20}}' | jq '.'
-jq '.' myfile.json
-curl http://api.open-notify.org/iss-now.json | jq '.'
-# .field operator
-jq '.fruit' fruit.json
-# chain .field operator
-jq '.fruit.color' fruit.json
-# retrieve multiple keys, separate them using a comma
-jq '.fruit.color,.fruit.price' fruit.json
-# handle special characters
-echo '{ "with space": "hello" }' | jq '."with space"'
-</pre>
-
-
 <!-- ********************************************************************************* -->
 <h2 id="29-sed">sed</h2>
 In the replacement part, captured strings are refered as <code>\1</code> <code>\2</code> etc.
@@ -1276,6 +1257,18 @@ sudo apt -s upgrade |grep -E '(^Inst*)'|cut -d ' ' -f 2 |sed -e 's/(//g' # show 
 </pre>
 
 <!-- ************************************* -->
+<h3>Arguments</h3>
+<pre>
+if [ $# -eq 0 ]; then
+    echo "This script was called without argument"
+    exit
+fi
+
+$1 $2
+</pre>
+
+
+<!-- ************************************* -->
 <h3 id="38-1-tests">Tests</h3>
 <pre>
 if [ $# -lt 1 ] || [ $# -gt 1 ]; then
@@ -1411,6 +1404,7 @@ done
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
         </ul>
     </li>
     
@@ -1419,6 +1413,7 @@ done
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
             <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
         </ul>
     </li>
     

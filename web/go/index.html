@@ -29,23 +29,7 @@ Go
 </div>
 </header>
 
-<nav class="pagetoc">
-    <ul>
-        <li>
-            <a href="#1-install-go">Install go</a>
-        </li>
-    </ul>
-</nav>
-
 <article>
-
-<nav class="pagetoc">
-    <ul>
-        <li>
-            <a href="#1-install-go">Install go</a>
-        </li>
-    </ul>
-</nav>
 
 <table class="wikitable">
     <tr>
@@ -94,6 +78,27 @@ sudo rm -fr /usr/local/go
 # then remove go from $PATH
 </pre>
 
+<!-- ********************************************************************************* -->
+<h2>Start a program</h2>
+<pre>
+go mod init myproject/example
+go mod tidy
+</pre>
+
+<pre>
+go help mod
+	go mod &lt;command> [arguments]
+The commands are:
+	download    download modules to local cache
+	edit        edit go.mod from tools or scripts
+	graph       print module requirement graph
+	init        initialize new module in current directory
+	tidy        add missing and remove unused modules
+	vendor      make vendored copy of dependencies
+	verify      verify dependencies have expected content
+	why         explain why packages or modules are needed
+</pre>
+
 </article>
 </div><!-- end class="main" -->
 
@@ -138,6 +143,7 @@ sudo rm -fr /usr/local/go
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
         </ul>
     </li>
     
@@ -146,6 +152,7 @@ sudo rm -fr /usr/local/go
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
             <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
         </ul>
     </li>
     

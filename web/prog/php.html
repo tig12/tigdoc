@@ -461,7 +461,7 @@ $res = 0 ?: 0 ?: 0 ?: 3; // $res = 3
 <pre>
 // same as ternary but boolean test replaced by isset
 $username = isset($_GET['user']) ? $_GET['user'] : 'nobody';
-// equivalent to:
+// now equivalent to:
 $username = $_GET['user'] ?? 'nobody';
 
 // Coalescing can be chained: this will return the first defined value out of $_GET['user'], $_POST['user'], and 'nobody'.
@@ -918,6 +918,31 @@ composer install
 docker pull php:8.4.7-alpine3.21
 </pre>
 
+<!-- ********************************************************************************* -->
+<h2>phpunit</h2>
+Without <code>phpunit.xml</code>
+<pre>
+# execute all tests
+phpunit --bootstrap autoload.php .
+# execute one test class
+phpunit --bootstrap autoload.php time/HHMM2minutesTest.php
+</pre>
+
+With <code>phpunit.xml</code>
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;phpunit
+    bootstrap="autoload.php"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+>
+&lt;/phpunit>
+</pre>
+<pre>
+# execute all tests
+phpunit .
+# execute one test class
+phpunit time/HHMM2minutesTest.php
+</pre>
 
 <!-- ********************************************************************************* -->
 <h2 id="21-php-cs-fixer">php-cs-fixer</h2>
@@ -970,6 +995,7 @@ composer require --dev friendsofphp/php-cs-fixer
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
         </ul>
     </li>
     
@@ -978,6 +1004,7 @@ composer require --dev friendsofphp/php-cs-fixer
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
             <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
         </ul>
     </li>
     

@@ -48,6 +48,118 @@ Zed editor
 <a href="https://cheatsheets.zip/zed">https://cheatsheets.zip/zed</a>
 
 <!-- ********************************************************************************* -->
+<h2 id="2-shortcuts">Shortcuts</h2>
+<style>
+#shortcuts td[colspan="2"]{
+    font-weight:bold;
+    text-align:center;
+    background:#444;
+}
+</style>
+<table class="wikitable" id="shortcuts">
+    <tr><td>ctrl shift p</td><td>Command palette</td></tr>
+    <tr><td>ctrl .</td><td>Toogle action on current symbol</td></tr>
+    <tr><td colspan="2">Code</td></tr>
+    <tr><td>ctrl shift k</td><td>Delete line</td></tr>
+    <tr><td>alt up arrow</td><td>Move current line up / down</td></tr>
+    <tr><td>ctrl /</td><td>Comment / uncomment selected lines</td></tr>
+    <tr><td colspan="2">Find</td></tr>
+    <tr><td>ctrl p</td><td>Search project file name</td></tr>
+    <tr><td>ctrl h</td><td>Find and replace in current buffer</td></tr>
+    <tr><td>ctrl shift h</td><td>Find and replace in current project</td></tr>
+    <tr><td colspan="2">Navigation</td></tr>
+    <tr><td>ctrl k left-arrow</td><td>Activate pane left</td></tr>
+    <tr><td>ctrl k right-arrow</td><td>Activate pane right</td></tr>
+</table>
+
+
+<!-- ************************************* -->
+<h2 id="1-1-settings-json">settings.json</h2>
+
+in zed editor, I have set show_menus to true in settings.json:
+"title_bar": {
+        "show_menus": true
+    }
+
+When I am editing code, whet is the keyboard shortcu to navigate through the menus ?
+
+<a href="https://zed.dev/docs/reference/all-settings">https://zed.dev/docs/reference/all-settings</a> +  <a href="https://www.kevnu.com/en/posts/zed-editor-configuration-guide-autosave-prettier-terminal-font-and-formatting-made-easy">kevnu.com</a>
+
+<table>
+    <tr>
+        <td>Open <code>settings.json</code></td>
+        <td class="padding-left">ctrl alt ,</td>
+    </tr>
+    <tr>
+        <td>Open settings</td>
+        <td class="padding-left">ctrl ,</td>
+    </tr>
+</table>
+
+<pre>
+{
+    // disable auto-formatting
+    "format_on_save": "off",
+
+    // always show menus
+    "title_bar": {
+        "show_menus": true
+    },
+    
+    "git": {
+        // don't show author of each line
+        "inline_blame": {
+            "enabled": false
+        }
+    },
+    
+    // don't reuse current buffer when opening a file
+    "preview_tabs": {
+        "enabled": false
+    },
+    
+    // Explicitely display != instead of glyphs
+    "ui_font_features": {
+        "calt": false,
+        "liga": false
+    },
+    "buffer_font_features": {
+        "calt": false,
+        "liga": false
+    },
+    
+    // don't display stars on empty lines inside a comment /*  */
+    "extend_comment_on_newline": false,
+
+    // fuck off AI
+    "disable_ai": true,
+}  
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2>keymap.json</h2>
+<table>
+    <tr>
+        <td>Open keymaps</td>
+        <td class="padding-left">ctrl k ctrl s</td>
+    </tr>
+</table>
+
+<pre>
+[
+    // loop through open files in the order they are displayed
+    {
+        "context": "Workspace",
+        "bindings": {
+            "ctrl-tab": "pane::ActivateNextItem",
+            "ctrl-shift-tab": "pane::ActivatePreviousItem"
+        }
+    }
+]
+</pre>
+
+
+<!-- ********************************************************************************* -->
 <h2 id="1-settings">Configuration files</h2>
 
 <table class="wikitable">
@@ -61,62 +173,13 @@ Zed editor
     </tr>
     <tr>
         <td>Project settings</td>
-        <td><code>.zed/settings.json</code></td>
+        <td><code>&lt;project dir>/.zed/settings.json</code></td>
     </tr>
     <tr>
         <td>Installed extensions</td>
         <td><code>~/.local/share/zed/extensions/installed</code></td>
     </tr>
 </table>
-
-<!-- ********************************************************************************* -->
-<h2 id="2-shortcuts">Shortcuts</h2>
-<table class="wikitable">
-    <tr><td>ctrl .</td><td>toogle action on current symbol</td></tr>
-    <tr><td>alt up arrow</td><td>Move current line up / down</td></tr>
-    <tr><td>ctrl p</td><td>Search project file name</td></tr>
-    <tr><td>ctrl k left-arrow</td><td>Activate pane left</td></tr>
-    <tr><td>ctrl k right-arrow</td><td>Activate pane right</td></tr>
-</table>
-
-
-<!-- ************************************* -->
-<h2 id="1-1-settings-json">settings.json</h2>
-open: <code>ctrl alt ,</code>
-
-<pre>
-{
-    // disable auto-formatting
-    "format_on_save": "off",
-
-    // always show menus
-    "title_bar": {
-        "show_menus": true
-    },
-    "git": {
-        "inline_blame": {
-            "enabled": false
-        }
-    },
-    "disable_ai": true,
-}  
-</pre>
-
-
-<!-- ********************************************************************************* -->
-<h2>keymap.json</h2>
-<pre>
-[
-    // loop through open files in the order they are displayed
-    {
-        "context": "Workspace",
-        "bindings": {
-            "ctrl-tab": "pane::ActivateNextItem",
-            "ctrl-shift-tab": "pane::ActivatePreviousItem"
-        }
-    }
-]
-</pre>
 
 
 <!-- ********************************************************************************* -->
@@ -212,6 +275,7 @@ open: <code>ctrl alt ,</code>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
         </ul>
     </li>
     
@@ -220,6 +284,7 @@ open: <code>ctrl alt ,</code>
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
             <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
         </ul>
     </li>
     

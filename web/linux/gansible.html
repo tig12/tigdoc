@@ -95,15 +95,23 @@ Before using gansible: <pre class="inline">cp -r conf.dist/ conf</pre> and adapt
 <pre>
 conf/
     ├── global.yml                  # configuration applied to all hosts by default - can be redefined in each host configuration
-    └── hdist                       # configuration of host call "hdist" (replace "hdist" by a name identifying your host)
+    └── mydeployment                # configuration of host call "hdist" (replace "hdist" by a name identifying your host)
         ├── apps
         │   ├── myapp.yml           # example of a web application in go
         │   ├── mypod.yml           # example of an application deployed with podman
         │   ├── secrets
         │   │   └── myapp.env
         │   └── site.fr.yml         # example of a web site
-        └── hdist.yml               # machine-wide configuration or parameters that can be used by all apps by default
+        └── myhost.yml              # machine-wide configuration or parameters that can be used by all apps by default
 </pre>
+
+Notes
+<ul class="">
+    <li>
+        To use the host name in gansible commands, you need to add a line in <code>/etc/hosts</code>, for ex: <code>1.2.3.4	    myhost</code>
+        <br>WARNING: the yaml file name (<code>myhost.yml</code>) must correspond to the host name added in <code>/etc/hosts</code> (<code>myhost</code>).
+    </li>
+</ul>
 
 <!-- ********************************************************************************* -->
 <h2 id="2-run">Run</h2>
@@ -275,6 +283,7 @@ Typical sequence to deploy a machine:
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
         </ul>
     </li>
     
@@ -283,6 +292,7 @@ Typical sequence to deploy a machine:
         <ul>
             <li><a href="../misc/media.html">Media</a></li>
             <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
         </ul>
     </li>
     
