@@ -28,7 +28,7 @@ Mainly contains new language features introduced since php 7.
 </div>
 </header>
 
-<nav class="pagetoc">
+<nav class="pagetoc" aria-label="Table of contents">
     <ul>
         <li>
             <a href="#1-quick-reminder">Quick reminder</a>
@@ -178,7 +178,10 @@ Mainly contains new language features introduced since php 7.
             <a href="#20-php-docker-images">PHP Docker images</a>
         </li>
         <li>
-            <a href="#21-php-cs-fixer">php-cs-fixer</a>
+            <a href="#21-phpunit">phpunit</a>
+        </li>
+        <li>
+            <a href="#22-php-cs-fixer">php-cs-fixer</a>
         </li>
     </ul>
 </nav>
@@ -919,7 +922,7 @@ docker pull php:8.4.7-alpine3.21
 </pre>
 
 <!-- ********************************************************************************* -->
-<h2>phpunit</h2>
+<h2 id="21-phpunit">phpunit</h2>
 Without <code>phpunit.xml</code>
 <pre>
 # execute all tests
@@ -937,15 +940,39 @@ With <code>phpunit.xml</code>
 >
 &lt;/phpunit>
 </pre>
+
 <pre>
-# execute all tests
+# Execute all tests of current directory
 phpunit .
-# execute one test class
+
+# Execute all tests of a directory
+phpunit path/to/dir/
+
+# Execute one test class
 phpunit time/HHMM2minutesTest.php
+
+# Execute only one method
+phpunit src/commands/death_fr/controlTest.php --filter testStudy1_sums
+WARNING: --filter designates a regex => test_myMethod$ to execute only one method (if several methods start with the same string)
+</pre>
+
+<pre>
+--display-deprecations
+--display-phpunit-deprecations
+--display-phpunit-notices
+--display-errors
+--display-notices
+--display-warnings
+--display-all-issues
+</pre>
+
+<pre>
+    protected function setUp(): void {
+    }
 </pre>
 
 <!-- ********************************************************************************* -->
-<h2 id="21-php-cs-fixer">php-cs-fixer</h2>
+<h2 id="22-php-cs-fixer">php-cs-fixer</h2>
 <pre>
 composer require --dev friendsofphp/php-cs-fixer
 </pre>
@@ -970,9 +997,9 @@ composer require --dev friendsofphp/php-cs-fixer
             </ul>
             -->
             <li><a href="../linux/systemd.html">systemd</a></li>
+            <!-- 
             <li><a href="../linux/caddy.html">caddy</a></li>
             <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
-            <!-- 
             <li><a href="../linux/nginx.html">Nginx</a></li>
             <li><a href="../linux/apache.html">Apache</a></li>
             -->
@@ -990,12 +1017,13 @@ composer require --dev friendsofphp/php-cs-fixer
     </li>
     
     <li>
-        <div class="title">Programing</div>
+        <div class="title">Dev</div>
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
             <li><a href="../prog/rust.html">Rust</a></li>
+            <li><a href="../prog/new.html">new</a></li>
         </ul>
     </li>
     
@@ -1020,9 +1048,10 @@ composer require --dev friendsofphp/php-cs-fixer
     </li>
         
     <li>
-        <div class="title"><a href="../go/index.html">Go</a></div>
+        <div class="title">Go</div>
         <ul>
             <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/basics.html">Basics</a></li>
             <li><a href="../go/libext.html">External libraries</a></li>
             <li><a href="../go/write-webapp.html">Write a web application</a></li>
             <li><a href="../go/write-api.html">Write an API</a></li>

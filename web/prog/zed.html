@@ -11,6 +11,13 @@
     <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
     <meta name="dcterms.rightsHolder" content="Thierry Graff">
     <meta name="dcterms.dateCopyrighted" content="2026-01-30 14:37:49+01:00">
+    <style>
+.table-shortcuts td[colspan="2"]{
+    font-weight:bold;
+    text-align:center;
+    background:#444;
+}
+    </style>
 </head>
 
 <body>
@@ -47,17 +54,56 @@ Zed editor
 
 <a href="https://cheatsheets.zip/zed">https://cheatsheets.zip/zed</a>
 
+<pre>
+zed --version
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="1-settings">Configuration files</h2>
+
+<table class="wikitable margin ">
+    <tr>
+        <td>General settings</td>
+        <td><code>~/.config/zed/settings.json</code></td>
+    </tr>
+    <tr>
+        <td>Keymap</td>
+        <td><code>~/.config/zed/keymap.json</code></td>
+    </tr>
+    <tr>
+        <td>Project settings</td>
+        <td><code>&lt;project dir>/.zed/settings.json</code></td>
+    </tr>
+    <tr>
+        <td>Installed extensions</td>
+        <td><code>~/.local/share/zed/extensions/installed</code></td>
+    </tr>
+</table>
+
+<table class="wikitable margin table-shortcuts">
+    <tr>
+        <td>ctrl alt ,</td>
+        <td>Open <code>settings.json</code></td>
+    </tr>
+    <tr>
+        <td>ctrl ,</td>
+        <td>Open settings</td>
+    </tr>
+    <tr>
+        <td>ctrl k ctrl s</td>
+        <td>Open keymaps</td>
+    </tr>
+    <tr>
+        <td>ctrl shift p</td>
+        <td>Command palette</td>
+    </tr>
+</table>
+
+
 <!-- ********************************************************************************* -->
 <h2 id="2-shortcuts">Shortcuts</h2>
-<style>
-#shortcuts td[colspan="2"]{
-    font-weight:bold;
-    text-align:center;
-    background:#444;
-}
-</style>
-<table class="wikitable" id="shortcuts">
-    <tr><td>ctrl shift p</td><td>Command palette</td></tr>
+
+<table class="wikitable margin table-shortcuts">
     <tr><td>ctrl .</td><td>Toogle action on current symbol</td></tr>
     <tr><td colspan="2">Code</td></tr>
     <tr><td>ctrl shift k</td><td>Delete line</td></tr>
@@ -85,19 +131,10 @@ When I am editing code, whet is the keyboard shortcu to navigate through the men
 
 <a href="https://zed.dev/docs/reference/all-settings">https://zed.dev/docs/reference/all-settings</a> +  <a href="https://www.kevnu.com/en/posts/zed-editor-configuration-guide-autosave-prettier-terminal-font-and-formatting-made-easy">kevnu.com</a>
 
-<table>
-    <tr>
-        <td>Open <code>settings.json</code></td>
-        <td class="padding-left">ctrl alt ,</td>
-    </tr>
-    <tr>
-        <td>Open settings</td>
-        <td class="padding-left">ctrl ,</td>
-    </tr>
-</table>
-
 <pre>
 {
+    "buffer_font_size": 15,
+
     // disable auto-formatting
     "format_on_save": "off",
 
@@ -138,10 +175,10 @@ When I am editing code, whet is the keyboard shortcu to navigate through the men
 
 <!-- ********************************************************************************* -->
 <h2>keymap.json</h2>
-<table>
+<table class="wikitable margin table-shortcuts">
     <tr>
+        <td>ctrl k ctrl s</td>
         <td>Open keymaps</td>
-        <td class="padding-left">ctrl k ctrl s</td>
     </tr>
 </table>
 
@@ -157,29 +194,6 @@ When I am editing code, whet is the keyboard shortcu to navigate through the men
     }
 ]
 </pre>
-
-
-<!-- ********************************************************************************* -->
-<h2 id="1-settings">Configuration files</h2>
-
-<table class="wikitable">
-    <tr>
-        <td>General settings</td>
-        <td><code>~/.config/zed/settings.json</code></td>
-    </tr>
-    <tr>
-        <td>Keymap</td>
-        <td><code>~/.config/zed/keymap.json</code></td>
-    </tr>
-    <tr>
-        <td>Project settings</td>
-        <td><code>&lt;project dir>/.zed/settings.json</code></td>
-    </tr>
-    <tr>
-        <td>Installed extensions</td>
-        <td><code>~/.local/share/zed/extensions/installed</code></td>
-    </tr>
-</table>
 
 
 <!-- ********************************************************************************* -->
@@ -231,6 +245,16 @@ When I am editing code, whet is the keyboard shortcu to navigate through the men
 </tbody>
 </table>
 
+
+<!-- ********************************************************************************* -->
+<h2>go</h2>
+
+<ul>
+    <li><a href="https://zed.dev/docs/languages/go">https://zed.dev/docs/languages/go</a></li>
+    <li><a href="https://github.com/golang/tools/blob/master/gopls/doc/settings.md">https://github.com/golang/tools/blob/master/gopls/doc/settings.md</a></li>
+</ul>
+
+
 </article>
 </div><!-- end class="main" -->
 
@@ -250,9 +274,9 @@ When I am editing code, whet is the keyboard shortcu to navigate through the men
             </ul>
             -->
             <li><a href="../linux/systemd.html">systemd</a></li>
+            <!-- 
             <li><a href="../linux/caddy.html">caddy</a></li>
             <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
-            <!-- 
             <li><a href="../linux/nginx.html">Nginx</a></li>
             <li><a href="../linux/apache.html">Apache</a></li>
             -->
@@ -270,12 +294,13 @@ When I am editing code, whet is the keyboard shortcu to navigate through the men
     </li>
     
     <li>
-        <div class="title">Programing</div>
+        <div class="title">Dev</div>
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
             <li><a href="../prog/rust.html">Rust</a></li>
+            <li><a href="../prog/new.html">new</a></li>
         </ul>
     </li>
     
@@ -300,9 +325,10 @@ When I am editing code, whet is the keyboard shortcu to navigate through the men
     </li>
         
     <li>
-        <div class="title"><a href="../go/index.html">Go</a></div>
+        <div class="title">Go</div>
         <ul>
             <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/basics.html">Basics</a></li>
             <li><a href="../go/libext.html">External libraries</a></li>
             <li><a href="../go/write-webapp.html">Write a web application</a></li>
             <li><a href="../go/write-api.html">Write an API</a></li>

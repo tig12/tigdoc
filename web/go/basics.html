@@ -2,7 +2,7 @@
 <html lang="fr" lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Go | tigdoc</title>
+    <title>Go - basics | tigdoc</title>
     <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
     <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
     <meta name="description" content="">
@@ -10,7 +10,7 @@
     <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
     <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
     <meta name="dcterms.rightsHolder" content="Thierry Graff">
-    <meta name="dcterms.dateCopyrighted" content="2026-01-05 02:21:14+01:00">
+    <meta name="dcterms.dateCopyrighted" content="2026-06-01 01:00:08+02:00">
 </head>
 
 <body>
@@ -18,10 +18,9 @@
 
 <div class="main">
 
-<a name="topage"></a>
-<header>
+<header id="topage">
 <h1 class="margin-bottom2">
-Go
+Go - basics
 </h1>
 
 <div class="intro">
@@ -31,73 +30,23 @@ Go
 
 <article>
 
-<table class="wikitable">
-    <tr>
-        <td>Go Release History</td>
-        <td><a href="https://versionlog.com/golang">https://versionlog.com/golang</a></td>
-    </tr>
-    <tr>
-        <td>Release cycle</td>
-        <td><a href="https://go.dev/wiki/Go-Release-Cycle">https://go.dev/wiki/Go-Release-Cycle</a></td>
-    </tr>
-</table>
-
-<!-- ********************************************************************************* -->
-<h2 id="1-install-go">Install go</h2>
-
-<a href="https://go.dev/doc/toolchain">https://go.dev/doc/toolchain</a>
 <pre>
-/usr/local/go           # installation dir
-/usr/local/go/bin/go    # binary location
+import (
+	"fmt"
+	"os"
+	"runtime/debug"
+)
+    
+func main() {
+    fmt.Println(len(os.Args), os.Args)
+	defer func() {
+		if p := recover(); p != nil {
+			fmt.Printf("panic: %v\n%s", p, debug.Stack())
+		}
+	}()
+}
 </pre>
 
-Install go
-<pre>
-wget -c https://go.dev/dl/go1.25.6.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go &amp;&amp; sudo tar -C /usr/local -xzf go1.25.6.linux-amd64.tar.gz
-go version
-</pre>
-
-Change GOPATH
-<pre>
-# in ~/.bashrc
-
-export GOPATH=$HOME/bin/go
-export PATH=$PATH:$GOPATH/bin
-</pre>
-
-Update go (change version)
-<pre>
-# update to go1.25.6
-go env -w GOTOOLCHAIN=go1.25.6+auto
-</pre>
-
-Uninstall go
-<pre>
-sudo rm -fr /usr/local/go
-# then remove go from $PATH
-</pre>
-
-<!-- ********************************************************************************* -->
-<h2>Start a program</h2>
-<pre>
-go mod init myproject/example
-go mod tidy
-</pre>
-
-<pre>
-go help mod
-	go mod &lt;command> [arguments]
-The commands are:
-	download    download modules to local cache
-	edit        edit go.mod from tools or scripts
-	graph       print module requirement graph
-	init        initialize new module in current directory
-	tidy        add missing and remove unused modules
-	vendor      make vendored copy of dependencies
-	verify      verify dependencies have expected content
-	why         explain why packages or modules are needed
-</pre>
 
 </article>
 </div><!-- end class="main" -->
@@ -118,9 +67,9 @@ The commands are:
             </ul>
             -->
             <li><a href="../linux/systemd.html">systemd</a></li>
+            <!-- 
             <li><a href="../linux/caddy.html">caddy</a></li>
             <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
-            <!-- 
             <li><a href="../linux/nginx.html">Nginx</a></li>
             <li><a href="../linux/apache.html">Apache</a></li>
             -->
@@ -138,12 +87,13 @@ The commands are:
     </li>
     
     <li>
-        <div class="title">Programing</div>
+        <div class="title">Dev</div>
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
             <li><a href="../prog/rust.html">Rust</a></li>
+            <li><a href="../prog/new.html">new</a></li>
         </ul>
     </li>
     
@@ -168,9 +118,10 @@ The commands are:
     </li>
         
     <li>
-        <div class="title"><a href="../go/index.html">Go</a></div>
+        <div class="title">Go</div>
         <ul>
             <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/basics.html">Basics</a></li>
             <li><a href="../go/libext.html">External libraries</a></li>
             <li><a href="../go/write-webapp.html">Write a web application</a></li>
             <li><a href="../go/write-api.html">Write an API</a></li>

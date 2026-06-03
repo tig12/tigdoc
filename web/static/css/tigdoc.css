@@ -17,6 +17,12 @@ body{
     font-family:"roboto flex",sans-serif;
     line-height:1.6;
 }
+h2{
+    font-size:2rem;
+}
+h3{
+    font-size:1.5rem;
+}
 code, pre{
     border-radius: .25rem;
     background: #2c333f;

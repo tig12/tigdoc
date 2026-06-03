@@ -823,6 +823,18 @@ sort &lt;&lt; EOF
 EOF
 </pre>
 
+<pre>
+cat &lt;&lt;HEREDOC > .bash_aliases
+alias viba='vi ~/.bash_aliases'
+alias soba='source ~/.bash_aliases'
+alias ls='ls --color=auto'
+alias ll='ls -lhF --group-directories-first --time-style=long-iso'
+alias la='ls -lAh --group-directories-first --time-style=long-iso'
+alias l='ls -CF'
+HEREDOC
+</pre>
+
+
 <!-- ********************************************************************************* -->
 <h2 id="29-sed">sed</h2>
 In the replacement part, captured strings are refered as <code>\1</code> <code>\2</code> etc.
@@ -1282,6 +1294,21 @@ fi
 <!-- ************************************* -->
 <h3 id="38-2-loops">Loops</h3>
 <pre>
+
+for i in {1..10}; do
+    echo $i;
+done
+
+N=10
+for i in $(seq 1 $N); do
+    echo $i;
+done
+
+for dir in dir1 dir2 dir3
+do
+    echo $dir
+done
+
 dbs="
     db1
     db2
@@ -1303,11 +1330,6 @@ echo "${#a[@]}"         # length of a
 
 for i in "${a[@]}"; do :
     echo $i
-done
-
-for dir in dir1 dir2 dir3
-do
-    echo $dir
 done
 
 for i in $(ls *.htm); do mv $i ${i/.htm/.html}; done;
@@ -1379,9 +1401,9 @@ done
             </ul>
             -->
             <li><a href="../linux/systemd.html">systemd</a></li>
+            <!-- 
             <li><a href="../linux/caddy.html">caddy</a></li>
             <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
-            <!-- 
             <li><a href="../linux/nginx.html">Nginx</a></li>
             <li><a href="../linux/apache.html">Apache</a></li>
             -->
@@ -1399,12 +1421,13 @@ done
     </li>
     
     <li>
-        <div class="title">Programing</div>
+        <div class="title">Dev</div>
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
             <li><a href="../prog/rust.html">Rust</a></li>
+            <li><a href="../prog/new.html">new</a></li>
         </ul>
     </li>
     
@@ -1429,9 +1452,10 @@ done
     </li>
         
     <li>
-        <div class="title"><a href="../go/index.html">Go</a></div>
+        <div class="title">Go</div>
         <ul>
             <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/basics.html">Basics</a></li>
             <li><a href="../go/libext.html">External libraries</a></li>
             <li><a href="../go/write-webapp.html">Write a web application</a></li>
             <li><a href="../go/write-api.html">Write an API</a></li>

@@ -115,7 +115,11 @@ x,y
     rect, text
  	This gives the location of a vertex of the graphics object.
  	&lt;rect x="5" y="5" width="50" height="30" stroke="red" fill="green" />
+</pre>
 
+<!-- ********************************************************************************* -->
+<h2>Style, CSS</h2>
+<pre>
 ---------------------------------------------------------------------------------------------------
 SVG as background
 Directly in CSS
@@ -127,10 +131,9 @@ Directly in CSS
     background-size: 100% 100%, auto;
 }
 &lt;div class="diag" style="width: 300px; height: 100px;">&lt;/div>
+</pre>
 
----------------------------------------------------------------------------------------------------
-Style
----------------------------------------------------------------------------------------------------
+<pre>
 You can safely remove the xmlns attribute if you’re supporting only HTML5-compliant browsers. Within the context of an HTML document, xmlns is implied for SVG elements.
 
 1 - Normal css id / class
@@ -180,11 +183,16 @@ You can safely remove the xmlns attribute if you’re supporting only HTML5-comp
     &lt;path d="M28.44......./>
   &lt;/g>
 &lt;/svg>
-
 </pre>
+
+<!-- ********************************************************************************* -->
+<h2>Embed image</h2>
+<pre>
+&lt;image href="out.png" width="720" height="720" />
+</pre>
+
 </article>
 </div><!-- end class="main" -->
-
 
 <!-- ************************************* -->
 <aside class="left"><ul class="spaced">
@@ -201,9 +209,9 @@ You can safely remove the xmlns attribute if you’re supporting only HTML5-comp
             </ul>
             -->
             <li><a href="../linux/systemd.html">systemd</a></li>
+            <!-- 
             <li><a href="../linux/caddy.html">caddy</a></li>
             <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
-            <!-- 
             <li><a href="../linux/nginx.html">Nginx</a></li>
             <li><a href="../linux/apache.html">Apache</a></li>
             -->
@@ -221,12 +229,13 @@ You can safely remove the xmlns attribute if you’re supporting only HTML5-comp
     </li>
     
     <li>
-        <div class="title">Programing</div>
+        <div class="title">Dev</div>
         <ul>
             <li><a href="../prog/php.html">PHP</a></li>
             <li><a href="../prog/regex.html">Regex</a></li>
             <li><a href="../prog/zed.html">Zed</a></li>
             <li><a href="../prog/rust.html">Rust</a></li>
+            <li><a href="../prog/new.html">new</a></li>
         </ul>
     </li>
     
@@ -251,9 +260,10 @@ You can safely remove the xmlns attribute if you’re supporting only HTML5-comp
     </li>
         
     <li>
-        <div class="title"><a href="../go/index.html">Go</a></div>
+        <div class="title">Go</div>
         <ul>
             <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/basics.html">Basics</a></li>
             <li><a href="../go/libext.html">External libraries</a></li>
             <li><a href="../go/write-webapp.html">Write a web application</a></li>
             <li><a href="../go/write-api.html">Write an API</a></li>
