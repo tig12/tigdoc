@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tools | tigdoc</title>
+    <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-02-23 05:31:38+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<header id="topage">
+<h1 class="margin-bottom2">
+Tools
+</h1>
+<div class="intro"></div>
+
+</header>
+
+<nav class="pagetoc" aria-label="Table of contents">
+    <ul>
+        <li>
+            <a href="#1-draw-io">draw.io</a>
+        </li>
+        <li>
+            <a href="#2-terminator">Terminator</a>
+        </li>
+    </ul>
+</nav>
+
+<article>
+
+<!-- ********************************************************************************* -->
+<h2 id="1-draw-io">draw.io</h2>
+
+<pre>
+sudo apt update &amp;&amp; sudo apt upgrade
+sudo apt install wget curl -y
+curl -s https://api.github.com/repos/jgraph/drawio-desktop/releases/latest | grep -oP '"browser_download_url": "\K[^"]*amd64[^"]*\.deb' | wget -i -
+sudo apt install ./drawio-amd64-*.deb
+rm ./drawio-amd64-*.deb
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="2-terminator">Terminator</h2>
+<pre>
+terminator -m -b
+-b, --borderless
+      Instruct the window manager not to render borders/decoration on the Terminator window (this works well with -m)
+-m, --maximise
+      Start with a maximised window -M, --maximize Start with a maximized window
+</pre>
+
+<pre>
+/etc/xdg/terminator/config
+</pre>
+
+Right click / preferences
+<pre>
+keybinding
+    prev_tab
+    next_tab
+profiles
+    colors
+        built-in scheme : Gray on black
+        color palette / custom : #1F1B1B
+    title bar
+        Hide size from title
+</pre>
+
+<pre>
+Ctrl+Shift+T        Open new tab.
+Ctrl+Page Up        Move to next Tab.
+Ctrl+Page Down      Move to previous Tab.
+
+Ctrl-Shift-E        Split window vertically.
+Ctrl-Shift-O        Split window horizontally.
+
+Within a given tab
+Ctrl-Tab            Move cursor in next console.
+Ctrl-Shift-Tab      Move cursor in previous console.
+Ctrl-Shift-W        Close current console.
+Ctrl-Shift-X        Enlarge current window.
+Ctrl-Shift-Flèche   Enlarge or shrink current window.
+Ctrl-Tab            Change window "split".
+
+Super+G             Group all terminals so that any input sent to one of them, goes to all of them.
+Super+Shift+G       Remove grouping from all terminals.
+</pre>
+
+
+KEYBINDINGS
+<pre>
+       The following default keybindings can be used to control Terminator:
+
+       F1     Launches the full HTML manual.
+
+   Creation &amp; Destruction
+       The following items relate to creating and destroying terminals.
+
+       Ctrl+Shift+O
+              Split terminals Horizontally.
+
+       Ctrl+Shift+E
+              Split terminals Vertically.
+
+       Ctrl+Shift+T
+              Open new tab.
+
+       Ctrl+Shift+I
+              Open a new window. (Note: Unlike in previous releases, this window is part of the same Terminator process.)
+
+       Super+I
+              Spawn a new Terminator process.
+
+       Alt+L  Open layout launcher.
+
+       Ctrl+Shift+W
+              Close the current terminal.
+
+       Ctrl+Shift+Q
+              Close the current window.
+
+   Navigation
+       The following items relate to moving between and around terminals.
+
+       Alt+Up Move to the terminal above the current one.
+              Move to the terminal right of the current one.
+
+
+       Ctrl+Shift+N or Ctrl+Tab
+              Move to previous terminal within the same tab, use Ctrl+PageUp to move to the previous tab.  If cycle_term_tab is False, cycle within the same tab will be disabled.
+
+   Organisation
+       The following items relate to arranging and resizing terminals.
+
+       Ctrl+Shift+Right
+              Move parent dragbar Right.
+
+       Ctrl+Shift+Left
+              Move parent dragbar Left.
+
+       Ctrl+Shift+Up
+              Move parent dragbar Up.
+
+       Ctrl+Shift+Down
+              Move parent dragbar Down.
+
+       Super+R
+              Rotate terminals clockwise.
+
+       Super+Shift+R
+              Rotate terminals counter-clockwise.
+
+       Drag and Drop
+              The layout can be modified by moving terminals with Drag and Drop.  To start dragging a terminal, click and hold on its titlebar.  Alternatively, hold down Ctrl,  click  and  hold  the  right
+              mouse button.  Then, **Release Ctrl**. You can now drag the terminal to the point in the layout you would like it to be.  The zone where the terminal would be inserted will be highlighted.
+
+       Ctrl+Shift+PageDown
+              Swap tab position with next Tab.
+
+       Ctrl+Shift+PageUp
+              Swap tab position with previous Tab.
+
+   Miscellaneous
+       The following items relate to miscellaneous terminal related functions.
+
+       Ctrl+Shift+C
+              Copy selected text to clipboard.
+
+       Ctrl+Shift+V
+              Paste clipboard text.
+
+       Ctrl+Shift+S
+              Hide/Show Scrollbar.
+
+       Ctrl+Shift+F
+              Search within terminal scrollback.
+
+       Ctrl+Shift+R
+              Reset terminal state.
+
+       Ctrl+Shift+G
+              Reset terminal state and clear window.
+
+       Ctrl+Plus (+)
+              Increase font size. Note: This may require you to press shift, depending on your keyboard.
+
+       Ctrl+Minus (-)
+              Decrease font size. Note: This may require you to press shift, depending on your keyboard.
+
+       Ctrl+Zero (0)
+              Restore font size to original setting.
+
+       Ctrl+Alt+W
+              Rename window title.
+
+       Ctrl+Alt+A
+              Rename tab title.
+
+       Ctrl+Alt+X
+              Rename terminal title.
+
+       Super+1
+              Insert terminal number, i.e. 1 to 12.
+
+       Super+0
+              Insert padded terminal number, i.e. 01 to 12.
+
+   Grouping &amp; Broadcasting
+       The following items relate to helping to focus on a specific terminal.
+
+       F11    Toggle window to fullscreen.
+
+       Ctrl+Shift+X
+              Toggle between showing all terminals and only showing the current one (maximise).
+
+       Ctrl+Shift+Z
+              Toggle between showing all terminals and only showing a scaled version of the current one (zoom).
+
+       Ctrl+Shift+Alt+A
+              Hide the initial window. Note that this is a global binding, and can only be bound once.
+
+       The following items relate to grouping and broadcasting.
+
+       Super+T
+              Group all terminals in the current tab so input sent to one of them, goes to all terminals in the current tab.
+
+       Super+Shift+T
+              Remove grouping from all terminals in the current tab.
+
+       Super+G
+              Group all terminals so that any input sent to one of them, goes to all of them.
+
+       Super+Shift+G
+              Remove grouping from all terminals.
+
+       Alt+A  Broadcast to All terminals.
+
+       Alt+G  Broadcast to Grouped terminals.
+
+       Alt+O  Broadcast Off.
+</pre>
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        <div class="title">Linux</div>
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <!-- 
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
+            <li><a href="../linux/tools.html">Tools</a></li>
+            <li><a href="../linux/wget.html">wget</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Database</div>
+        <ul>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Dev</div>
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
+            <li><a href="../prog/new.html">new</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Misc</div>
+        <ul>
+            <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Front</div>
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+    <li>
+        <div class="title">Go</div>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/basics.html">Basics</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>

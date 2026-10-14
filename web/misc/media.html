@@ -110,13 +110,25 @@ for file in $(ls -I mp3 -I mp4); do file2=$(echo $file | sed -e 's/\..*$//'); ff
 <h2 id="3-yt-dlp">yt-dlp</h2>
 (previously youtube-dl)
 
+<br><br>Install
 <pre>
+
+# Install deno (JavaScript runtime) - see https://docs.deno.com/runtime/getting_started/installation/
+curl -fsSL https://deno.land/install.sh | sh
+# => /home/me/.deno/bin/deno
+
+# install yt-dlp
 # see https://forums.linuxmint.com/viewtopic.php?t=441348
 wget `curl https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest | jq -r '.assets[].browser_download_url' | grep 'yt-dlp$'` &amp;&amp; chmod +x yt-dlp
 </pre>
 
-Update to last version:
-<br>rm yt-dlp and run the previous command
+Update to last version
+<pre>
+# sudo rm $(which yt-dlp)
+cd /usr/bin
+rm yt-dlp
+# run the previous command
+</pre>
 
 <pre>
 -i, --ignore-errors
@@ -145,7 +157,7 @@ yt-dlp -f "bestvideo[height&lt;=480]+bestaudio/best[height&lt;=480]" --merge-out
 Download and convert to mp3
 <pre>
 yt-dlp --extract-audio --audio-format mp3 &lt;video URL>
-yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 &lt;video URL>             # --audio-quality between 0 (best) and 10 (worst)
+yt-dlp --extract-audio --audio-format mp3 --js-runtimes deno --audio-quality 0 &lt;video URL>             # --audio-quality between 0 (best) and 10 (worst)
 
 # download whole playlist
 yt-dlp -i -f mp4 --yes-playlist 'https://www.youtube.com/watch?v=7Vy8970q0Xc&amp;list=PLwJ2VKmefmxpUJEGB1ff6yUZ5Zd7Gegn2'
@@ -173,7 +185,6 @@ yt-dlp --batch-file=&lt;file containing list of urls>
     <li>
         <div class="title">Linux</div>
         <ul>
-            <li><a href="../linux/debian.html">debian</a></li>
             <li><a href="../linux/bash.html">BASH</a></li>
             <!-- 
             <ul>
@@ -188,6 +199,8 @@ yt-dlp --batch-file=&lt;file containing list of urls>
             <li><a href="../linux/apache.html">Apache</a></li>
             -->
             <li><a href="../linux/gansible.html">gansible</a></li>
+            <li><a href="../linux/tools.html">Tools</a></li>
+            <li><a href="../linux/wget.html">wget</a></li>
         </ul>
     </li>
     

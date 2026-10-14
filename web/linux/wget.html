@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Wget | tigdoc</title>
+    <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-02-23 05:31:38+01:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<header id="topage">
+<h1 class="margin-bottom2">
+wget
+</h1>
+<div class="intro"></div>
+
+</header>
+
+<nav class="pagetoc" aria-label="Table of contents">
+    <ul>
+        <li>
+            <a href="#1-mirror-a-website-for-offline-browsing">Mirror a Website for Offline Browsing</a>
+        </li>
+        <li>
+            <a href="#2-interesting-options">Interesting options</a>
+        </li>
+        <li>
+            <a href="#3-rsync-over-https">rsync over https</a>
+        </li>
+    </ul>
+</nav>
+
+<article>
+
+<pre>
+Copy Your Site for Backup Purposes
+---------------------------------------------------------------------------
+wget -mirror -w 3 -p -P /home/me/wget_files/example2 ftp://username:password@ftp.yourdomain.com
+
+Download a File
+---------------------------------------------------------------------------
+Wget -P /home/me/wget_files/example3 http://ftp.gnu.org/gnu/wget/wget-1.9.tar.gz 
+
+Download a File
+---------------------------------------------------------------------------
+wget --spider -r -nd -nv -w 1 -o check-links.txt https://mysite.com
+# Then grep -B 1 'dead link' check-links.txt
+
+Download PDFs listed in a page
+---------------------------------------------------------------------------
+wget -r -l 1 -nH -nd -np --ignore-case -A '*.pdf' https://matematicas.unex.es/~navarro/res/
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="1-mirror-a-website-for-offline-browsing">Mirror a Website for Offline Browsing</h2>
+
+<pre>
+mkdir wget_files
+cd wget_files
+wget \
+    --mirror \
+    --wait 1 \
+    --page-requisites \
+#    --adjust-extension \
+    --convert-links \
+    --cut-dirs=1 \
+    --relative \
+    --no-parent \
+#    --no-host-directories \
+http://stat-www.berkeley.edu/~stark/SticiGui/Text/toc.htm
+</pre>
+<!-- 
+I issue this command:
+
+wget \
+    --mirror \
+    --wait 1 \
+    --page-requisites \
+    --convert-links \
+    --cut-dirs=1 \
+    --relative \
+    --no-parent \
+https://csg.igrothendieck.org
+
+#    --adjust-extension \
+#    --no-host-directories \
+
+And I have this anwser.
+
+wget: missing URL
+Usage: wget [OPTION]... [URL]...
+
+Try `wget --help' for more options.
+--convert-links: command not found
+bash: https://csg.igrothendieck.org: No such file or directory
+-->
+<pre>
+--mirror (m) :  Specifies to mirror the site.  Wget will recursively follow all links on the site and download all necessary files.  It will also only get files that have changed since the last mirror, which is handy in that it saves download time.
+
+--wait (-w) : Tells wget to "wait" or pause between requests, in this case for 2 seconds.  This is not necessary, but is the considerate thing to do.  It reduces the frequency of requests to the server, thus keeping the load down.  If you are in a hurry to get the mirror done, you may eliminate this option.
+
+--page-requisites (-p) : Causes wget to get all required elements for the page to load correctly.  Apparently, the mirror option does not always guarantee that all images and peripheral files will be downloaded, so I add this for good measure.
+
+--adjust-extension:  All files with a non-HTML extension will be converted to have an HTML extension.  This will convert any CGI, ASP or PHP generated files to HTML extensions for consistency.
+
+--convert-links:  All links are converted so they will work when you browse locally.  Otherwise, relative (or absolute) links would not necessarily load the right pages, and style sheets could break as well.
+
+-P (prefix folder): The resulting tree will be placed in this folder.  This is handy for keeping different copies of the same site, or keeping a "browsable" copy separate from a mirrored copy.
+
+--relative (-L) : Follow relative links only.  Useful for retrieving a specific home page without any distractions, not even those from the same hosts.
+
+--no-parent (-np) : Do not ever ascend to the parent directory when retrieving recursively. It guarantees that only the files below a certain hierarchy will be downloaded.    
+
+--no-host-directories (-nH) : Disable generation of host-prefixed directories. 
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="2-interesting-options">Interesting options</h2>
+<pre>
+   -A acclist
+   --accept acclist
+   -R rejlist
+   --reject rejlist
+       Specify comma-separated lists of file name suffixes or patterns to accept or reject. Note that if any of the wildcard characters,
+       *, ?, [ or ], appear in an element of acclist or rejlist, it will be treated as a pattern, rather than a suffix.  In this case, you
+       have to enclose the pattern into quotes to prevent your shell from expanding it, like in -A "*.mp3" or -A '*.mp3'.
+
+   --accept-regex urlregex
+   --reject-regex urlregex
+       Specify a regular expression to accept or reject the complete URL.
+
+   -nd
+   --no-directories
+       Do not create a hierarchy of directories when retrieving recursively.  With this option turned on, all files will get saved to the current directory, without clobbering (if a name shows up more than once, the filenames
+       will get extensions .n).
+           
+   --regex-type regextype
+       Specify the regular expression type.  Possible types are posix or pcre.  Note that to be able to use pcre type, wget has to be
+       compiled with libpcre support.
+
+   -D domain-list
+   --domains=domain-list
+       Set domains to be followed.  domain-list is a comma-separated list of domains.  Note that it does not turn on -H.
+
+   --exclude-domains domain-list
+       Specify the domains that are not to be followed.
+
+   -i file
+   --input-file=file
+       Read URLs from a local or external file.  If - is specified as file, URLs are read from the standard input.  (Use ./- to read from
+       a file literally named -.)
+</pre>
+
+<!-- ********************************************************************************* -->
+<h2 id="3-rsync-over-https">rsync over https</h2>
+<pre>
+remote_dirs=( "https://example.com/" "…") # Add your remote HTTP directories here
+local_dirs=(  "~/tmp/example.com-2026-06-17T01:05:41" "…")
+
+for (( i = 0 ; i &lt; ${#local_dirs[@]} ; i++ )) do
+    cd "${local_dirs[$i]}"
+    wget -r -l1 --no-parent -A "*.pdf" -nd -nc ${remote_dirs[$i]}
+done
+
+# Explanation:
+# -r            to download recursively
+# -l1           to include only one directory depth
+# --no-parent   to exclude parent directories
+# -A "*.pdf"    to accept only .pdf files
+# -nd           to prevent wget to create directories for everything
+# -N            to make wget to download only new files
+</pre>
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        <div class="title">Linux</div>
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <!-- 
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
+            <li><a href="../linux/tools.html">Tools</a></li>
+            <li><a href="../linux/wget.html">wget</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Database</div>
+        <ul>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Dev</div>
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
+            <li><a href="../prog/new.html">new</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Misc</div>
+        <ul>
+            <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Front</div>
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+    <li>
+        <div class="title">Go</div>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/basics.html">Basics</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>
