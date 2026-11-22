@@ -297,7 +297,9 @@ cat url-list.txt | xargs wget –c
     3
 
 -I      replace-string
+
 xargs -I {} echo "select * from users where id={};" &lt; sql.sql
+
 # {} is just a placeholder, so this is equivalent:
 xargs -I ZZZ echo "select * from users where id=ZZZ;" &lt; sql.sql
 # or:

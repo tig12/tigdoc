@@ -9,9 +9,9 @@
 @import url("style.css");
 
 html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+    height:100%;
+    margin:0;
+    padding:0;
 }
 body{
     font-family:"roboto flex",sans-serif;
@@ -24,18 +24,25 @@ h3{
     font-size:1.5rem;
 }
 code, pre{
-    border-radius: .25rem;
-    background: #2c333f;
-    font-size: .875em;
-    font-weight: 400;
-	font-family: "roboto flex mono", ui-monospace, monospace;
-    padding: 2px;
+    border-radius:.25rem;
+    background:#2c333f;
+    font-size:.875em;
+    font-weight:400;
+	font-family:"roboto flex mono", ui-monospace, monospace;
+    padding:4px;
 }
 pre{
     display:table;
     white-space:pre-wrap;
     margin:1rem;
     padding:.5rem;
+    border-radius:2px;
+    border:1px solid #717a9f;
+    line-height:1.15;
+}
+code.pre{
+    white-space:pre-wrap;
+    margin:1rem;
     border-radius:2px;
     border:1px solid #717a9f;
     line-height:1.15;
@@ -49,15 +56,15 @@ a:hover{
 }
 
 .container {
-    display: flex;
-    flex-direction: row-reverse; /* sidebar appears on the left */
-    height: 100vh; /* the full window height */
+    display:flex;
+    flex-direction:row-reverse; /* sidebar appears on the left */
+    height:100vh; /* the full window height */
 }
 
 /* MAIN SECTION */
 .main {
-    flex: 1;                     /* takes remaining width */
-    overflow-y: auto;            /* independent vertical scroll */
+    flex:1;                     /* takes remaining width */
+    overflow-y:auto;            /* independent vertical scroll */
     padding:1rem .5rem 2rem 1rem;
     background:#1e2129;
     color:#d9e5fc;
@@ -65,8 +72,8 @@ a:hover{
 
 /* LEFT SIDEBAR */
 .left {
-    width: 300px;
-    overflow-y: auto;            /* independent vertical scroll */
+    width:300px;
+    overflow-y:auto;            /* independent vertical scroll */
     background-color:#333;
     font-size:.9rem;
     border-right:1px solid grey;
@@ -105,9 +112,9 @@ table.wikitable > tr > th, table.wikitable > * > tr > th {
 .pagetoc{
     display:inline-block;
 /* 
-    background: #2c333f;
+    background:#2c333f;
 */
-    background: #2c333f;
+    background:#2c333f;
     margin:1rem 2rem;
     padding:1rem 1rem 1rem 1rem;
     border:1px dotted black;

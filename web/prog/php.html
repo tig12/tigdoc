@@ -223,6 +223,9 @@ TEXT;
 
 <!-- ********************************************************************************* -->
 <h2 id="2-install-manage">Install, manage</h2>
+
+<pre>apt search php8.5 | grep bz</pre>
+
 <pre>
 sudo apt update
 sudo apt install lsb-release ca-certificates apt-transport-https software-properties-common -y
@@ -230,8 +233,8 @@ sudo add-apt-repository ppa:ondrej/php
 
 sudo apt install php8.5 php8.5-{apcu,bcmath,calendar,curl,fpm,gd,gmp,intl,mbstring,mysql,sqlite3,xdebug,xml,yaml,zip}
 
-apt search php8.5 | grep bz
-
+# paheko dependancies:
+sudo apt install php8.5-{cli,intl,imagick,opcache,readline}
 </pre>
 
 <!-- ************************************* -->
