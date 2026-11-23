@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="fr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Debian | tigdoc</title>
+    <link rel="icon" type="image/jpg" href="../static/img/favicon.jpg">
+    <link href="../static/css/tigdoc.css" rel="stylesheet" type="text/css">
+    <meta name="description" content="">
+    <meta name="robots" content="index,follow">
+    <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+    <meta name="dcterms.rights" content="Creative commons by-sa 4.0">
+    <meta name="dcterms.rightsHolder" content="Thierry Graff">
+    <meta name="dcterms.dateCopyrighted" content="2026-11-23 22:36:24+02:00">
+</head>
+
+<body>
+<div class="container">
+
+<div class="main">
+
+<header id="topage">
+<h1 class="margin-bottom2">
+Debian
+<div class="subtitle">Installation of local machine</div>
+</h1>
+<div class="intro"></div>
+
+</header>
+
+<article>
+
+<pre>
+ASUS 2008 : press esc to choose boot entry
+LDLC 2014 : amd64
+
+
+Before reinstall, to remember for reinstall
+----------------------------------------------------------------------------------------------------
+sudo dpkg-query -l
+
+LMDE 7 gigi - Linux mint based on
+Debian 13 trixie
+
+# to print the correct distribution name :
+. /etc/os-release; echo "$DEBIAN_CODENAME"
+
+Cinnamon, gnome fork
+
+right click on the date (bottom right of screen) => Configure...
+Date format : %d/%m %H:%M
+
+
+Terminal
+----------------------------------------------------------------------------------------------------
+
+sudo apt install terminator
+
+GNOME Terminal:
+
+Open terminal (ctrl alt t) => right click INSIDE the windows -> Preferences -> General -> Show menubar by default in new terminals
+
+To launch gnome-terminal full screen :
+touch ~/bin/terminal && chmod +x ~/bin/terminal
+vi ~/bin/terminal
+    #!/bin/sh
+    exec gnome-terminal --full-screen "$@"
+
+
+----------------------------------------------------------------------------------------------------
+FIRST THINGS                                                           
+----------------------------------------------------------------------------------------------------
+
+### on the newly installed machine ###
+sudo apt update
+sudo apt dist-upgrade
+sudo apt install openssh-server
+
+sudo apt install build-essential libtool tree htop git terminator
+sudo apt install nmap
+sudo apt install calc
+# pdf reader
+sudo apt install atril
+
+
+### on the old machine ###
+ssh-copy-id -i ~/.ssh/id_ed25519.pub username@new-machine
+ssh username@new-machine
+
+### on the newly installed machine ###
+
+
+.bashrc and .bash_aliases (install vim first!)
+----------------------------------------------------------------------------------------------------
+# === in .bashrc ===
+export PATH=$PATH:/usr/local/go/bin:/home/&lt;user1>/bin:/home/&lt;user1>/bin/go/bin
+
+cd ~
+cp tmp/restore/.bash_aliases .
+# in .bashrc, replace '\$ ' by '\n' at the end of PS1
+
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+PS1_TIME='\033[01;31m\]\t \033[01;32m\]'
+if [ "$color_prompt" = yes ]; then
+    PS1=$PS1_TIME'${debian_chroot:+($debian_chroot)}\[\033[01;33m\]\u@\h\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\] $(parse_git_branch)\n'
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w $(parse_git_branch)\n'
+fi
+
+### see end of this file for color codes ###
+
+colorize
+----------------------------------------------------------------------------------------------------
+sudo apt install ccze
+tail -f /var/log/apache2/mysite.org.error | ccze -A
+
+
+nemo
+----------------------------------------------------------------------------------------------------
+sudo apt install dconf-editor
+# Always show full path in location bar
+    org > nemo > preferences > show-location-entry => YES
+# Don't show full path in tabs
+    org > nemo > preferences > show-full-path-titles => NO
+
+switch between panels : F6
+
+workspaces
+----------------------------------------------------------------------------------------------------
+git clone --depth=1 https://github.com/hernejj/workspace-grid-cinnamon-applet
+mv workspace-grid-cinnamon-applet/workspace-grid@hernejj/ ~/.local/share/cinnamon/applets
+# Restart Cinnamon either by using Alt+F2, then hit 'r' then the enter key. Or simply log out and log back in.
+# Cinnamon settings / Applets
+# Workaround column bug : style => select single row then select grid.
+
+
+vim
+----------------------------------------------------------------------------------------------------
+sudo apt install vim
+sudo update-alternatives --config vi
+    => /usr/bin/vim.basic   30        mode automatique
+
+
+jedit
+----------------------------------------------------------------------------------------------------
+https://sourceforge.net/projects/jedit/files/jedit/5.6.0/jedit_5.6.0_all.deb/download
+sudo dpkg -i /path/to/your/jedit_&lt;version>_all.deb
+
+svi /usr/share/applications/jedit.desktop
+Inside, put :
+Exec=jedit -reuseview %U
+
+sudo apt install jedit
+mkdir ~/.jedit/autosave-dir
+~/.jedit/abbrevs
+~/.jedit/macros/Insert_Date2.bsh
+Plugins :
+    - BufferTabs
+    - Editor scheme
+    - JDiffPlugin
+Plugins / Editor scheme / Scheme selector: dessert
+Plugins / Plugin options
+    Buffer tabs : Location of buffer tabs : bottom
+Utilities / Global options...
+    Toolbar
+        Uncheck "Show toolbar"
+    Editing
+        Extra word characters : _$-
+        Word wrap : soft
+        Wrap margin : 180
+        Soft (emulated with spaces) tabs
+    Saving & Backup
+        Uncheck  "Save all buffers" asks for confirmation
+        Autosave directory  /home/user1/.jedit/autosave-dir
+        Backup directory    /home/user1/.jedit/autosave-dir
+    View
+        Show full path of buffer in title bar
+        Uncheck Sort buffer switcher
+        Uncheck Sort buffer set
+    Shortcuts
+        C + g       Find next
+        C + l       Go to line
+        CS + tab    Go to previous buffer
+        C + tab     Go to next buffer
+        CS + z      Redo
+        CS + u      To upper case
+        C + u       To lower case
+    Text area
+        uncheck "Highlight matching elements" (disable bracket matching)
+        Change police
+    Status bar / Widgets : remove clock
+
+# syntaxic coloration typescript
+cd /usr/share/jedit/modes
+sudo cp javascript.xml typescript.xml
+sudo vi catalog
+    Adapt MODE NAME="typoscript"
+
+        
+git
+----------------------------------------------------------------------------------------------------
+sudo apt install git
+cp tmp/restore/.git-completion.bash .
+cp tmp/restore/.gitconfig .
+cp tmp/restore/.git-prompt.sh .
+
+
+postgresql
+----------------------------------------------------------------------------------------------------
+# Install PostgreSQL 18 on Debian 13 trixie
+# Import the repository signing key:
+sudo apt install curl ca-certificates
+sudo install -d /usr/share/postgresql-common/pgdg
+sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+# Create the repository configuration file:
+. /etc/os-release
+sudo sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $DEBIAN_CODENAME-pgdg main' > /etc/apt/sources.list.d/pgdg.list"
+
+# Update the package lists:
+sudo apt update
+sudo apt install postgresql-18
+
+# Postgrest : Donwload and install binary (self-contained)
+# Take linux static, ex: postgrest-v14.3-linux-static-x86-64.tar.xz
+https://github.com/PostgREST/postgrest/releases/latest
+tar xJf postgrest-&lt;version>-&lt;platform>.tar.xz
+
+
+php
+----------------------------------------------------------------------------------------------------
+https://packages.sury.org/php/README.txt
+sudo apt update
+sudo apt -y install lsb-release ca-certificates curl
+sudo curl -sSLo /tmp/debsuryorg-archive-keyring.deb https://packages.sury.org/debsuryorg-archive-keyring.deb
+sudo dpkg -i /tmp/debsuryorg-archive-keyring.deb
+sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ trixie main" > /etc/apt/sources.list.d/php.list'
+sudo apt update
+sudo apt install php8.6 php8.6-{apcu,bcmath,calendar,curl,fpm,gd,gmp,intl,mbstring,mysql,sqlite3,xdebug,xml,yaml,zip}
+
+php -v
+
+sudo update-alternatives --config php
+
+sudo apt install apache2 apache2-utils libapache2-mod-php8.6
+sudo a2enmod php8.6
+sudo systemctl restart apache2
+
+sudo a2enconf php8.6-fpm    # Enable PHP 8.6 FPM extension
+sudo a2disconf php8.2-fpm   # Disable PHP 8.2 FPM extension
+sudo apt purge php8.2*
+
+
+go
+----------------------------------------------------------------------------------------------------
+wget -c https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
+go version
+
+# see modifs in .bashrc on top of this file
+go env -w GOPATH=/home/&lt;user1>/bin/go
+
+
+python
+----------------------------------------------------------------------------------------------------
+sudo apt update
+sudo apt install python3
+sudo apt install python3-psycopg2
+sudo apt install python3-yaml
+sudo apt install python3-venv python3-pip
+
+python3 -V
+
+
+java
+----------------------------------------------------------------------------------------------------
+sudo apt install default-jdk
+sudo vi /etc/environment
+    JAVA_HOME="/usr/lib/jvm/default-java"
+source /etc/environment
+
+
+latex + ocr
+----------------------------------------------------------------------------------------------------
+sudo apt install texlive texlive-lang-french texlive-latex-extra
+sudo apt install xournal
+sudo apt install tesseract-ocr
+
+
+video
+----------------------------------------------------------------------------------------------------
+https://wiki.debian.org/MultimediaCodecs
+sudo apt install libavcodec-extra
+wget http://www.deb-multimedia.org/pool/non-free/w/w64codecs/w64codecs_20071007-dmo2_amd64.deb
+dpkg -i w64codecs_20071007-dmo2_amd64.deb
+
+
+youtube-dl
+----------------------------------------------------------------------------------------------------
+- first, install python (to have pip3)
+sudo apt install ffmpeg
+sudo -H pip3 install yt-dlp --upgrade
+
+
+signal
+----------------------------------------------------------------------------------------------------
+
+# 1. Install our official public software signing key:
+wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
+cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
+
+# 2. Add our repository to your list of repositories:
+echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/signal-desktop-keyring.gpg] https://updates.signal.org/desktop/apt xenial main' |\
+  sudo tee /etc/apt/sources.list.d/signal-xenial.list
+
+# 3. Update your package database and install Signal:
+sudo apt update && sudo apt install signal-desktop
+
+
+codium (vscode)
+----------------------------------------------------------------------------------------------------
+https://wiki.debian.org/VisualStudioCode
+=> VS Code without MS branding/telemetry/licensing
+=> https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo
+sudo wget https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
+    -O /usr/share/keyrings/vscodium-archive-keyring.asc
+echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.asc ] https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/debs vscodium main' \
+    | sudo tee /etc/apt/sources.list.d/vscodium.list
+sudo apt update
+sudo apt install codium
+
+ctrl P 
+ext install donjayamanne.githistory
+
+
+cloc (count lines of code)
+----------------------------------------------------------------------------------------------------
+https://github.com/AlDanial/cloc
+sudo apt install cloc
+man cloc
+cloc . --exclude-dir=vendor,var
+
+
+snap
+----------------------------------------------------------------------------------------------------
+sudo apt install snapd -y
+sudo snap install teams-for-linux
+snap run teams-for-linux &
+echo 'snap' >> ~/.hidden
+
+
+color codes
+----------------------------------------------------------------------------------------------------
+export COLOR_NC='\e[0m' # No Color
+export COLOR_BLACK='\e[0;30m'
+export COLOR_GRAY='\e[1;30m'
+export COLOR_RED='\e[0;31m'
+export COLOR_LIGHT_RED='\e[1;31m'
+export COLOR_GREEN='\e[0;32m'
+export COLOR_LIGHT_GREEN='\e[1;32m'
+export COLOR_BROWN='\e[0;33m'
+export COLOR_YELLOW='\e[1;33m'
+export COLOR_BLUE='\e[0;34m'
+export COLOR_LIGHT_BLUE='\e[1;34m'
+export COLOR_PURPLE='\e[0;35m'
+export COLOR_LIGHT_PURPLE='\e[1;35m'
+export COLOR_CYAN='\e[0;36m'
+export COLOR_LIGHT_CYAN='\e[1;36m'
+export COLOR_LIGHT_GRAY='\e[0;37m'
+export COLOR_WHITE='\e[1;37m'
+
+
+Spell check
+----------------------------------------------------------------------------------------------------
+wget -c https://languagetool.org/download/X.X.zip
+unzip LanguageTool-stable.zip 
+# launch desktop version
+java -jar languagetool.jar &
+# launch cli version
+java -jar languagetool-commandline.jar -l en-US article.txt
+
+
+</pre>
+
+</article>
+</div><!-- end class="main" -->
+
+
+<!-- ************************************* -->
+<aside class="left"><ul class="spaced">
+    <li class="bold big2"><a href="../index.html">Home</a></li>
+    
+    <li>
+        <div class="title">Linux</div>
+        <ul>
+            <li><a href="../linux/bash.html">BASH</a></li>
+            <li><a href="../linux/debian.html">debian</a></li>
+            <!-- 
+            <ul>
+                <li><a href="../linux/bash-completion.html">Compression</a></li>
+            </ul>
+            -->
+            <li><a href="../linux/systemd.html">systemd</a></li>
+            <!-- 
+            <li><a href="../linux/caddy.html">caddy</a></li>
+            <li><a href="../db/pgbackrest.html">pgbackrest</a></li>
+            <li><a href="../linux/nginx.html">Nginx</a></li>
+            <li><a href="../linux/apache.html">Apache</a></li>
+            -->
+            <li><a href="../linux/gansible.html">gansible</a></li>
+            <li><a href="../linux/tools.html">Tools</a></li>
+            <li><a href="../linux/wget.html">wget</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Database</div>
+        <ul>
+            <li><a href="../db/sqlite.html">sqlite</a></li>
+            <li><a href="../db/postgres.html">postgresql</a></li>
+            <li><a href="../db/wikidata.html">wikidata</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Dev</div>
+        <ul>
+            <li><a href="../prog/php.html">PHP</a></li>
+            <li><a href="../prog/regex.html">Regex</a></li>
+            <li><a href="../prog/zed.html">Zed</a></li>
+            <li><a href="../prog/rust.html">Rust</a></li>
+            <li><a href="../prog/new.html">new</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Misc</div>
+        <ul>
+            <li><a href="../misc/media.html">Media</a></li>
+            <li><a href="../misc/yaml-json.html">yaml json</a></li>
+            <li><a href="../misc/pdf-latex-ocr.html">PDF Latex OCR</a></li>
+        </ul>
+    </li>
+    
+    <li>
+        <div class="title">Front</div>
+        <ul>
+            <li><a href="../front/html.html">HTML</a></li>
+            <li><a href="../front/css.html">CSS</a></li>
+            <li><a href="../front/js.html">Javascript</a></li>
+            <li><a href="../front/svg.html">SVG</a></li>
+            <li><a href="../front/htmx.html">HTMX</a></li>
+        </ul>
+    </li>
+        
+    <li>
+        <div class="title">Go</div>
+        <ul>
+            <li><a href="../go/tools.html">Tools</a></li>
+            <li><a href="../go/basics.html">Basics</a></li>
+            <li><a href="../go/libext.html">External libraries</a></li>
+            <li><a href="../go/write-webapp.html">Write a web application</a></li>
+            <li><a href="../go/write-api.html">Write an API</a></li>
+            <li><a href="../go/database.html">Database</a></li>
+            <li><a href="../go/error.html">Error handling</a></li>
+            <li><a href="../go/printf.html">Printf</a></li>
+            <li><a href="../go/generics.html">Generics</a></li>
+            <li><a href="../go/net.html">Net</a></li>
+            <li><a href="../go/re2.html">Re2</a></li>
+            <li><a href="../go/templates.html">Templates</a></li>
+        </ul>
+    </li>
+    
+</ul>
+</aside>
+
+</div><!-- end class="container" -->
+
+</body>
+</html>
