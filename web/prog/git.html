@@ -30,73 +30,85 @@ Git
 <nav class="pagetoc" aria-label="Table of contents">
     <ul>
         <li>
-            <a href="#1-stash">Stash</a>
+            <a href="#1-install-config">Install, config</a>
         </li>
         <li>
-            <a href="#2-tags">Tags</a>
+            <a href="#2-help-tools">Help, tools</a>
         </li>
         <li>
-            <a href="#3-sub-modules">Sub-modules</a>
+            <a href="#3-basics">Basics</a>
         </li>
         <li>
-            <a href="#4-specifying-revisions">Specifying revisions</a>
+            <a href="#4-miscelaneous">Miscelaneous</a>
         </li>
         <li>
-            <a href="#5-convert-hg-to-git">Convert hg to git</a>
+            <a href="#5-htaccess">htaccess</a>
+        </li>
+        <li>
+            <a href="#6-initialize-repository-clone">Initialize repository / clone</a>
+        </li>
+        <li>
+            <a href="#7-http-password">http password</a>
+        </li>
+        <li>
+            <a href="#8-gitignore">.gitignore</a>
+        </li>
+        <li>
+            <a href="#9-git-show-git-log-git-diff">git show / git log / git diff</a>
+        </li>
+        <li>
+            <a href="#10-see-old-versions-of-files">See old versions of files</a>
+        </li>
+        <li>
+            <a href="#11-reset-revert-amend">Reset, revert, amend</a>
+        </li>
+        <li>
+            <a href="#12-remote-repositories">Remote repositories</a>
+        </li>
+        <li>
+            <a href="#13-bare-repos">Bare repos</a>
+        </li>
+        <li>
+            <a href="#14-git-push">git push</a>
+        </li>
+        <li>
+            <a href="#15-branching">Branching</a>
+        </li>
+        <li>
+            <a href="#16-squashing">Squashing</a>
+        </li>
+        <li>
+            <a href="#17-diff">Diff</a>
+        </li>
+        <li>
+            <a href="#18-cherry-pick">cherry-pick</a>
+        </li>
+        <li>
+            <a href="#19-stash">Stash</a>
+        </li>
+        <li>
+            <a href="#20-tags">Tags</a>
+        </li>
+        <li>
+            <a href="#21-sub-modules">Sub-modules</a>
+        </li>
+        <li>
+            <a href="#22-specifying-revisions">Specifying revisions</a>
+        </li>
+        <li>
+            <a href="#23-conventional-commits">Conventional commits</a>
+        </li>
+        <li>
+            <a href="#24-convert-hg-to-git">Convert hg to git</a>
         </li>
     </ul>
 </nav>
 
 <article>
 
+<!-- ********************************************************************************* -->
+<h2 id="1-install-config">Install, config</h2>
 <pre>
-
-sudo apt install git
-
-
----------------------------------------------------------------------------
-Miscelaneous
----------------------------------------------------------------------------
-AuthorDate is when the patch was generated
-CommitDate is when it was actually applied to the repository.
-
-Git protocol - listens port 9418
-similar to the SSH protocol with no authentication.
-create git-export-daemon-ok file
-
-Vocabulary : <refspec>
-
-Gerrit intro to git : 
-https://docs.google.com/presentation/d/1IQCRPHEIX-qKo7QFxsD3V62yhyGA9_5YsYXFOiBpgkk/edit#slide=id.g4d6b1121f4_0_510
-
-Staging area = the index = modifications added to git, ready to be included in next commit.
-
----------------------------------------------------------------------------
-Conventional commits - https://www.conventionalcommits.org
----------------------------------------------------------------------------
-feat(api)!: send an email to the customer when a product is shipped
-<type>[optional scope]: <description>
-! to draw attention to breaking change
-Recommanded verbs:
-fix:
-feat:
-build:
-chore:
-ci:
-docs:
-style:
-refactor:
-perf:
-test:
-
-# issue a git command in a external path
-# The -C option must be specified first, before all other arguments
-git -C ../z-my-old-repo/ status
-
-
----------------------------------------------------------------------------
-Install, config
----------------------------------------------------------------------------
 sudo apt install git
 vi .bashrc
 alias git='LANG=en_US git'
@@ -139,35 +151,95 @@ cd ~
 wget https://github.com/git/git/blob/main/contrib/completion/git-completion.bash
 vi .bashrc
 source git-completion.bash
+</pre>
 
----------------------------------------------------------------------------
-Help, tools
----------------------------------------------------------------------------
-git help <verb> or git <verb> --help or man git-<verb>
+
+<!-- ********************************************************************************* -->
+<h2 id="2-help-tools">Help, tools</h2>
+<pre>
+git help &lt;verb> or git &lt;verb> --help or man git-&lt;verb>
 irc.freenode.net
 gitk : compare branches graphically
 sudo apt-get install gitk 
 gitk branch1 branch2
+</pre>
 
----------------------------------------------------------------------------
-htaccess
----------------------------------------------------------------------------
-<Files ".gitignore">  
+
+<!-- ********************************************************************************* -->
+<h2 id="3-basics">Basics</h2>
+<pre>
+Files can be tracked or untracked.
+Tracked files can be : unmodified, modified, or staged (staging area also called the index)
+
+git status
+
+git add : to stage (add to the index) new files
+git add .           # stage all the files of current dir
+git add dirname     # stage all the files of a directory
+git add -A          # equivalent of hg addremove
+
+# If a file is staged with git add, then modified again : it will be modified AND staged ;
+# the next commit will record the version of the file when git add was called.
+# To record its last state, run git add again on the file.
+
+git commit -m "my message" - will record the staged changes.
+git commit -a automatically stages every file that is already tracked before doing the commit ; permits to skip the git add part
+
+git checkout tags/version-3.1
+
+git rm &lt;file> : removes file from tracked files and from the filesystem
+If file is staged, need to do git rm -f &lt;file>
+git rm --cached &lt;file> untracks a staged file without deleting it from the filesystem 
+glob patterns available in rm - but git does its own filename expansion => escape : git rm log/\*.log
+
+git mv README.txt README equivalent to mv README.txt README ; git rm README.txt ; git add README
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="4-miscelaneous">Miscelaneous</h2>
+<pre>
+AuthorDate is when the patch was generated
+CommitDate is when it was actually applied to the repository.
+
+Git protocol - listens port 9418
+similar to the SSH protocol with no authentication.
+create git-export-daemon-ok file
+
+Vocabulary : &lt;refspec>
+
+Gerrit intro to git : 
+https://docs.google.com/presentation/d/1IQCRPHEIX-qKo7QFxsD3V62yhyGA9_5YsYXFOiBpgkk/edit#slide=id.g4d6b1121f4_0_510
+
+Staging area = the index = modifications added to git, ready to be included in next commit.
+
+# issue a git command in an external path
+# The -C option must be specified first, before all other arguments
+git -C ../z-my-old-repo/ status
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="5-htaccess">htaccess</h2>
+<pre>
+&lt;Files ".gitignore">  
   Require all denied
-</Files>
+&lt;/Files>
 
 # Forbid browsing of .git/
 RedirectMatch 403 ^/path/to/.git/.*$
+</pre>
 
----------------------------------------------------------------------------
-Initialize repository / clone
----------------------------------------------------------------------------
+
+<!-- ********************************************************************************* -->
+<h2 id="6-initialize-repository-clone">Initialize repository / clone</h2>
+<pre>
 git init new_repo # same as : mkdir new_repo; cd new_repo; hg init
     
 git clone git://repo.or.cz/fast-export.git
 
 # shallow clone:
-git clone --depth=1 <remote_repo_url>
+git clone --depth=1 &lt;remote_repo_url>
 
 # Initializing a Repository in an Existing Directory
 cd path/to/my/project
@@ -178,19 +250,21 @@ git clone git://github.com/schacon/grit.git => creates directory grit/
 git clone git://github.com/schacon/grit.git mygrit => clones in directory mygrit/
 
 # Cloning a specific branch
-git clone -b <branch> <remote_repo>
+git clone -b &lt;branch> &lt;remote_repo>
 
 Clone only a subdirectory within a repository
 sudo apt install subversion
 svn export https://github.com/github_user/github_repo/trunk/local/path/to/dir
 
 Change remote url:
-git remote set-url <remote> git@github.com:OWNER/REPOSITORY.git
+git remote set-url &lt;remote> git@github.com:OWNER/REPOSITORY.git
 git remote set-url origin git@github.com:OWNER/REPOSITORY.git
+</pre>
 
----------------------------------------------------------------------------
-http password
----------------------------------------------------------------------------
+
+<!-- ********************************************************************************* -->
+<h2 id="7-http-password">http password</h2>
+<pre>
 git config remote.origin.url https://login:password@github.com/login/example.git
 # writes in .git/config
 https://login:password@github.com/login/example.git
@@ -204,18 +278,19 @@ More secure : tell git to remember your password for a while :
 git config --global credential.helper cache     # default timeout = 15 min
 git config --global credential.helper "cache --timeout=3600"
 
-git clone --depth=1 <url>
+git clone --depth=1 &lt;url>
 Creates a shallow clone. These clones truncate the commit history to reduce the clone size. This creates some unexpected behavior issues, limiting which Git commands are possible. These clones also put undue stress on later fetches, so they are strongly discouraged for developer use. They are helpful for some build environments where the repository will be deleted after a single build.
 
-git clone --filter=blob:none <url>
+git clone --filter=blob:none &lt;url>
 Creates a blobless clone. These clones download all reachable commits and trees while fetching blobs on-demand. These clones are best for developers and build environments that span multiple builds.
 
-git clone --filter=tree:0 <url>
+git clone --filter=tree:0 &lt;url>
 Creates a treeless clone. These clones download all reachable commits while fetching trees and blobs on-demand. These clones are best for build environments where the repository will be deleted after a single build, but you still need access to commit history.
+</pre>
 
----------------------------------------------------------------------------
-.gitignore
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="8-gitignore">.gitignore</h2>
+<pre>
 - Blank lines or lines starting with # are ignored.
 - Standard glob patterns work.
 - You can end patterns with a forward slash (/) to specify a directory.
@@ -250,43 +325,14 @@ doc/*.txt
 # see which rule ignores a file:
 git check-ignore -v src/commands/output/templates/gallery.html
 
----------------------------------------------------------------------------
 .gitattributes
 ---------------------------------------------------------------------------
 cf https://rehansaeed.com/gitattributes-best-practices/
+</pre>
 
----------------------------------------------------------------------------
-Basics
----------------------------------------------------------------------------
-Files can be tracked or untracked.
-Tracked files can be : unmodified, modified, or staged (staging area also called the index)
-
-git status
-
-git add : to stage (add to the index) new files
-git add .           # stage all the files of current dir
-git add dirname     # stage all the files of a directory
-git add -A          # equivalent of hg addremove
-
-# If a file is staged with git add, then modified again : it will be modified AND staged ;
-# the next commit will record the version of the file when git add was called.
-# To record its last state, run git add again on the file.
-
-git commit -m "my message" - will record the staged changes.
-git commit -a automatically stages every file that is already tracked before doing the commit ; permits to skip the git add part
-
-git checkout tags/version-3.1
-
-git rm <file> : removes file from tracked files and from the filesystem
-If file is staged, need to do git rm -f <file>
-git rm --cached <file> untracks a staged file without deleting it from the filesystem 
-glob patterns available in rm - but git does its own filename expansion => escape : git rm log/\*.log
-
-git mv README.txt README equivalent to mv README.txt README ; git rm README.txt ; git add README
-
----------------------------------------------------------------------------
-git log
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="9-git-show-git-log-git-diff">git show / git log / git diff</h2>
+<pre>
 https://git-scm.com/docs/git-log --> commit formatting --> placeholders
 
 git log /path/to/file                   # shows commits concerning a particular file
@@ -320,18 +366,16 @@ git cherry -v branch1 branch2
 git cherry -v origin/37-feat-bank-endpoint-to-generate-callback-url 37-feat-bank-endpoint-to-generate-callback-url
 
 ---------------------------------------------------------------------------
-git show / git log
----------------------------------------------------------------------------
 # List files modified by a commit
-git show --name-only <commit-sha1>
+git show --name-only &lt;commit-sha1>
 
 # Show modifications done in a commit
-git show <commit-sha1>
+git show &lt;commit-sha1>
 # or
-git diff <commit-sha1>~ <commit-sha1>
+git diff &lt;commit-sha1>~ &lt;commit-sha1>
 
 # List all files modified in a commit:
-git diff-tree --no-commit-id --name-only -r <commit-sha1>
+git diff-tree --no-commit-id --name-only -r &lt;commit-sha1>
 
 # Find the modifications on a given file (-n 1 = only 1 commit shown)
 git log --follow -p -- /path/to/file
@@ -342,15 +386,15 @@ git log --follow --pretty=format:"%h %ad - %s" --date=short -- /path/to/file-or-
 # one line with date and author name
 git log --follow --pretty=format:"%h %ad %an - %s" --date=short -- /path/to/file-or-dir
 
----------------------------------------------------------------------------
 git diff
 ---------------------------------------------------------------------------
 # Show all differences between 2 commits
-git diff <commit1-sha1>..<commit2-sha1>
+git diff &lt;commit1-sha1>..&lt;commit2-sha1>
+</pre>
 
----------------------------------------------------------------------------
-See old versions of files
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="10-see-old-versions-of-files">See old versions of files</h2>
+<pre>
 # See the whole repo
 git checkout c0e2ba2
 
@@ -358,12 +402,12 @@ git checkout c0e2ba2
 git show c0e2ba2:path/to/file
 git show HEAD~4:src/main.c
 git show HEAD@{2013-02-25}:./fileInCurrentDirectory.txt
+</pre>
 
 
----------------------------------------------------------------------------
-Reset, revert, amend
----------------------------------------------------------------------------
-
+<!-- ********************************************************************************* -->
+<h2 id="11-reset-revert-amend">Reset, revert, amend</h2>
+<pre>
 # Oh shit, I committed and immediately realized I need to make changes!
 git add .       # or add individual files
 # overrides last commit, and uses current state of staging area to perform the new commit
@@ -378,14 +422,14 @@ if already pushed : git push origin main --force
 
 # Unstage, remove from the index, without doing anything else:
 git reset
-git reset <file>
+git reset &lt;file>
 
 # Throw away all uncommitted changes in the working directory, restore to last commit
 # WRANING, NOT RECOVERABLE - cannot be done on a particular file
 git reset --hard
 
 # Throw away uncommitted changes on a file
-git checkout -- <file>
+git checkout -- &lt;file>
 
 Change previous commit message
 
@@ -402,10 +446,10 @@ Git moves you to a new branch to let you --amend the message.
 git rebase --continue puts you back in your previous branch with the message changed.
 
 # Unstaging a staged file
-git reset HEAD <file>
+git reset HEAD &lt;file>
 
 Reverting a file to last commit - WARNING : unrecoverable
-git checkout -- <file>
+git checkout -- &lt;file>
 
 # Modify 3 last commits
 git rebase -i HEAD~3
@@ -415,10 +459,12 @@ git rebase --continue
 git push --force-with-lease
 
 See also http://git-scm.com/book/fr/v2/Git-Tools-Rewriting-History
+</pre>
 
----------------------------------------------------------------------------
-Remote repositories
----------------------------------------------------------------------------
+
+<!-- ********************************************************************************* -->
+<h2 id="12-remote-repositories">Remote repositories</h2>
+<pre>
 git clone git://github.com/schacon/ticgit.git
 => creates a local copy in directory ticgit
 cd ticgit
@@ -426,10 +472,11 @@ git remote -v       # hg paths
     origin  git://github.com/schacon/ticgit.git (fetch)
     origin  git://github.com/schacon/ticgit.git (push)
 'origin' is the default name given to a path when cloning a repo (edit .git/config to change)
+</pre>
 
----------------------------------------------------------------------------
-Bare repos
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="13-bare-repos">Bare repos</h2>
+<pre>
 # Clonig a local repo on a remote machine
 # In order to initially set up any Git server, you have to export an existing repository into a new bare
 # repository — a repository that doesn’t contain a working directory.
@@ -449,29 +496,31 @@ git config --local --bool core.bare false # or vi .git/config
 git checkout
 
 git remote -v               # list remote paths and branches
-git remote add <name> git://github.com/schacon/ticgit.git       # add a remote path
-git remote rename <name1> <name2>       # rename a remote path
-git remote rm <name>        # remove a remote path
+git remote add &lt;name> git://github.com/schacon/ticgit.git       # add a remote path
+git remote rename &lt;name1> &lt;name2>       # rename a remote path
+git remote rm &lt;name>        # remove a remote path
 
 git remote show origin      # hg incoming origin
 
 git fetch origin            # hg pull ; doesn’t automatically merge it with any of your work or modify what you’re
                                         currently working on. You have to merge it manually into your work when you’re ready
 git pull origin             # automatically fetch and then merge a remote branch into your current branch
+</pre>
 
----------------------------------------------------------------------------
-git push
----------------------------------------------------------------------------
+
+<!-- ********************************************************************************* -->
+<h2 id="14-git-push">git push</h2>
+<pre>
 # See http://git-scm.com/docs/git-push
 git push origin main        # push to 'origin' remote, 'main' branch
 git push origin +main       # push only to 'main' branch
-'git push' [--all | --mirror | --tags] [--follow-tags] [-n | --dry-run] [--receive-pack=<git-receive-pack>]
-	   [--repo=<repository>] [-f | --force] [--prune] [-v | --verbose]
+'git push' [--all | --mirror | --tags] [--follow-tags] [-n | --dry-run] [--receive-pack=&lt;git-receive-pack>]
+	   [--repo=&lt;repository>] [-f | --force] [--prune] [-v | --verbose]
 	   [-u | --set-upstream] [--signed]
-	   [--force-with-lease[=<refname>[:<expect>]]]
-	   [--no-verify] [<repository> [<refspec>...]]
+	   [--force-with-lease[=&lt;refname>[:&lt;expect>]]]
+	   [--no-verify] [&lt;repository> [&lt;refspec>...]]
 
-# When the command line does not specify where to push with the <repository> argument, branch.*.remote configuration for the current branch is consulted to determine where to push.
+# When the command line does not specify where to push with the &lt;repository> argument, branch.*.remote configuration for the current branch is consulted to determine where to push.
 # If the configuration is missing, it defaults to origin.
 config :
 git config --global push.default simple : push only the current branch to the one that git pull would pull from
@@ -486,20 +535,12 @@ See http://stackoverflow.com/questions/12265729/what-are-the-consequences-of-usi
 
 For "good" practice, see git/deploy-2repos-2hooks.html (intermediate bare repo + 2 hooks).
 Or write a post-recieve hook to automate : see http://stackoverflow.com/questions/7152607 and http://toroid.org/ams/git-website-howto
-
----------------------------------------------------------------------------
-Squashing
----------------------------------------------------------------------------
-# start a branch from main branch
-git co main && git pull     # to be sure that main is up to date
-git co my-branch
-# squash commits of my-branch since it was created from main
-git reset --soft $(git merge-base main HEAD)
+</pre>
 
 
----------------------------------------------------------------------------
-Branching
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="15-branching">Branching</h2>
+<pre>
 Default branch name: main ; HEAD = pointer to current branch
 See http://www.micahcarrick.com/show-git-branch-in-shell-prompt.html for bash integration.
 
@@ -560,7 +601,6 @@ git push --set-upstream origin new_branch   # Push the new branch, set local bra
 git fetch origin
 git rebase origin/main
 
-
 Delete a branch
 ---------------------------------------------------------------------------
 # local branches
@@ -585,21 +625,31 @@ for branch in $(git branch -r | grep -v '\->'); do
     git branch --track ${branch#origin/} $branch
 done
 git pull --all
+</pre>
 
-
-Squashing
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="16-squashing">Squashing</h2>
+<pre>
 # Convert 30 commits of branch toto in a single commit 
 git reset --soft $(git merge-base main toto)
 git commit -m "My unique commit message"
 # git merge-base finds the common ancestor to main and toto
-# git reset --soft <commit-id> brings back the branch toto at this common commit, keeping all the changes in the staging area.
+# git reset --soft &lt;commit-id> brings back the branch toto at this common commit, keeping all the changes in the staging area.
 
-Diff
----------------------------------------------------------------------------
+# start a branch from main branch
+git co main && git pull     # to be sure that main is up to date
+git co my-branch
+# squash commits of my-branch since it was created from main
+git reset --soft $(git merge-base main HEAD)
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="17-diff">Diff</h2>
+<pre>
 # show the modifications that will be commited (staged)
 git diff --cached
-git diff --cached <myFile>
+git diff --cached &lt;myFile>
 # or synonym
 git diff --staged
 
@@ -616,18 +666,18 @@ git diff main..branch | grep "^diff"
 TO CHECK
 git log main..branch
 git shortlog main..branch
+</pre>
 
-
----------------------------------------------------------------------------
-cherry-pick
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="18-cherry-pick">cherry-pick</h2>
+<pre>
 git switch main         # first go to the branch where you want to apply the commit
-git cherry-pick <commit-hash>
+git cherry-pick &lt;commit-hash>
 </pre>
 
 
 <!-- ********************************************************************************* -->
-<h2 id="1-stash">Stash</h2>
+<h2 id="19-stash">Stash</h2>
 <pre>
 git stash list
 
@@ -658,7 +708,7 @@ git stash pop               # apply the stash and then immediately drop it
 git stash show stash@{0}
 
 # Show the differences from a stashed file
-git diff stash@{0}^1 stash@{0} -- <filename>
+git diff stash@{0}^1 stash@{0} -- &lt;filename>
 
 TODO  https://stackoverflow.com/questions/1105253/how-would-i-extract-a-single-file-or-changes-to-a-file-from-a-git-stash
 
@@ -666,15 +716,15 @@ TODO  https://stackoverflow.com/questions/1105253/how-would-i-extract-a-single-f
 # just try to checkout the correct branch, if there are no conflicts this will just work
 # if there are conflicts the checkout fails, in this case you can do:
 git stash
-git checkout <correct-branch>
+git checkout &lt;correct-branch>
 git stash pop
-<resolve conflicts>
+&lt;resolve conflicts>
 git stash drop
 </pre>
 
 
 <!-- ********************************************************************************* -->
-<h2 id="2-tags">Tags</h2>
+<h2 id="20-tags">Tags</h2>
 <pre>
 # Annotated tag:
 git tag -a v1.4 -m "my version 1.4"
@@ -682,21 +732,22 @@ git tag -a v1.4 -m "my version 1.4"
 git show v1.4
 
 git tag : list all tags
-git tag -l <pattern>
+git tag -l &lt;pattern>
 # echoes the last tag
 git describe --always --tag
 # list tags with their dates
 git log --tags --simplify-by-decoration --pretty="format:%ci %d"
 # delete a tag
-git tag -d <tagname>
+git tag -d &lt;tagname>
 
 # By default, the git push command doesn’t transfer tags to remote servers
 git push origin v1.5           : push one tag
 git push origin --tags   : push all tags
 </pre>
 
+
 <!-- ********************************************************************************* -->
-<h2 id="3-sub-modules">Sub-modules</h2>
+<h2 id="21-sub-modules">Sub-modules</h2>
 <pre>
 git submodule add https://github.com/chaconinc/DbConnector
 # => see .gitmodules
@@ -722,19 +773,19 @@ git merge origin/main
 </pre>
 
 <!-- ********************************************************************************* -->
-<h2 id="4-specifying-revisions">Specifying revisions</h2>
+<h2 id="22-specifying-revisions">Specifying revisions</h2>
 <pre>
 man git-rev-parse
 
-<sha1>, e.g. dae86e1950b1277e545cee180551750029cfe735, dae86e
-<describeOutput>, e.g. v1.7.4.2-679-g3bee7fb
-<refname>, e.g. master, heads/master, refs/heads/master
+&lt;sha1>, e.g. dae86e1950b1277e545cee180551750029cfe735, dae86e
+&lt;describeOutput>, e.g. v1.7.4.2-679-g3bee7fb
+&lt;refname>, e.g. master, heads/master, refs/heads/master
 
-.git/<refname> if it exists;
-.git/<refs/tags/<refname> if it exists;
-.git/<refs/heads/<refname> if it exists;
-.git/<refs/remotes/<refname> if it exists;
-.git/<refs/remotes/<refname>/HEAD 
+.git/&lt;refname> if it exists;
+.git/&lt;refs/tags/&lt;refname> if it exists;
+.git/&lt;refs/heads/&lt;refname> if it exists;
+.git/&lt;refs/remotes/&lt;refname> if it exists;
+.git/&lt;refs/remotes/&lt;refname>/HEAD 
 
 HEAD                    names the commit on which you based the changes in the working tree.
 FETCH_HEAD              records the branch which you fetched from a remote repository with your last git fetch invocation.
@@ -749,20 +800,20 @@ BISECT_HEAD             records the current commit to be tested when you run git
 AUTO_MERGE              records a tree object corresponding to the state the ort merge strategy wrote to the working tree when a merge operation resulted in conflicts.
 
 @                       shortcut for HEAD
-[<refname>]@{<date>}    e.g. master@{yesterday}, HEAD@{5 minutes ago} HEAD@{1979-02-26 18:30:00}
-<refname>@{<n>}         n-th prior value of that ref. e.g. master@{1}
-@{<n>}                  reflog entry of the current branch.
+[&lt;refname>]@{&lt;date>}    e.g. master@{yesterday}, HEAD@{5 minutes ago} HEAD@{1979-02-26 18:30:00}
+&lt;refname>@{&lt;n>}         n-th prior value of that ref. e.g. master@{1}
+@{&lt;n>}                  reflog entry of the current branch.
 
-<rev>                   Include commits that are reachable from <rev> (i.e. <rev> and its ancestors).
-^<rev>                  Exclude commits that are reachable from <rev> (i.e. <rev> and its ancestors).
-<rev1>..<rev2>          Include commits that are reachable from <rev2> but exclude those that are reachable from <rev1>.
-                        When either <rev1> or <rev2> is omitted, it defaults to HEAD.
-<rev1>...<rev2>         Include commits that are reachable from either <rev1> or <rev2> but exclude those that are reachable from both.
-                        When either <rev1> or <rev2> is omitted, it defaults to HEAD.
-<rev>^@, e.g. HEAD^@    A suffix ^ followed by an at sign is the same as listing all parents of <rev>
+&lt;rev>                   Include commits that are reachable from &lt;rev> (i.e. &lt;rev> and its ancestors).
+^&lt;rev>                  Exclude commits that are reachable from &lt;rev> (i.e. &lt;rev> and its ancestors).
+&lt;rev1>..&lt;rev2>          Include commits that are reachable from &lt;rev2> but exclude those that are reachable from &lt;rev1>.
+                        When either &lt;rev1> or &lt;rev2> is omitted, it defaults to HEAD.
+&lt;rev1>...&lt;rev2>         Include commits that are reachable from either &lt;rev1> or &lt;rev2> but exclude those that are reachable from both.
+                        When either &lt;rev1> or &lt;rev2> is omitted, it defaults to HEAD.
+&lt;rev>^@, e.g. HEAD^@    A suffix ^ followed by an at sign is the same as listing all parents of &lt;rev>
                         (meaning, include anything reachable from its parents, but not the commit itself).
-<rev>^!, e.g. HEAD^!    A suffix ^ followed by an exclamation mark is the same as giving commit <rev> and all its parents prefixed with ^ to exclude them (and their ancestors).
-<rev>^-<n>              e.g. HEAD^-, HEAD^-2    Equivalent to <rev>^<n>..<rev>, with <n> = 1 if not given.
+&lt;rev>^!, e.g. HEAD^!    A suffix ^ followed by an exclamation mark is the same as giving commit &lt;rev> and all its parents prefixed with ^ to exclude them (and their ancestors).
+&lt;rev>^-&lt;n>              e.g. HEAD^-, HEAD^-2    Equivalent to &lt;rev>^&lt;n>..&lt;rev>, with &lt;n> = 1 if not given.
 
 tag1..tag2              every commit between tig1 and tag2
 
@@ -802,7 +853,28 @@ F^! D  = F ^I ^J D           G H D F
 </pre>
 
 <!-- ********************************************************************************* -->
-<h2 id="5-convert-hg-to-git">Convert hg to git</h2>
+<h2 id="23-conventional-commits">Conventional commits</h2>
+See <a href="https://www.conventionalcommits.org">conventionalcommits.org</a>
+<pre>
+feat(api)!: send an email to the customer when a product is shipped
+&lt;type>[optional scope]: &lt;description>
+! to draw attention to breaking change
+Recommanded verbs:
+fix:
+feat:
+build:
+chore:
+ci:
+docs:
+style:
+refactor:
+perf:
+test:
+</pre>
+
+
+<!-- ********************************************************************************* -->
+<h2 id="24-convert-hg-to-git">Convert hg to git</h2>
 <pre>
 hggit extension :
 sudo apt-get install mercurial-git
