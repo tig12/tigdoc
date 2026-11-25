@@ -27,6 +27,26 @@ Git
 </div>
 </header>
 
+<nav class="pagetoc" aria-label="Table of contents">
+    <ul>
+        <li>
+            <a href="#1-stash">Stash</a>
+        </li>
+        <li>
+            <a href="#2-tags">Tags</a>
+        </li>
+        <li>
+            <a href="#3-sub-modules">Sub-modules</a>
+        </li>
+        <li>
+            <a href="#4-specifying-revisions">Specifying revisions</a>
+        </li>
+        <li>
+            <a href="#5-convert-hg-to-git">Convert hg to git</a>
+        </li>
+    </ul>
+</nav>
+
 <article>
 
 <pre>
@@ -603,11 +623,12 @@ cherry-pick
 ---------------------------------------------------------------------------
 git switch main         # first go to the branch where you want to apply the commit
 git cherry-pick <commit-hash>
+</pre>
 
 
----------------------------------------------------------------------------
-stash
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="1-stash">Stash</h2>
+<pre>
 git stash list
 
 git stash                   # stash uncommited work
@@ -649,10 +670,12 @@ git checkout <correct-branch>
 git stash pop
 <resolve conflicts>
 git stash drop
+</pre>
 
----------------------------------------------------------------------------
-Tags
----------------------------------------------------------------------------
+
+<!-- ********************************************************************************* -->
+<h2 id="2-tags">Tags</h2>
+<pre>
 # Annotated tag:
 git tag -a v1.4 -m "my version 1.4"
 # -a for annotated ; v1.4 is the tag name
@@ -670,11 +693,11 @@ git tag -d <tagname>
 # By default, the git push command doesn’t transfer tags to remote servers
 git push origin v1.5           : push one tag
 git push origin --tags   : push all tags
+</pre>
 
-
----------------------------------------------------------------------------
-Sub-modules
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="3-sub-modules">Sub-modules</h2>
+<pre>
 git submodule add https://github.com/chaconinc/DbConnector
 # => see .gitmodules
 ### example of .gitmodules ###
@@ -696,33 +719,11 @@ git clone --recurse-submodules https://github.com/chaconinc/MainProject
 cd DbConnector
 git fetch
 git merge origin/main
+</pre>
 
----------------------------------------------------------------------------
-Convert hg to git
----------------------------------------------------------------------------
-hggit extension :
-sudo apt-get install mercurial-git
-vi ~/.hgrc
-    hgext.bookmarks =
-    git =
-cd /path/to/hg-repo
-hg bookmarks hg
-hg push /path/to/git-repo
-# optional, if hg repo not needed anymore
-cd  /path/to/git-repo
-git checkout -b main
-git branch -d hg
-
-hg-fast-export.sh : http://hivelogic.com/articles/converting-from-mercurial-to-git
-git init newrepo
-# git init --bare newrepo
-cd newrepo
-/path/to/hg-fast-export.sh -r /path/to/hg_repo
-git checkout HEAD
-
----------------------------------------------------------------------------
-Specifying revisions
----------------------------------------------------------------------------
+<!-- ********************************************************************************* -->
+<h2 id="4-specifying-revisions">Specifying revisions</h2>
+<pre>
 man git-rev-parse
 
 <sha1>, e.g. dae86e1950b1277e545cee180551750029cfe735, dae86e
@@ -798,7 +799,30 @@ B^!    = B ^B^@
        = B ^B^1 ^B^2 ^B^3
        = B ^D ^E ^F          B
 F^! D  = F ^I ^J D           G H D F
+</pre>
 
+<!-- ********************************************************************************* -->
+<h2 id="5-convert-hg-to-git">Convert hg to git</h2>
+<pre>
+hggit extension :
+sudo apt-get install mercurial-git
+vi ~/.hgrc
+    hgext.bookmarks =
+    git =
+cd /path/to/hg-repo
+hg bookmarks hg
+hg push /path/to/git-repo
+# optional, if hg repo not needed anymore
+cd  /path/to/git-repo
+git checkout -b main
+git branch -d hg
+
+hg-fast-export.sh : http://hivelogic.com/articles/converting-from-mercurial-to-git
+git init newrepo
+# git init --bare newrepo
+cd newrepo
+/path/to/hg-fast-export.sh -r /path/to/hg_repo
+git checkout HEAD
 
 </pre>
 
