@@ -55,7 +55,8 @@ Zed editor
 <a href="https://cheatsheets.zip/zed">https://cheatsheets.zip/zed</a>
 
 <pre>
-zed --version
+zed -h          # z --help
+zed -v          # z --version
 </pre>
 
 <!-- ********************************************************************************* -->
@@ -122,6 +123,10 @@ zed --version
 <!-- ************************************* -->
 <h2 id="1-1-settings-json">settings.json</h2>
 
+<pre><a href="https://zed.dev/docs/reference/all-settings">https://zed.dev/docs/reference/all-settings</a></pre>
+
+<pre>&lt;project dir>/.zed/settings.json</pre>
+
 <pre>
 in zed editor, I have set show_menus to true in settings.json:
 "title_bar": {
@@ -173,11 +178,18 @@ What is the keyboard shortcut to navigate through the menus ?
 
     // fuck off AI
     "disable_ai": true,
+
+    // Template for the window title
+    // available variables: projectName fileName filePath relativePath fileStem remoteName remoteHost appName branch separator
+    "window_title_format": "${filePath}",
 }  
 </pre>
 
 <!-- ********************************************************************************* -->
 <h2>keymap.json</h2>
+
+<pre>~/.config/zed/keymap.json</pre>
+
 <table class="wikitable margin table-shortcuts">
     <tr>
         <td>ctrl k ctrl s</td>
